@@ -1,3 +1,4 @@
+import { LogoutButton } from '@/app/components/LogoutButton'
 import { supabase } from './lib/supabase'
 
 export default async function Home() {
@@ -17,6 +18,8 @@ export default async function Home() {
           ? `Error de conexión: ${error.message}`
           : 'Conexión con Supabase funcionando correctamente.'}
       </p>
+
+      <LogoutButton />
     </main>
   )
 }
