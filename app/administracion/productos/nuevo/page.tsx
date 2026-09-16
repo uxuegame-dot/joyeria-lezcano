@@ -20,6 +20,12 @@ export default async function NuevoProductoPage() {
         (category) => category.line === "silverware"
     );
 
+    async function createProductAction(formData: FormData): Promise<void> {
+        "use server";
+
+        await createProduct(formData);
+    }
+
     return (
         <div>
             <section className="border-b border-neutral-200">
@@ -41,8 +47,7 @@ export default async function NuevoProductoPage() {
                         </h1>
 
                         <p className="mt-3 text-sm text-neutral-600">
-                            Cargá una nueva pieza de Joyería o Platería
-                            Lezcano.
+                            Cargá una nueva pieza de Joyería o Platería Lezcano.
                         </p>
                     </div>
                 </div>
@@ -51,7 +56,7 @@ export default async function NuevoProductoPage() {
             <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="border border-neutral-200 bg-white p-6 sm:p-8">
                     <form
-                        action={createProduct}
+                        action={createProductAction}
                         className="space-y-8"
                     >
                         <div>
@@ -121,29 +126,25 @@ export default async function NuevoProductoPage() {
                                     </option>
 
                                     <optgroup label="Joyería">
-                                        {jewelryCategories.map(
-                                            (category) => (
-                                                <option
-                                                    key={category.id}
-                                                    value={category.slug}
-                                                >
-                                                    {category.name}
-                                                </option>
-                                            )
-                                        )}
+                                        {jewelryCategories.map((category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.slug}
+                                            >
+                                                {category.name}
+                                            </option>
+                                        ))}
                                     </optgroup>
 
                                     <optgroup label="Platería">
-                                        {silverwareCategories.map(
-                                            (category) => (
-                                                <option
-                                                    key={category.id}
-                                                    value={category.slug}
-                                                >
-                                                    {category.name}
-                                                </option>
-                                            )
-                                        )}
+                                        {silverwareCategories.map((category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.slug}
+                                            >
+                                                {category.name}
+                                            </option>
+                                        ))}
                                     </optgroup>
                                 </select>
                             </div>

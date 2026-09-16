@@ -90,13 +90,15 @@ export default async function EditarProductoPage({
         notFound();
     }
 
+    const productId = product.id;
+
     const { data: productImages, error: imagesError } =
         await supabase
             .from("product_images")
             .select(
                 "id, storage_path, alt_text, sort_order"
             )
-            .eq("product_id", product.id)
+            .eq("product_id", productId)
             .order("sort_order", {
                 ascending: true,
             });
@@ -119,10 +121,19 @@ export default async function EditarProductoPage({
         (item) => item.line === "silverware"
     );
 
-    const deleteProductAction = deleteProduct.bind(
-        null,
-        product.id
-    );
+    async function updateProductAction(
+        formData: FormData
+    ): Promise<void> {
+        "use server";
+
+        await updateProduct(formData);
+    }
+
+    async function deleteProductAction(): Promise<void> {
+        "use server";
+
+        await deleteProduct(productId);
+    }
 
     return (
         <div>
@@ -155,13 +166,13 @@ export default async function EditarProductoPage({
             <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="border border-neutral-200 bg-white p-6 sm:p-8">
                     <form
-                        action={updateProduct}
+                        action={updateProductAction}
                         className="space-y-8"
                     >
                         <input
                             type="hidden"
                             name="product_id"
-                            value={product.id}
+                            value={productId}
                         />
 
                         <div>
@@ -407,7 +418,7 @@ export default async function EditarProductoPage({
                             </p>
 
                             <p className="mt-2 break-all text-xs text-neutral-500">
-                                {product.id}
+                                {productId}
                             </p>
                         </div>
 
@@ -429,7 +440,7 @@ export default async function EditarProductoPage({
                     </form>
 
                     <ProductImageManager
-                        productId={product.id}
+                        productId={productId}
                         productName={product.name}
                         initialImages={productImages ?? []}
                     />
