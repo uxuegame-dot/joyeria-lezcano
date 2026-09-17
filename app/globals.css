@@ -3,6 +3,13 @@
 :root {
   --background: #f5f2ec;
   --foreground: #171717;
+
+  --lezcano-cream: #f5f2ec;
+  --lezcano-dark: #171717;
+  --lezcano-bronze: #a8844f;
+  --lezcano-bronze-light: #c5a66d;
+
+  color-scheme: light;
 }
 
 @theme inline {
@@ -15,6 +22,7 @@
 
 html {
   background: var(--background);
+  color-scheme: light;
 }
 
 body {
@@ -22,4 +30,54 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+ * Lezcano utiliza una identidad visual propia.
+ * Evitamos que el modo oscuro del dispositivo
+ * modifique automáticamente los controles nativos.
+ */
+input,
+textarea,
+select,
+button {
+  color-scheme: light;
+}
+
+/*
+ * Selección de texto.
+ * Introduce el tono cálido de la marca de forma sutil.
+ */
+::selection {
+  background: #d8c39d;
+  color: #171717;
+}
+
+/*
+ * Scroll suave para enlaces internos.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+ * Evita cambios de tamaño inesperados
+ * en algunos navegadores móviles.
+ */
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+/*
+ * Enlaces y botones mantienen el color definido
+ * por cada componente.
+ */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
 }
