@@ -1,64 +1,221 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/app/lib/supabase/server";
+import {
+    redirect,
+} from "next/navigation";
 
-function getStatusLabel(status: string) {
+import {
+    createClient,
+} from "@/app/lib/supabase/server";
+
+const PAGE_SIZE = 20;
+
+type ProductosAdministracionPageProps = {
+    searchParams: Promise<{
+        buscar?: string;
+        linea?: string;
+        categoria?: string;
+        estado?: string;
+        modalidad?: string;
+        stock?: string;
+        destacado?: string;
+        ordenar?: string;
+        pagina?: string;
+    }>;
+};
+
+function getStatusLabel(
+    status: string
+) {
     switch (status) {
         case "active":
             return "Publicado";
+
         case "draft":
             return "Borrador";
+
         case "hidden":
             return "Oculto";
+
+        case "archived":
+            return "Archivado";
+
         default:
             return status;
     }
 }
 
-function getProductTypeLabel(productType: string) {
+function getStatusClasses(
+    status: string
+) {
+    switch (status) {
+        case "active":
+            return "border-[#d7c6a7] bg-[#f7f0e5] text-[#806037]";
+
+        case "draft":
+            return "border-neutral-300 bg-neutral-100 text-neutral-600";
+
+        case "hidden":
+            return "border-neutral-300 bg-white text-neutral-500";
+
+        case "archived":
+            return "border-neutral-300 bg-neutral-100 text-neutral-400";
+
+        default:
+            return "border-neutral-300 bg-white text-neutral-600";
+    }
+}
+
+function getProductTypeLabel(
+    productType: string
+) {
     switch (productType) {
         case "direct":
             return "Venta directa";
+
         case "unique":
             return "Pieza única";
+
         case "on_order":
             return "Por encargo";
+
         case "custom":
             return "Personalizado";
+
         default:
             return productType;
     }
 }
 
-function getLineLabel(line?: string | null) {
+function getLineLabel(
+    line?: string | null
+) {
     switch (line) {
         case "jewelry":
             return "Joyería";
+
         case "silverware":
             return "Platería";
+
         default:
             return "—";
     }
 }
 
-export default async function ProductosAdministracionPage() {
-    const supabase = await createClient();
+function getLineValue(
+    line?: string
+) {
+    if (
+        line === "joyeria"
+    ) {
+        return "jewelry";
+    }
+
+    if (
+        line === "plateria"
+    ) {
+        return "silverware";
+    }
+
+    return "";
+}
+
+function parsePage(
+    value?: string
+) {
+    const parsed =
+        Number(value);
+
+    if (
+        !Number.isInteger(parsed) ||
+        parsed < 1
+    ) {
+        return 1;
+    }
+
+    return parsed;
+}
+
+function buildProductsUrl(
+    params: {
+        buscar?: string;
+        linea?: string;
+        categoria?: string;
+        estado?: string;
+        modalidad?: string;
+        stock?: string;
+        destacado?: string;
+        ordenar?: string;
+        pagina?: string | number;
+    }
+) {
+    const query =
+        new URLSearchParams();
+
+    Object.entries(
+        params
+    ).forEach(
+        ([key, value]) => {
+            if (
+                value === undefined ||
+                value === null ||
+                value === "" ||
+                value === "todos"
+            ) {
+                return;
+            }
+
+            query.set(
+                key,
+                String(value)
+            );
+        }
+    );
+
+    const queryString =
+        query.toString();
+
+    return queryString
+        ? `/administracion/productos?${queryString}`
+        : "/administracion/productos";
+}
+
+export default async function ProductosAdministracionPage({
+    searchParams,
+}: ProductosAdministracionPageProps) {
+    const params =
+        await searchParams;
+
+    const supabase =
+        await createClient();
+
+    /*
+     * --------------------------------------------------
+     * SEGURIDAD
+     * --------------------------------------------------
+     */
 
     const {
         data: { user },
-    } = await supabase.auth.getUser();
+    } =
+        await supabase.auth.getUser();
 
     if (!user) {
         redirect("/login");
     }
 
-    const { data: profile, error: profileError } = await supabase
+    const {
+        data: profile,
+        error: profileError,
+    } = await supabase
         .from("profiles")
         .select("is_admin")
         .eq("id", user.id)
         .single();
 
-    if (profileError || !profile?.is_admin) {
+    if (
+        profileError ||
+        !profile?.is_admin
+    ) {
         return (
             <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
                 <h1 className="font-serif text-3xl text-neutral-900">
@@ -66,7 +223,9 @@ export default async function ProductosAdministracionPage() {
                 </h1>
 
                 <p className="mt-4 text-sm leading-6 text-neutral-600">
-                    Esta sección está reservada para los administradores de
+                    Esta sección está
+                    reservada para los
+                    administradores de
                     Lezcano.
                 </p>
 
@@ -80,35 +239,464 @@ export default async function ProductosAdministracionPage() {
         );
     }
 
-    const { data: products, error: productsError } = await supabase
-        .from("products")
+    /*
+     * --------------------------------------------------
+     * PARÁMETROS
+     * --------------------------------------------------
+     */
+
+    const searchTerm =
+        params.buscar?.trim() ??
+        "";
+
+    const selectedLine =
+        getLineValue(
+            params.linea
+        );
+
+    const selectedCategory =
+        params.categoria ?? "";
+
+    const selectedStatus =
+        params.estado ?? "";
+
+    const selectedProductType =
+        params.modalidad ?? "";
+
+    const selectedStock =
+        params.stock ?? "";
+
+    const selectedFeatured =
+        params.destacado ?? "";
+
+    const selectedSort =
+        params.ordenar ??
+        "recientes";
+
+    const requestedPage =
+        parsePage(
+            params.pagina
+        );
+
+    /*
+     * --------------------------------------------------
+     * CATEGORÍAS
+     * --------------------------------------------------
+     */
+
+    const {
+        data: categories,
+        error: categoriesError,
+    } = await supabase
+        .from("categories")
         .select(`
             id,
             name,
             slug,
-            material,
-            price,
-            stock,
-            product_type,
-            status,
-            is_featured,
-            created_at,
-            categories (
-                id,
-                name,
-                slug,
-                line
-            ),
-            product_images (
-                id,
-                storage_path,
-                alt_text,
-                sort_order
-            )
+            line,
+            active,
+            sort_order
         `)
-        .order("created_at", {
-            ascending: false,
-        });
+        .order(
+            "line",
+            {
+                ascending: true,
+            }
+        )
+        .order(
+            "sort_order",
+            {
+                ascending: true,
+            }
+        );
+
+    if (categoriesError) {
+        throw new Error(
+            `Error al obtener categorías: ${categoriesError.message}`
+        );
+    }
+
+    const categoryList =
+        categories ?? [];
+
+    const visibleCategories =
+        selectedLine
+            ? categoryList.filter(
+                (category) =>
+                    category.line ===
+                    selectedLine
+            )
+            : categoryList;
+
+    /*
+     * IDs utilizados para filtrar por línea.
+     */
+    const categoryIdsForLine =
+        selectedLine
+            ? categoryList
+                .filter(
+                    (category) =>
+                        category.line ===
+                        selectedLine
+                )
+                .map(
+                    (category) =>
+                        category.id
+                )
+            : [];
+
+    /*
+     * --------------------------------------------------
+     * ESTADÍSTICAS GENERALES
+     * --------------------------------------------------
+     */
+
+    const [
+        totalResult,
+        activeResult,
+        outOfStockResult,
+        featuredResult,
+    ] = await Promise.all([
+        supabase
+            .from("products")
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true,
+                }
+            ),
+
+        supabase
+            .from("products")
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true,
+                }
+            )
+            .eq(
+                "status",
+                "active"
+            ),
+
+        supabase
+            .from("products")
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true,
+                }
+            )
+            .eq(
+                "stock",
+                0
+            ),
+
+        supabase
+            .from("products")
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true,
+                }
+            )
+            .eq(
+                "is_featured",
+                true
+            ),
+    ]);
+
+    const totalProducts =
+        totalResult.count ?? 0;
+
+    const publishedProducts =
+        activeResult.count ?? 0;
+
+    const outOfStockProducts =
+        outOfStockResult.count ??
+        0;
+
+    const featuredProducts =
+        featuredResult.count ?? 0;
+
+    /*
+     * --------------------------------------------------
+     * CONSULTA DE PRODUCTOS
+     * --------------------------------------------------
+     */
+
+    let productsQuery =
+        supabase
+            .from("products")
+            .select(
+                `
+                    id,
+                    name,
+                    slug,
+                    material,
+                    price,
+                    stock,
+                    product_type,
+                    status,
+                    is_featured,
+                    created_at,
+                    category_id,
+                    categories (
+                        id,
+                        name,
+                        slug,
+                        line
+                    ),
+                    product_images (
+                        id,
+                        storage_path,
+                        alt_text,
+                        sort_order
+                    )
+                `,
+                {
+                    count: "exact",
+                }
+            );
+
+    /*
+     * Buscar por nombre o material.
+     */
+    if (searchTerm) {
+        productsQuery =
+            productsQuery.or(
+                `name.ilike.%${searchTerm}%,material.ilike.%${searchTerm}%`
+            );
+    }
+
+    /*
+     * Línea
+     */
+    if (selectedLine) {
+        if (
+            categoryIdsForLine.length >
+            0
+        ) {
+            productsQuery =
+                productsQuery.in(
+                    "category_id",
+                    categoryIdsForLine
+                );
+        } else {
+            productsQuery =
+                productsQuery.eq(
+                    "id",
+                    "00000000-0000-0000-0000-000000000000"
+                );
+        }
+    }
+
+    /*
+     * Categoría
+     */
+    if (selectedCategory) {
+        productsQuery =
+            productsQuery.eq(
+                "category_id",
+                selectedCategory
+            );
+    }
+
+    /*
+     * Estado
+     */
+    if (selectedStatus) {
+        productsQuery =
+            productsQuery.eq(
+                "status",
+                selectedStatus
+            );
+    }
+
+    /*
+     * Modalidad
+     */
+    if (
+        selectedProductType
+    ) {
+        productsQuery =
+            productsQuery.eq(
+                "product_type",
+                selectedProductType
+            );
+    }
+
+    /*
+     * Stock
+     */
+    if (
+        selectedStock ===
+        "disponible"
+    ) {
+        productsQuery =
+            productsQuery.gt(
+                "stock",
+                0
+            );
+    }
+
+    if (
+        selectedStock ===
+        "sin-stock"
+    ) {
+        productsQuery =
+            productsQuery.eq(
+                "stock",
+                0
+            );
+    }
+
+    /*
+     * Destacados
+     */
+    if (
+        selectedFeatured ===
+        "si"
+    ) {
+        productsQuery =
+            productsQuery.eq(
+                "is_featured",
+                true
+            );
+    }
+
+    /*
+     * Orden
+     */
+    switch (
+    selectedSort
+    ) {
+        case "antiguos":
+            productsQuery =
+                productsQuery.order(
+                    "created_at",
+                    {
+                        ascending:
+                            true,
+                    }
+                );
+            break;
+
+        case "nombre":
+            productsQuery =
+                productsQuery.order(
+                    "name",
+                    {
+                        ascending:
+                            true,
+                    }
+                );
+            break;
+
+        case "precio-menor":
+            productsQuery =
+                productsQuery.order(
+                    "price",
+                    {
+                        ascending:
+                            true,
+                        nullsFirst:
+                            false,
+                    }
+                );
+            break;
+
+        case "precio-mayor":
+            productsQuery =
+                productsQuery.order(
+                    "price",
+                    {
+                        ascending:
+                            false,
+                        nullsFirst:
+                            false,
+                    }
+                );
+            break;
+
+        case "stock-menor":
+            productsQuery =
+                productsQuery.order(
+                    "stock",
+                    {
+                        ascending:
+                            true,
+                    }
+                );
+            break;
+
+        case "stock-mayor":
+            productsQuery =
+                productsQuery.order(
+                    "stock",
+                    {
+                        ascending:
+                            false,
+                    }
+                );
+            break;
+
+        case "destacados":
+            productsQuery =
+                productsQuery
+                    .order(
+                        "is_featured",
+                        {
+                            ascending:
+                                false,
+                        }
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending:
+                                false,
+                        }
+                    );
+            break;
+
+        case "recientes":
+        default:
+            productsQuery =
+                productsQuery.order(
+                    "created_at",
+                    {
+                        ascending:
+                            false,
+                    }
+                );
+            break;
+    }
+
+    /*
+     * Paginación
+     */
+    const offset =
+        (requestedPage - 1) *
+        PAGE_SIZE;
+
+    productsQuery =
+        productsQuery.range(
+            offset,
+            offset +
+            PAGE_SIZE -
+            1
+        );
+
+    const {
+        data: products,
+        error: productsError,
+        count,
+    } = await productsQuery;
 
     if (productsError) {
         throw new Error(
@@ -116,12 +704,119 @@ export default async function ProductosAdministracionPage() {
         );
     }
 
-    const productList = products ?? [];
+    const productList =
+        products ?? [];
+
+    const filteredCount =
+        count ?? 0;
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                filteredCount /
+                PAGE_SIZE
+            )
+        );
+
+    /*
+     * Si alguien entra manualmente
+     * a una página que ya no existe.
+     */
+    if (
+        requestedPage >
+        totalPages &&
+        filteredCount > 0
+    ) {
+        redirect(
+            buildProductsUrl({
+                buscar:
+                    searchTerm,
+                linea:
+                    params.linea,
+                categoria:
+                    selectedCategory,
+                estado:
+                    selectedStatus,
+                modalidad:
+                    selectedProductType,
+                stock:
+                    selectedStock,
+                destacado:
+                    selectedFeatured,
+                ordenar:
+                    selectedSort,
+                pagina:
+                    totalPages,
+            })
+        );
+    }
+
+    const currentPage =
+        Math.min(
+            requestedPage,
+            totalPages
+        );
+
+    const hasFilters =
+        Boolean(searchTerm) ||
+        Boolean(selectedLine) ||
+        Boolean(
+            selectedCategory
+        ) ||
+        Boolean(
+            selectedStatus
+        ) ||
+        Boolean(
+            selectedProductType
+        ) ||
+        Boolean(
+            selectedStock
+        ) ||
+        Boolean(
+            selectedFeatured
+        ) ||
+        selectedSort !==
+        "recientes";
+
+    const firstVisibleProduct =
+        filteredCount === 0
+            ? 0
+            : (currentPage - 1) *
+            PAGE_SIZE +
+            1;
+
+    const lastVisibleProduct =
+        Math.min(
+            currentPage *
+            PAGE_SIZE,
+            filteredCount
+        );
+
+    const paginationParams = {
+        buscar:
+            searchTerm,
+        linea:
+            params.linea,
+        categoria:
+            selectedCategory,
+        estado:
+            selectedStatus,
+        modalidad:
+            selectedProductType,
+        stock:
+            selectedStock,
+        destacado:
+            selectedFeatured,
+        ordenar:
+            selectedSort,
+    };
 
     return (
-        <div>
-            <section className="border-b border-neutral-200">
-                <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <main className="bg-[#f7f4ef]">
+            {/* Encabezado */}
+            <section className="border-b border-[#ddd5c9]">
+                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
                     <Link
                         href="/administracion"
                         className="text-sm text-neutral-500 transition hover:text-neutral-900"
@@ -131,7 +826,7 @@ export default async function ProductosAdministracionPage() {
 
                     <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                         <div>
-                            <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
+                            <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
                                 Administración
                             </p>
 
@@ -140,14 +835,17 @@ export default async function ProductosAdministracionPage() {
                             </h1>
 
                             <p className="mt-3 text-sm leading-6 text-neutral-600">
-                                Administrá las piezas de Joyería y Platería
+                                Gestioná el
+                                catálogo de
+                                Joyería y
+                                Platería
                                 Lezcano.
                             </p>
                         </div>
 
                         <Link
                             href="/administracion/productos/nuevo"
-                            className="inline-flex items-center justify-center bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+                            className="lezcano-button inline-flex min-h-12 items-center justify-center bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
                         >
                             + Nuevo producto
                         </Link>
@@ -155,162 +853,862 @@ export default async function ProductosAdministracionPage() {
                 </div>
             </section>
 
-            <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-                {productList.length === 0 ? (
-                    <div className="border border-neutral-200 bg-white px-6 py-16 text-center">
-                        <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-                            Catálogo
+            <section className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+
+                {/* Estadísticas */}
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    <div className="border border-[#ddd5c9] bg-white p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+                            Total
                         </p>
 
-                        <h2 className="mt-3 font-serif text-3xl text-neutral-900">
-                            No hay productos cargados
-                        </h2>
-
-                        <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-neutral-600">
-                            Cuando cargues una pieza va a aparecer acá,
-                            independientemente de que esté publicada, oculta o
-                            en borrador.
+                        <p className="mt-2 font-serif text-2xl text-neutral-900">
+                            {
+                                totalProducts
+                            }
                         </p>
 
-                        <Link
-                            href="/administracion/productos/nuevo"
-                            className="mt-7 inline-flex bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
-                        >
-                            Cargar primer producto
-                        </Link>
+                        <p className="mt-1 text-xs text-neutral-500">
+                            productos
+                        </p>
                     </div>
-                ) : (
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <p className="text-sm text-neutral-600">
-                                {productList.length}{" "}
-                                {productList.length === 1
-                                    ? "producto"
-                                    : "productos"}
-                            </p>
+
+                    <div className="border border-[#ddd5c9] bg-white p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+                            Publicados
+                        </p>
+
+                        <p className="mt-2 font-serif text-2xl text-neutral-900">
+                            {
+                                publishedProducts
+                            }
+                        </p>
+
+                        <p className="mt-1 text-xs text-neutral-500">
+                            visibles
+                        </p>
+                    </div>
+
+                    <div className="border border-[#ddd5c9] bg-white p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+                            Sin stock
+                        </p>
+
+                        <p className="mt-2 font-serif text-2xl text-neutral-900">
+                            {
+                                outOfStockProducts
+                            }
+                        </p>
+
+                        <p className="mt-1 text-xs text-neutral-500">
+                            productos
+                        </p>
+                    </div>
+
+                    <div className="border border-[#ddd5c9] bg-white p-4">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+                            Destacados
+                        </p>
+
+                        <p className="mt-2 font-serif text-2xl text-neutral-900">
+                            {
+                                featuredProducts
+                            }
+                        </p>
+
+                        <p className="mt-1 text-xs text-neutral-500">
+                            en inicio
+                        </p>
+                    </div>
+                </div>
+
+                {/* Búsqueda y filtros */}
+                <div className="mt-6 border border-[#ddd5c9] bg-white">
+
+                    {/* Buscador independiente: Enter busca sin aplicar cambios pendientes de los filtros */}
+                    <form
+                        action="/administracion/productos"
+                        method="get"
+                        className="border-b border-neutral-100 p-4 sm:p-5"
+                    >
+                        {params.linea && (
+                            <input
+                                type="hidden"
+                                name="linea"
+                                value={params.linea}
+                            />
+                        )}
+
+                        {selectedCategory && (
+                            <input
+                                type="hidden"
+                                name="categoria"
+                                value={selectedCategory}
+                            />
+                        )}
+
+                        {selectedStatus && (
+                            <input
+                                type="hidden"
+                                name="estado"
+                                value={selectedStatus}
+                            />
+                        )}
+
+                        {selectedProductType && (
+                            <input
+                                type="hidden"
+                                name="modalidad"
+                                value={selectedProductType}
+                            />
+                        )}
+
+                        {selectedStock && (
+                            <input
+                                type="hidden"
+                                name="stock"
+                                value={selectedStock}
+                            />
+                        )}
+
+                        {selectedFeatured && (
+                            <input
+                                type="hidden"
+                                name="destacado"
+                                value={selectedFeatured}
+                            />
+                        )}
+
+                        {selectedSort !== "recientes" && (
+                            <input
+                                type="hidden"
+                                name="ordenar"
+                                value={selectedSort}
+                            />
+                        )}
+
+                        <div className="relative">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400"
+                                aria-hidden="true"
+                            >
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="6.5"
+                                />
+
+                                <path d="m16 16 4 4" />
+                            </svg>
+
+                            <input
+                                type="search"
+                                name="buscar"
+                                defaultValue={searchTerm}
+                                enterKeyHint="search"
+                                placeholder="Buscar por nombre o material..."
+                                className="h-12 w-full border border-neutral-300 bg-white pl-11 pr-4 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                            />
+
+                            <button
+                                type="submit"
+                                className="sr-only"
+                            >
+                                Buscar
+                            </button>
                         </div>
 
-                        <div className="overflow-hidden border border-neutral-200 bg-white">
-                            {productList.map((product, index) => {
-                                const category = Array.isArray(
-                                    product.categories
-                                )
-                                    ? product.categories[0]
-                                    : product.categories;
+                        <p className="mt-2 text-[11px] text-neutral-400">
+                            Escribí y presioná Enter para buscar.
+                        </p>
+                    </form>
 
-                                const images = [
-                                    ...(product.product_images ?? []),
-                                ].sort(
-                                    (a, b) =>
-                                        a.sort_order - b.sort_order
-                                );
+                    {/* Filtros: solo se aplican al presionar el botón */}
+                    <form
+                        action="/administracion/productos"
+                        method="get"
+                        className="p-4 sm:p-5"
+                    >
+                        {searchTerm && (
+                            <input
+                                type="hidden"
+                                name="buscar"
+                                value={searchTerm}
+                            />
+                        )}
 
-                                const mainImage = images[0];
+                        {/* Controles */}
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
 
-                                const imageUrl = mainImage
-                                    ? supabase.storage
-                                        .from("product-images")
-                                        .getPublicUrl(
-                                            mainImage.storage_path
-                                        ).data.publicUrl
-                                    : null;
+                            {/* Línea */}
+                            <div>
+                                <label
+                                    htmlFor="linea"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Línea
+                                </label>
 
-                                return (
-                                    <div
-                                        key={product.id}
-                                        className={`grid gap-5 p-5 sm:grid-cols-[96px_1fr_auto] sm:items-center ${index !==
-                                            productList.length - 1
-                                            ? "border-b border-neutral-200"
-                                            : ""
-                                            }`}
-                                    >
-                                        <div className="aspect-square w-24 overflow-hidden bg-neutral-100">
-                                            {imageUrl ? (
-                                                <img
-                                                    src={imageUrl}
-                                                    alt={
-                                                        mainImage?.alt_text ||
-                                                        product.name
-                                                    }
-                                                    className="h-full w-full object-cover"
-                                                />
-                                            ) : (
-                                                <div className="flex h-full w-full items-center justify-center px-2 text-center text-[11px] leading-4 text-neutral-400">
-                                                    Sin imagen
-                                                </div>
-                                            )}
-                                        </div>
+                                <select
+                                    id="linea"
+                                    name="linea"
+                                    defaultValue={params.linea ?? ""}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todas
+                                    </option>
 
-                                        <div className="min-w-0">
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <p className="text-xs uppercase tracking-[0.15em] text-neutral-500">
-                                                    {getLineLabel(
-                                                        category?.line
+                                    <option value="joyeria">
+                                        Joyería
+                                    </option>
+
+                                    <option value="plateria">
+                                        Platería
+                                    </option>
+                                </select>
+                            </div>
+
+                            {/* Categoría */}
+                            <div>
+                                <label
+                                    htmlFor="categoria"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Categoría
+                                </label>
+
+                                <select
+                                    id="categoria"
+                                    name="categoria"
+                                    defaultValue={selectedCategory}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todas
+                                    </option>
+
+                                    {visibleCategories.map(
+                                        (category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.id}
+                                            >
+                                                {category.name}
+                                                {!category.active
+                                                    ? " (inactiva)"
+                                                    : ""}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
+                            </div>
+
+                            {/* Estado */}
+                            <div>
+                                <label
+                                    htmlFor="estado"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Estado
+                                </label>
+
+                                <select
+                                    id="estado"
+                                    name="estado"
+                                    defaultValue={selectedStatus}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todos
+                                    </option>
+
+                                    <option value="active">
+                                        Publicados
+                                    </option>
+
+                                    <option value="draft">
+                                        Borradores
+                                    </option>
+
+                                    <option value="hidden">
+                                        Ocultos
+                                    </option>
+
+                                    <option value="archived">
+                                        Archivados
+                                    </option>
+                                </select>
+                            </div>
+
+                            {/* Modalidad */}
+                            <div>
+                                <label
+                                    htmlFor="modalidad"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Modalidad
+                                </label>
+
+                                <select
+                                    id="modalidad"
+                                    name="modalidad"
+                                    defaultValue={selectedProductType}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todas
+                                    </option>
+
+                                    <option value="direct">
+                                        Venta directa
+                                    </option>
+
+                                    <option value="unique">
+                                        Pieza única
+                                    </option>
+
+                                    <option value="on_order">
+                                        Por encargo
+                                    </option>
+
+                                    <option value="custom">
+                                        Personalizado
+                                    </option>
+                                </select>
+                            </div>
+
+                            {/* Stock */}
+                            <div>
+                                <label
+                                    htmlFor="stock"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Stock
+                                </label>
+
+                                <select
+                                    id="stock"
+                                    name="stock"
+                                    defaultValue={selectedStock}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todos
+                                    </option>
+
+                                    <option value="disponible">
+                                        Con stock
+                                    </option>
+
+                                    <option value="sin-stock">
+                                        Sin stock
+                                    </option>
+                                </select>
+                            </div>
+
+                            {/* Destacado */}
+                            <div>
+                                <label
+                                    htmlFor="destacado"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Destacado
+                                </label>
+
+                                <select
+                                    id="destacado"
+                                    name="destacado"
+                                    defaultValue={selectedFeatured}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="">
+                                        Todos
+                                    </option>
+
+                                    <option value="si">
+                                        Solo destacados
+                                    </option>
+                                </select>
+                            </div>
+
+                            {/* Orden */}
+                            <div className="sm:col-span-2">
+                                <label
+                                    htmlFor="ordenar"
+                                    className="mb-1.5 block text-[10px] uppercase tracking-[0.14em] text-neutral-400"
+                                >
+                                    Ordenar por
+                                </label>
+
+                                <select
+                                    id="ordenar"
+                                    name="ordenar"
+                                    defaultValue={selectedSort}
+                                    className="h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-800 outline-none focus:border-[#9a7541]"
+                                >
+                                    <option value="recientes">
+                                        Más recientes
+                                    </option>
+
+                                    <option value="antiguos">
+                                        Más antiguos
+                                    </option>
+
+                                    <option value="nombre">
+                                        Nombre A–Z
+                                    </option>
+
+                                    <option value="precio-menor">
+                                        Precio: menor a mayor
+                                    </option>
+
+                                    <option value="precio-mayor">
+                                        Precio: mayor a menor
+                                    </option>
+
+                                    <option value="stock-menor">
+                                        Stock: menor a mayor
+                                    </option>
+
+                                    <option value="stock-mayor">
+                                        Stock: mayor a menor
+                                    </option>
+
+                                    <option value="destacados">
+                                        Destacados primero
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Acciones */}
+                        <div className="mt-4 flex flex-col gap-3 border-t border-neutral-100 pt-4 sm:flex-row sm:items-center">
+                            <button
+                                type="submit"
+                                className="min-h-11 bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            >
+                                Aplicar filtros
+                            </button>
+
+                            {hasFilters && (
+                                <Link
+                                    href="/administracion/productos"
+                                    className="inline-flex min-h-11 items-center justify-center px-4 text-sm text-neutral-500 underline underline-offset-4 transition hover:text-neutral-900"
+                                >
+                                    Limpiar filtros
+                                </Link>
+                            )}
+                        </div>
+                    </form>
+                </div>
+
+                {/* Resultados */}
+                <div className="mt-7">
+                    <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-sm text-neutral-600">
+                            {filteredCount ===
+                                0 ? (
+                                "Sin resultados"
+                            ) : (
+                                <>
+                                    Mostrando{" "}
+                                    {
+                                        firstVisibleProduct
+                                    }
+                                    –
+                                    {
+                                        lastVisibleProduct
+                                    }{" "}
+                                    de{" "}
+                                    {
+                                        filteredCount
+                                    }{" "}
+                                    {filteredCount ===
+                                        1
+                                        ? "producto"
+                                        : "productos"}
+                                </>
+                            )}
+                        </p>
+
+                        {filteredCount >
+                            PAGE_SIZE && (
+                                <p className="text-xs text-neutral-400">
+                                    Página{" "}
+                                    {
+                                        currentPage
+                                    }{" "}
+                                    de{" "}
+                                    {
+                                        totalPages
+                                    }
+                                </p>
+                            )}
+                    </div>
+
+                    {productList.length ===
+                        0 ? (
+                        <div className="border border-[#ddd5c9] bg-white px-6 py-14 text-center">
+                            <p className="text-[10px] uppercase tracking-[0.2em] text-[#9a7541]">
+                                Catálogo
+                            </p>
+
+                            <h2 className="mt-3 font-serif text-3xl text-neutral-900">
+                                No encontramos productos
+                            </h2>
+
+                            <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-neutral-600">
+                                Probá modificando
+                                alguno de los filtros
+                                o buscá otro producto.
+                            </p>
+
+                            {hasFilters ? (
+                                <Link
+                                    href="/administracion/productos"
+                                    className="mt-7 inline-flex bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                                >
+                                    Ver todos los productos
+                                </Link>
+                            ) : (
+                                <Link
+                                    href="/administracion/productos/nuevo"
+                                    className="mt-7 inline-flex bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                                >
+                                    Cargar primer producto
+                                </Link>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="overflow-hidden border border-[#ddd5c9] bg-white">
+                            {productList.map(
+                                (
+                                    product,
+                                    index
+                                ) => {
+                                    const category =
+                                        Array.isArray(
+                                            product.categories
+                                        )
+                                            ? product
+                                                .categories[0]
+                                            : product.categories;
+
+                                    const images =
+                                        [
+                                            ...(product.product_images ??
+                                                []),
+                                        ].sort(
+                                            (
+                                                a,
+                                                b
+                                            ) =>
+                                                a.sort_order -
+                                                b.sort_order
+                                        );
+
+                                    const mainImage =
+                                        images[0];
+
+                                    const imageUrl =
+                                        mainImage
+                                            ? supabase.storage
+                                                .from(
+                                                    "product-images"
+                                                )
+                                                .getPublicUrl(
+                                                    mainImage.storage_path
+                                                )
+                                                .data
+                                                .publicUrl
+                                            : null;
+
+                                    return (
+                                        <article
+                                            key={
+                                                product.id
+                                            }
+                                            className={`p-4 sm:p-5 ${index !==
+                                                productList.length -
+                                                1
+                                                ? "border-b border-neutral-200"
+                                                : ""
+                                                }`}
+                                        >
+                                            <div className="grid grid-cols-[82px_1fr] gap-4 sm:grid-cols-[96px_minmax(0,1fr)_auto] sm:items-center sm:gap-5">
+
+                                                {/* Imagen */}
+                                                <Link
+                                                    href={`/administracion/productos/${product.id}`}
+                                                    className="group block aspect-square w-[82px] overflow-hidden bg-neutral-100 sm:w-24"
+                                                >
+                                                    {imageUrl ? (
+                                                        <img
+                                                            src={
+                                                                imageUrl
+                                                            }
+                                                            alt={
+                                                                mainImage?.alt_text ||
+                                                                product.name
+                                                            }
+                                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex h-full w-full items-center justify-center px-2 text-center text-[10px] leading-4 text-neutral-400">
+                                                            Sin imagen
+                                                        </div>
                                                     )}
-                                                </p>
+                                                </Link>
 
-                                                <span className="text-neutral-300">
-                                                    ·
-                                                </span>
+                                                {/* Información */}
+                                                <div className="min-w-0">
+                                                    <div className="flex flex-wrap items-center gap-2">
+                                                        <p className="text-[10px] uppercase tracking-[0.14em] text-[#9a7541] sm:text-xs">
+                                                            {getLineLabel(
+                                                                category?.line
+                                                            )}
+                                                        </p>
 
-                                                <p className="text-xs text-neutral-500">
-                                                    {category?.name ?? "—"}
-                                                </p>
-                                            </div>
+                                                        <span className="text-neutral-300">
+                                                            ·
+                                                        </span>
 
-                                            <h2 className="mt-2 font-serif text-2xl text-neutral-900">
-                                                {product.name}
-                                            </h2>
+                                                        <p className="text-xs text-neutral-500">
+                                                            {category?.name ??
+                                                                "—"}
+                                                        </p>
+                                                    </div>
 
-                                            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-neutral-500">
-                                                <span>
-                                                    {getStatusLabel(
-                                                        product.status
-                                                    )}
-                                                </span>
+                                                    <Link
+                                                        href={`/administracion/productos/${product.id}`}
+                                                        className="mt-1.5 block w-fit"
+                                                    >
+                                                        <h2 className="font-serif text-xl leading-tight text-neutral-900 transition-colors hover:text-[#8a693c] sm:text-2xl">
+                                                            {
+                                                                product.name
+                                                            }
+                                                        </h2>
+                                                    </Link>
 
-                                                <span>
-                                                    {getProductTypeLabel(
-                                                        product.product_type
-                                                    )}
-                                                </span>
+                                                    <div className="mt-2 flex flex-wrap items-center gap-2">
 
-                                                <span>
-                                                    Stock: {product.stock}
-                                                </span>
+                                                        <span
+                                                            className={`inline-flex border px-2 py-1 text-[10px] font-medium ${getStatusClasses(
+                                                                product.status
+                                                            )}`}
+                                                        >
+                                                            {getStatusLabel(
+                                                                product.status
+                                                            )}
+                                                        </span>
 
-                                                {product.price !== null && (
-                                                    <span>
-                                                        $
-                                                        {Number(
-                                                            product.price
-                                                        ).toLocaleString(
-                                                            "es-UY"
+                                                        <span className="text-[11px] text-neutral-500">
+                                                            {getProductTypeLabel(
+                                                                product.product_type
+                                                            )}
+                                                        </span>
+
+                                                        {product.is_featured && (
+                                                            <span className="inline-flex border border-[#d7c6a7] bg-[#f7f0e5] px-2 py-1 text-[10px] font-medium text-[#806037]">
+                                                                Destacado
+                                                            </span>
                                                         )}
+                                                    </div>
+
+                                                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-500">
+                                                        <span
+                                                            className={
+                                                                product.stock <=
+                                                                    0
+                                                                    ? "text-neutral-400"
+                                                                    : ""
+                                                            }
+                                                        >
+                                                            Stock:{" "}
+                                                            {
+                                                                product.stock
+                                                            }
+                                                        </span>
+
+                                                        <span>
+                                                            {product.price !==
+                                                                null
+                                                                ? `$${Number(
+                                                                    product.price
+                                                                ).toLocaleString(
+                                                                    "es-UY"
+                                                                )}`
+                                                                : "Sin precio"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Editar */}
+                                                <div className="col-span-2 mt-2 sm:col-span-1 sm:mt-0">
+                                                    <Link
+                                                        href={`/administracion/productos/${product.id}`}
+                                                        className="inline-flex min-h-10 w-full items-center justify-center border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:border-neutral-900 sm:w-auto"
+                                                    >
+                                                        Editar
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    );
+                                }
+                            )}
+                        </div>
+                    )}
+
+                    {/* Paginación */}
+                    {totalPages > 1 && (
+                        <nav
+                            aria-label="Paginación de productos"
+                            className="mt-7 flex flex-wrap items-center justify-center gap-2"
+                        >
+                            {currentPage >
+                                1 && (
+                                    <Link
+                                        href={buildProductsUrl(
+                                            {
+                                                ...paginationParams,
+                                                pagina:
+                                                    currentPage -
+                                                    1,
+                                            }
+                                        )}
+                                        className="flex h-10 items-center justify-center border border-neutral-300 bg-white px-4 text-sm text-neutral-700 transition hover:border-neutral-900"
+                                    >
+                                        ← Anterior
+                                    </Link>
+                                )}
+
+                            {Array.from(
+                                {
+                                    length:
+                                        totalPages,
+                                },
+                                (
+                                    _,
+                                    index
+                                ) =>
+                                    index +
+                                    1
+                            )
+                                .filter(
+                                    (
+                                        page
+                                    ) => {
+                                        if (
+                                            totalPages <=
+                                            7
+                                        ) {
+                                            return true;
+                                        }
+
+                                        if (
+                                            page ===
+                                            1 ||
+                                            page ===
+                                            totalPages
+                                        ) {
+                                            return true;
+                                        }
+
+                                        return (
+                                            Math.abs(
+                                                page -
+                                                currentPage
+                                            ) <=
+                                            1
+                                        );
+                                    }
+                                )
+                                .map(
+                                    (
+                                        page,
+                                        index,
+                                        visiblePages
+                                    ) => {
+                                        const previousPage =
+                                            visiblePages[
+                                            index -
+                                            1
+                                            ];
+
+                                        const needsEllipsis =
+                                            previousPage &&
+                                            page -
+                                            previousPage >
+                                            1;
+
+                                        return (
+                                            <span
+                                                key={
+                                                    page
+                                                }
+                                                className="flex items-center gap-2"
+                                            >
+                                                {needsEllipsis && (
+                                                    <span className="px-1 text-neutral-400">
+                                                        …
                                                     </span>
                                                 )}
 
-                                                {product.is_featured && (
-                                                    <span>Destacado</span>
-                                                )}
-                                            </div>
-                                        </div>
+                                                <Link
+                                                    href={buildProductsUrl(
+                                                        {
+                                                            ...paginationParams,
+                                                            pagina:
+                                                                page,
+                                                        }
+                                                    )}
+                                                    aria-current={
+                                                        page ===
+                                                            currentPage
+                                                            ? "page"
+                                                            : undefined
+                                                    }
+                                                    className={`flex h-10 min-w-10 items-center justify-center border px-3 text-sm transition ${page ===
+                                                        currentPage
+                                                        ? "border-neutral-900 bg-neutral-900 text-white"
+                                                        : "border-neutral-300 bg-white text-neutral-700 hover:border-neutral-900"
+                                                        }`}
+                                                >
+                                                    {
+                                                        page
+                                                    }
+                                                </Link>
+                                            </span>
+                                        );
+                                    }
+                                )}
 
-                                        <div>
-                                            <Link
-                                                href={`/administracion/productos/${product.id}`}
-                                                className="inline-flex border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-900 transition hover:border-neutral-900"
-                                            >
-                                                Editar
-                                            </Link>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                )}
+                            {currentPage <
+                                totalPages && (
+                                    <Link
+                                        href={buildProductsUrl(
+                                            {
+                                                ...paginationParams,
+                                                pagina:
+                                                    currentPage +
+                                                    1,
+                                            }
+                                        )}
+                                        className="flex h-10 items-center justify-center border border-neutral-300 bg-white px-4 text-sm text-neutral-700 transition hover:border-neutral-900"
+                                    >
+                                        Siguiente →
+                                    </Link>
+                                )}
+                        </nav>
+                    )}
+                </div>
             </section>
-        </div>
+        </main>
     );
 }

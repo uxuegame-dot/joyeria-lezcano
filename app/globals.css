@@ -23,20 +23,20 @@
 html {
   background: var(--background);
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+
   background: var(--background);
   color: var(--foreground);
+
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/*
- * Lezcano utiliza una identidad visual propia.
- * Evitamos que el modo oscuro del dispositivo
- * modifique automáticamente los controles nativos.
- */
 input,
 textarea,
 select,
@@ -44,40 +44,219 @@ button {
   color-scheme: light;
 }
 
-/*
- * Selección de texto.
- * Introduce el tono cálido de la marca de forma sutil.
- */
 ::selection {
   background: #d8c39d;
   color: #171717;
-}
-
-/*
- * Scroll suave para enlaces internos.
- */
-html {
-  scroll-behavior: smooth;
-}
-
-/*
- * Evita cambios de tamaño inesperados
- * en algunos navegadores móviles.
- */
-body {
-  min-width: 320px;
-  overflow-x: hidden;
 }
 
 img {
   max-width: 100%;
 }
 
-/*
- * Enlaces y botones mantienen el color definido
- * por cada componente.
- */
 a,
 button {
   -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  transition:
+    color 280ms ease,
+    background-color 280ms ease,
+    border-color 280ms ease,
+    opacity 280ms ease,
+    box-shadow 280ms ease;
+}
+
+/*
+ * --------------------------------------------------
+ * REVEAL
+ * --------------------------------------------------
+ */
+
+.reveal,
+.reveal-soft {
+  opacity: 0;
+
+  transition:
+    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change:
+    opacity,
+    transform;
+}
+
+/*
+ * Si estamos bajando,
+ * el contenido entra desde abajo.
+ */
+.reveal-from-bottom {
+  transform:
+    translateY(30px);
+}
+
+.reveal-soft.reveal-from-bottom {
+  transform:
+    translateY(20px);
+}
+
+/*
+ * Si estamos subiendo,
+ * el contenido entra desde arriba.
+ */
+.reveal-from-top {
+  transform:
+    translateY(-30px);
+}
+
+.reveal-soft.reveal-from-top {
+  transform:
+    translateY(-20px);
+}
+
+/*
+ * Estado visible.
+ */
+.reveal.reveal-visible,
+.reveal-soft.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+ * --------------------------------------------------
+ * BOTONES
+ * --------------------------------------------------
+ */
+
+.lezcano-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.lezcano-button::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  content: "";
+
+  background:
+    rgba(178, 138, 83, 0.18);
+
+  transform:
+    translateY(101%);
+
+  transition:
+    transform 380ms cubic-bezier(0.22,
+      1,
+      0.36,
+      1);
+}
+
+.lezcano-button:hover::before {
+  transform:
+    translateY(0);
+}
+
+/*
+ * --------------------------------------------------
+ * FLECHAS
+ * --------------------------------------------------
+ */
+
+.lezcano-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lezcano-arrow .arrow {
+  display: inline-block;
+
+  transition:
+    transform 350ms cubic-bezier(0.22,
+      1,
+      0.36,
+      1);
+}
+
+.lezcano-arrow:hover .arrow {
+  transform:
+    translateX(5px);
+}
+
+/*
+ * --------------------------------------------------
+ * IMÁGENES
+ * --------------------------------------------------
+ */
+
+.lezcano-image {
+  transform: scale(1);
+
+  transition:
+    transform 1100ms cubic-bezier(0.22,
+      1,
+      0.36,
+      1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .lezcano-image {
+    transform:
+      scale(1.025);
+  }
+
+  .lezcano-image:hover {
+    transform:
+      scale(1.025);
+  }
+}
+
+/*
+ * --------------------------------------------------
+ * REDUCIR MOVIMIENTO
+ * --------------------------------------------------
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-soft,
+  .reveal-from-bottom,
+  .reveal-from-top,
+  .reveal.reveal-visible,
+  .reveal-soft.reveal-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .lezcano-image,
+  .group:hover .lezcano-image,
+  .lezcano-image:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .lezcano-arrow .arrow,
+  .lezcano-arrow:hover .arrow {
+    transform: none;
+    transition: none;
+  }
+
+  .lezcano-button::before,
+  .lezcano-button:hover::before {
+    transform: none;
+    transition: none;
+  }
 }

@@ -37,6 +37,7 @@ export async function getActiveProducts() {
             is_featured,
             sort_order,
             category_id,
+            created_at,
             categories (
                 id,
                 name,
@@ -83,6 +84,7 @@ export async function getActiveProductBySlug(
             is_featured,
             sort_order,
             category_id,
+            created_at,
             categories (
                 id,
                 name,
