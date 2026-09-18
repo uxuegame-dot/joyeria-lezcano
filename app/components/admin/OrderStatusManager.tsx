@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { updateOrderStatus } from "@/app/lib/orders/actions";
+import {
+    useState,
+} from "react";
+
+import {
+    useRouter,
+} from "next/navigation";
+
+import {
+    updateOrderStatus,
+} from "@/app/lib/orders/actions";
 
 type OrderStatusManagerProps = {
     orderId: string;
@@ -11,40 +19,58 @@ type OrderStatusManagerProps = {
 
 const STATUS_OPTIONS = [
     {
-        value: "pending_confirmation",
-        label: "Pendiente de confirmación",
+        value:
+            "pending_confirmation",
+        label:
+            "Pendiente de confirmación",
     },
     {
-        value: "pending_payment",
-        label: "Pendiente de pago",
+        value:
+            "pending_payment",
+        label:
+            "Pendiente de pago",
     },
     {
-        value: "payment_confirmed",
-        label: "Pago confirmado",
+        value:
+            "payment_confirmed",
+        label:
+            "Pago confirmado",
     },
     {
-        value: "preparing",
-        label: "En preparación",
+        value:
+            "preparing",
+        label:
+            "En preparación",
     },
     {
-        value: "ready_for_pickup",
-        label: "Listo para retirar",
+        value:
+            "ready_for_pickup",
+        label:
+            "Listo para retirar",
     },
     {
-        value: "shipped",
-        label: "Enviado",
+        value:
+            "shipped",
+        label:
+            "Enviado",
     },
     {
-        value: "completed",
-        label: "Completado",
+        value:
+            "completed",
+        label:
+            "Completado",
     },
     {
-        value: "cancelled",
-        label: "Cancelado",
+        value:
+            "cancelled",
+        label:
+            "Cancelado",
     },
     {
-        value: "payment_rejected",
-        label: "Pago rechazado",
+        value:
+            "payment_rejected",
+        label:
+            "Pago rechazado",
     },
 ];
 
@@ -52,35 +78,54 @@ export function OrderStatusManager({
     orderId,
     currentStatus,
 }: OrderStatusManagerProps) {
-    const router = useRouter();
+    const router =
+        useRouter();
 
-    const [selectedStatus, setSelectedStatus] =
-        useState(currentStatus);
+    const [
+        selectedStatus,
+        setSelectedStatus,
+    ] =
+        useState(
+            currentStatus
+        );
 
-    const [saving, setSaving] =
+    const [
+        saving,
+        setSaving,
+    ] =
         useState(false);
 
-    const [error, setError] =
+    const [
+        error,
+        setError,
+    ] =
         useState("");
 
     const isFinal =
-        currentStatus === "cancelled" ||
-        currentStatus === "completed";
+        currentStatus ===
+        "cancelled" ||
+        currentStatus ===
+        "completed";
 
     async function handleSave() {
         if (
             saving ||
-            selectedStatus === currentStatus
+            selectedStatus ===
+            currentStatus
         ) {
             return;
         }
 
+        /*
+         * Confirmar cancelación
+         */
         if (
-            selectedStatus === "cancelled"
+            selectedStatus ===
+            "cancelled"
         ) {
             const confirmed =
                 window.confirm(
-                    "¿Seguro que querés cancelar este pedido? El stock de los productos será devuelto automáticamente."
+                    "¿Seguro que querés cancelar este pedido? Si el stock ya había sido descontado, será devuelto automáticamente."
                 );
 
             if (!confirmed) {
@@ -88,12 +133,33 @@ export function OrderStatusManager({
             }
         }
 
+        /*
+         * Confirmar pedido completado
+         */
         if (
-            selectedStatus === "completed"
+            selectedStatus ===
+            "completed"
         ) {
             const confirmed =
                 window.confirm(
                     "¿Confirmás que este pedido fue completado? Luego no podrá modificarse."
+                );
+
+            if (!confirmed) {
+                return;
+            }
+        }
+
+        /*
+         * Confirmar pago manual
+         */
+        if (
+            selectedStatus ===
+            "payment_confirmed"
+        ) {
+            const confirmed =
+                window.confirm(
+                    "¿Confirmás que el pago fue recibido? Al continuar se descontará el stock correspondiente."
                 );
 
             if (!confirmed) {
@@ -111,18 +177,33 @@ export function OrderStatusManager({
             );
 
         if (!result.success) {
-            setError(result.error);
+            setError(
+                result.error
+            );
+
             setSaving(false);
+
             return;
         }
 
+        /*
+         * Al guardar correctamente,
+         * volvemos al listado de pedidos.
+         */
+        router.push(
+            "/administracion/pedidos"
+        );
+
         router.refresh();
-        setSaving(false);
     }
 
+    /*
+     * Pedido cerrado
+     */
     if (isFinal) {
         return (
             <div className="border border-neutral-200 bg-neutral-50 p-5">
+
                 <p className="text-sm font-medium text-neutral-900">
                     Estado final
                 </p>
@@ -137,13 +218,15 @@ export function OrderStatusManager({
 
     return (
         <div className="border border-neutral-200 bg-white p-6">
+
             <h2 className="font-serif text-2xl text-neutral-900">
                 Gestionar pedido
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-neutral-500">
-                Actualizá el estado según avance
-                la preparación y entrega.
+                Actualizá el estado según
+                avance el pago, la
+                preparación y la entrega.
             </p>
 
             <label
@@ -155,21 +238,32 @@ export function OrderStatusManager({
 
             <select
                 id="order-status"
-                value={selectedStatus}
-                onChange={(event) =>
+                value={
+                    selectedStatus
+                }
+                onChange={(
+                    event
+                ) =>
                     setSelectedStatus(
-                        event.target.value
+                        event.target
+                            .value
                     )
                 }
-                className="mt-2 w-full border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 outline-none focus:border-neutral-900"
+                className="mt-2 w-full border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
             >
                 {STATUS_OPTIONS.map(
                     (status) => (
                         <option
-                            key={status.value}
-                            value={status.value}
+                            key={
+                                status.value
+                            }
+                            value={
+                                status.value
+                            }
                         >
-                            {status.label}
+                            {
+                                status.label
+                            }
                         </option>
                     )
                 )}
@@ -186,13 +280,15 @@ export function OrderStatusManager({
 
             <button
                 type="button"
-                onClick={handleSave}
+                onClick={
+                    handleSave
+                }
                 disabled={
                     saving ||
                     selectedStatus ===
                     currentStatus
                 }
-                className="mt-4 w-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-neutral-300"
+                className="mt-4 w-full bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541] disabled:cursor-not-allowed disabled:bg-neutral-300"
             >
                 {saving
                     ? "Guardando..."
