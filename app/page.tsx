@@ -8,6 +8,12 @@ import { Reveal } from "@/app/components/Reveal";
 import { getActiveProducts } from "@/app/lib/products";
 import { createClient } from "@/app/lib/supabase/server";
 
+const WHATSAPP_URL =
+  "https://wa.me/59899726968?text=" +
+  encodeURIComponent(
+    "Hola, estoy visitando la web de Joyería Lezcano y quería hacer una consulta."
+  );
+
 function getCategory(product: any) {
   return Array.isArray(product.categories)
     ? product.categories[0]
@@ -584,12 +590,15 @@ export default async function HomePage() {
               personalizados.
             </p>
 
-            <Link
-              href="/contacto"
-              className="lezcano-button mt-9 inline-block bg-[#b28a53] px-8 py-4 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lezcano-button mt-9 inline-flex items-center gap-2 bg-[#b28a53] px-8 py-4 text-sm font-medium text-white transition hover:bg-[#9a7541]"
             >
-              Contactarnos
-            </Link>
+              Consultar por WhatsApp
+              <span>→</span>
+            </a>
           </Reveal>
         </div>
       </section>

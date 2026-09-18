@@ -13,6 +13,14 @@ type ProductPageProps = {
     }>;
 };
 
+const WHATSAPP_NUMBER = "59899726968";
+
+function getWhatsAppUrl(message: string) {
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        message
+    )}`;
+}
+
 export default async function ProductPage({
     params,
 }: ProductPageProps) {
@@ -105,6 +113,10 @@ export default async function ProductPage({
                     "on_order"
                     ? "Por encargo"
                     : "Trabajo personalizado";
+
+    const whatsappUrl = getWhatsAppUrl(
+        `Hola, estoy viendo la pieza "${product.name}" en la web de Joyería Lezcano y quería hacer una consulta.`
+    );
 
     return (
         <main className="bg-[#f7f4ef]">
@@ -308,8 +320,10 @@ export default async function ProductPage({
                             )}
 
                             {isConsultation && (
-                                <Link
-                                    href="/contacto"
+                                <a
+                                    href={whatsappUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="lezcano-button flex min-h-14 w-full items-center justify-center bg-neutral-900 px-6 py-4 text-center text-sm font-medium text-white transition hover:bg-[#9a7541]"
                                 >
                                     Consultar por
@@ -318,7 +332,7 @@ export default async function ProductPage({
                                     <span className="ml-2">
                                         →
                                     </span>
-                                </Link>
+                                </a>
                             )}
                         </div>
 
