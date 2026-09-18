@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { LogoutButton } from "@/app/components/LogouButton";
+import { AddressEditor } from "@/app/components/account/AddressEditor";
 import { getUserOrders } from "@/app/lib/orders";
 import { createClient } from "@/app/lib/supabase/server";
 
@@ -43,6 +44,13 @@ export default async function MiCuentaPage() {
         .from("profiles")
         .select("first_name, last_name, phone")
         .eq("id", user.id)
+        .maybeSingle();
+
+    const { data: defaultAddress } = await supabase
+        .from("addresses")
+        .select("address_line, city, department")
+        .eq("user_id", user.id)
+        .eq("is_default", true)
         .maybeSingle();
 
     const orders = await getUserOrders();
@@ -87,41 +95,49 @@ export default async function MiCuentaPage() {
 
             <section className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
                 <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-5">
-                    <section className="border border-[#d8cfc1] bg-white p-5 sm:p-6">
-                        <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a7541] sm:text-[10px]">
-                            Mis datos
-                        </p>
+                    <div className="space-y-4">
+                        <section className="border border-[#d8cfc1] bg-white p-5 sm:p-6">
+                            <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a7541] sm:text-[10px]">
+                                Mis datos
+                            </p>
 
-                        <h2 className="mt-2 font-serif text-2xl text-neutral-900">
-                            {fullName}
-                        </h2>
+                            <h2 className="mt-2 font-serif text-2xl text-neutral-900">
+                                {fullName}
+                            </h2>
 
-                        <dl className="mt-5 space-y-4 text-sm">
-                            <div>
-                                <dt className="text-[10px] uppercase tracking-wide text-neutral-400 sm:text-xs">
-                                    Email
-                                </dt>
+                            <dl className="mt-5 space-y-4 text-sm">
+                                <div>
+                                    <dt className="text-[10px] uppercase tracking-wide text-neutral-400 sm:text-xs">
+                                        Email
+                                    </dt>
 
-                                <dd className="mt-1 break-words text-neutral-900">
-                                    {user.email || "—"}
-                                </dd>
-                            </div>
+                                    <dd className="mt-1 break-words text-neutral-900">
+                                        {user.email || "—"}
+                                    </dd>
+                                </div>
 
-                            <div>
-                                <dt className="text-[10px] uppercase tracking-wide text-neutral-400 sm:text-xs">
-                                    Teléfono / WhatsApp
-                                </dt>
+                                <div>
+                                    <dt className="text-[10px] uppercase tracking-wide text-neutral-400 sm:text-xs">
+                                        Teléfono / WhatsApp
+                                    </dt>
 
-                                <dd className="mt-1 text-neutral-900">
-                                    {profile?.phone || "No cargado"}
-                                </dd>
-                            </div>
-                        </dl>
+                                    <dd className="mt-1 text-neutral-900">
+                                        {profile?.phone || "No cargado"}
+                                    </dd>
+                                </div>
+                            </dl>
 
-                        <p className="mt-5 border-t border-neutral-100 pt-4 text-xs leading-5 text-neutral-500">
-                            Estos datos se utilizan para identificar tu cuenta y facilitar tus pedidos.
-                        </p>
-                    </section>
+                            <p className="mt-5 border-t border-neutral-100 pt-4 text-xs leading-5 text-neutral-500">
+                                Estos datos se utilizan para identificar tu cuenta y facilitar tus pedidos.
+                            </p>
+                        </section>
+
+                        <AddressEditor
+                            initialAddress={defaultAddress ?? null}
+                            recipientName={fullName}
+                            phone={profile?.phone ?? ""}
+                        />
+                    </div>
 
                     <section className="border border-[#d8cfc1] bg-white p-5 sm:p-6">
                         <div className="flex items-end justify-between gap-4">

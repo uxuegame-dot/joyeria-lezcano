@@ -16,11 +16,18 @@ import {
 } from "@/app/lib/cart";
 
 import { createOrder } from "@/app/lib/orders/actions";
+import { saveDefaultAddress } from "@/app/lib/addresses/actions";
 import { createClient } from "@/app/lib/supabase/client";
 
 type DeliveryMethod =
     | "pickup"
     | "shipping";
+
+type SavedShippingAddress = {
+    address_line: string;
+    city: string;
+    department: string;
+};
 
 export function CheckoutForm() {
     const router = useRouter();
@@ -61,6 +68,30 @@ export function CheckoutForm() {
 
     const [phone, setPhone] =
         useState("");
+
+    /*
+     * Dirección de envío
+     */
+    const [address, setAddress] =
+        useState("");
+
+    const [city, setCity] =
+        useState("");
+
+    const [department, setDepartment] =
+        useState("");
+
+    const [
+        savedShippingAddress,
+        setSavedShippingAddress,
+    ] = useState<SavedShippingAddress | null>(
+        null
+    );
+
+    const [
+        editingShippingAddress,
+        setEditingShippingAddress,
+    ] = useState(true);
 
     /*
      * Estado de sesión
@@ -139,6 +170,25 @@ export function CheckoutForm() {
                 .eq("id", user.id)
                 .maybeSingle();
 
+            const {
+                data: savedAddress,
+                error: savedAddressError,
+            } = await supabase
+                .from("addresses")
+                .select(
+                    "address_line, city, department"
+                )
+                .eq("user_id", user.id)
+                .eq("is_default", true)
+                .maybeSingle();
+
+            if (savedAddressError) {
+                console.error(
+                    "No se pudo cargar la dirección guardada:",
+                    savedAddressError
+                );
+            }
+
             if (!active) {
                 return;
             }
@@ -163,6 +213,40 @@ export function CheckoutForm() {
             setPhone(
                 profilePhone
             );
+
+            if (savedAddress) {
+                const normalizedAddress = {
+                    address_line:
+                        savedAddress.address_line ?? "",
+                    city:
+                        savedAddress.city ?? "",
+                    department:
+                        savedAddress.department ?? "",
+                };
+
+                setAddress(
+                    normalizedAddress.address_line
+                );
+                setCity(
+                    normalizedAddress.city
+                );
+                setDepartment(
+                    normalizedAddress.department
+                );
+                setSavedShippingAddress(
+                    normalizedAddress
+                );
+                setEditingShippingAddress(
+                    false
+                );
+            } else {
+                setSavedShippingAddress(
+                    null
+                );
+                setEditingShippingAddress(
+                    true
+                );
+            }
 
             /*
              * Si tenemos todos los datos,
@@ -228,6 +312,11 @@ export function CheckoutForm() {
         Boolean(email.trim()) &&
         Boolean(phone.trim());
 
+    const shippingAddressComplete =
+        Boolean(address.trim()) &&
+        Boolean(city.trim()) &&
+        Boolean(department.trim());
+
     async function handleSubmit(
         event: FormEvent<HTMLFormElement>
     ) {
@@ -259,6 +348,21 @@ export function CheckoutForm() {
             return;
         }
 
+        if (
+            deliveryMethod === "shipping" &&
+            !shippingAddressComplete
+        ) {
+            setEditingShippingAddress(
+                true
+            );
+
+            setError(
+                "Completá la dirección, ciudad y departamento para el envío."
+            );
+
+            return;
+        }
+
         const formData =
             new FormData(
                 event.currentTarget
@@ -267,6 +371,49 @@ export function CheckoutForm() {
         setSubmitting(true);
 
         try {
+            if (
+                deliveryMethod === "shipping" &&
+                isLoggedIn
+            ) {
+                const addressResult =
+                    await saveDefaultAddress({
+                        recipientName:
+                            `${firstName.trim()} ${lastName.trim()}`.trim(),
+                        phone:
+                            phone.trim(),
+                        addressLine:
+                            address.trim(),
+                        city:
+                            city.trim(),
+                        department:
+                            department.trim(),
+                    });
+
+                if (!addressResult.success) {
+                    setError(
+                        addressResult.error
+                    );
+                    setSubmitting(false);
+                    return;
+                }
+
+                const normalizedAddress = {
+                    address_line:
+                        address.trim(),
+                    city:
+                        city.trim(),
+                    department:
+                        department.trim(),
+                };
+
+                setSavedShippingAddress(
+                    normalizedAddress
+                );
+                setEditingShippingAddress(
+                    false
+                );
+            }
+
             const result =
                 await createOrder({
                     firstName:
@@ -283,23 +430,20 @@ export function CheckoutForm() {
 
                     deliveryMethod,
 
-                    address: String(
-                        formData.get(
-                            "address"
-                        ) ?? ""
-                    ),
+                    address:
+                        deliveryMethod === "shipping"
+                            ? address.trim()
+                            : "",
 
-                    city: String(
-                        formData.get(
-                            "city"
-                        ) ?? ""
-                    ),
+                    city:
+                        deliveryMethod === "shipping"
+                            ? city.trim()
+                            : "",
 
-                    department: String(
-                        formData.get(
-                            "department"
-                        ) ?? ""
-                    ),
+                    department:
+                        deliveryMethod === "shipping"
+                            ? department.trim()
+                            : "",
 
                     notes: String(
                         formData.get(
@@ -330,12 +474,45 @@ export function CheckoutForm() {
 
             clearCart();
 
+            /*
+             * Retiro:
+             * si Mercado Pago quedó pronto,
+             * salimos al checkout seguro.
+             *
+             * Envío:
+             * primero se registra el pedido
+             * porque todavía falta confirmar
+             * el costo de envío.
+             */
+            if (
+                result.checkoutUrl
+            ) {
+                window.location.assign(
+                    result.checkoutUrl
+                );
+
+                return;
+            }
+
+            const confirmationParams =
+                new URLSearchParams({
+                    numero:
+                        String(
+                            result.orderNumber
+                        ),
+                });
+
+            if (
+                result.paymentError
+            ) {
+                confirmationParams.set(
+                    "pago",
+                    "error"
+                );
+            }
+
             router.push(
-                `/pedido-confirmado?numero=${encodeURIComponent(
-                    String(
-                        result.orderNumber
-                    )
-                )}`
+                `/pedido-confirmado?${confirmationParams.toString()}`
             );
         } catch {
             setError(
@@ -809,57 +986,148 @@ export function CheckoutForm() {
                             {/* Dirección */}
                             {deliveryMethod ===
                                 "shipping" && (
-                                    <div className="mt-5 grid gap-4 border-t border-neutral-100 pt-5 sm:grid-cols-2">
+                                    <div className="mt-5 border-t border-neutral-100 pt-5">
+                                        {isLoggedIn &&
+                                            savedShippingAddress &&
+                                            !editingShippingAddress ? (
+                                            <div className="border border-[#d8cfc1] bg-[#faf8f4] p-4">
+                                                <div className="flex items-start justify-between gap-4">
+                                                    <div>
+                                                        <p className="text-[10px] uppercase tracking-[0.18em] text-[#9a7541]">
+                                                            Dirección de envío
+                                                        </p>
 
-                                        <div className="sm:col-span-2">
-                                            <label
-                                                htmlFor="address"
-                                                className="mb-1.5 block text-xs font-medium text-neutral-700"
-                                            >
-                                                Dirección *
-                                            </label>
+                                                        <p className="mt-2 text-sm font-medium text-neutral-900">
+                                                            {savedShippingAddress.address_line}
+                                                        </p>
 
-                                            <input
-                                                id="address"
-                                                name="address"
-                                                required
-                                                autoComplete="street-address"
-                                                placeholder="Calle, número, apartamento..."
-                                                className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
-                                            />
-                                        </div>
+                                                        <p className="mt-1 text-xs text-neutral-500">
+                                                            {savedShippingAddress.city}, {savedShippingAddress.department}
+                                                        </p>
+                                                    </div>
 
-                                        <div>
-                                            <label
-                                                htmlFor="city"
-                                                className="mb-1.5 block text-xs font-medium text-neutral-700"
-                                            >
-                                                Ciudad
-                                            </label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            setEditingShippingAddress(
+                                                                true
+                                                            )
+                                                        }
+                                                        className="shrink-0 text-xs text-neutral-500 underline underline-offset-4 transition hover:text-neutral-900"
+                                                    >
+                                                        Editar
+                                                    </button>
+                                                </div>
 
-                                            <input
-                                                id="city"
-                                                name="city"
-                                                autoComplete="address-level2"
-                                                className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
-                                            />
-                                        </div>
+                                                <p className="mt-4 border-t border-neutral-200 pt-3 text-[11px] leading-5 text-neutral-500">
+                                                    Usaremos esta dirección para el pedido. Podés cambiarla sin salir del checkout.
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid gap-4 sm:grid-cols-2">
+                                                <div className="sm:col-span-2">
+                                                    <label
+                                                        htmlFor="address"
+                                                        className="mb-1.5 block text-xs font-medium text-neutral-700"
+                                                    >
+                                                        Dirección *
+                                                    </label>
 
-                                        <div>
-                                            <label
-                                                htmlFor="department"
-                                                className="mb-1.5 block text-xs font-medium text-neutral-700"
-                                            >
-                                                Departamento
-                                            </label>
+                                                    <input
+                                                        id="address"
+                                                        name="address"
+                                                        required
+                                                        value={address}
+                                                        onChange={(event) =>
+                                                            setAddress(
+                                                                event.target.value
+                                                            )
+                                                        }
+                                                        autoComplete="street-address"
+                                                        placeholder="Calle y número"
+                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                                    />
+                                                </div>
 
-                                            <input
-                                                id="department"
-                                                name="department"
-                                                autoComplete="address-level1"
-                                                className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
-                                            />
-                                        </div>
+                                                <div>
+                                                    <label
+                                                        htmlFor="city"
+                                                        className="mb-1.5 block text-xs font-medium text-neutral-700"
+                                                    >
+                                                        Ciudad *
+                                                    </label>
+
+                                                    <input
+                                                        id="city"
+                                                        name="city"
+                                                        required
+                                                        value={city}
+                                                        onChange={(event) =>
+                                                            setCity(
+                                                                event.target.value
+                                                            )
+                                                        }
+                                                        autoComplete="address-level2"
+                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label
+                                                        htmlFor="department"
+                                                        className="mb-1.5 block text-xs font-medium text-neutral-700"
+                                                    >
+                                                        Departamento *
+                                                    </label>
+
+                                                    <input
+                                                        id="department"
+                                                        name="department"
+                                                        required
+                                                        value={department}
+                                                        onChange={(event) =>
+                                                            setDepartment(
+                                                                event.target.value
+                                                            )
+                                                        }
+                                                        autoComplete="address-level1"
+                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                                    />
+                                                </div>
+
+                                                <div className="sm:col-span-2 flex flex-wrap items-center gap-4">
+                                                    {isLoggedIn &&
+                                                        savedShippingAddress && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setAddress(
+                                                                        savedShippingAddress.address_line
+                                                                    );
+                                                                    setCity(
+                                                                        savedShippingAddress.city
+                                                                    );
+                                                                    setDepartment(
+                                                                        savedShippingAddress.department
+                                                                    );
+                                                                    setEditingShippingAddress(
+                                                                        false
+                                                                    );
+                                                                }}
+                                                                className="text-xs text-neutral-500 underline underline-offset-4 transition hover:text-neutral-900"
+                                                            >
+                                                                Cancelar edición
+                                                            </button>
+                                                        )}
+
+                                                    {isLoggedIn && (
+                                                        <p className="text-[11px] leading-5 text-neutral-500">
+                                                            Esta dirección quedará guardada en Mi cuenta para futuras compras.
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                         </section>
@@ -1027,8 +1295,14 @@ export function CheckoutForm() {
                             className="lezcano-button mt-6 flex min-h-14 w-full items-center justify-center bg-neutral-900 px-6 py-4 text-sm font-medium text-white transition hover:bg-[#9a7541] disabled:cursor-not-allowed disabled:bg-neutral-400"
                         >
                             {submitting
-                                ? "Confirmando..."
-                                : "Confirmar pedido"}
+                                ? deliveryMethod ===
+                                    "pickup"
+                                    ? "Preparando pago..."
+                                    : "Confirmando..."
+                                : deliveryMethod ===
+                                    "pickup"
+                                    ? "Continuar a Mercado Pago"
+                                    : "Confirmar pedido"}
 
                             {!submitting && (
                                 <span className="ml-2">
@@ -1061,11 +1335,10 @@ export function CheckoutForm() {
                         </div>
 
                         <p className="mt-4 text-center text-[11px] leading-5 text-neutral-500">
-                            Al confirmar,
-                            registraremos el
-                            pedido y la joyería
-                            coordinará contigo
-                            los siguientes pasos.
+                            {deliveryMethod ===
+                                "pickup"
+                                ? "Primero registraremos el pedido y luego te llevaremos a Mercado Pago para completar el pago de forma segura."
+                                : "Registraremos el pedido y la joyería confirmará el costo de envío antes de habilitar el pago."}
                         </p>
                     </aside>
                 </form>

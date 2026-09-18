@@ -646,70 +646,107 @@ export function ProductImageManager({
     }
 
     return (
-        <section className="mt-10 border-t border-neutral-200 pt-8">
-            <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-                    Imágenes
-                </p>
+        <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
+                        Fotografías
+                    </p>
 
-                <h2 className="mt-2 font-serif text-2xl text-neutral-900">
-                    Imágenes del producto
-                </h2>
+                    <h2 className="mt-1 font-serif text-xl text-neutral-900 sm:text-2xl">
+                        Imágenes del producto
+                    </h2>
 
-                <p className="mt-2 text-sm leading-6 text-neutral-600">
-                    Subí fotografías y ordenalas
-                    como querés que aparezcan.
-                    La primera será la imagen
-                    principal del producto.
-                </p>
+                    <p className="mt-1 max-w-xl text-xs leading-5 text-neutral-500 sm:text-sm">
+                        Agregá fotos, ordenalas y elegí cuál aparece primero en el catálogo.
+                    </p>
+                </div>
+
+                {images.length > 0 && (
+                    <p className="text-[10px] text-neutral-400">
+                        {images.length} {images.length === 1 ? "foto" : "fotos"}
+                    </p>
+                )}
             </div>
 
-            <div className="mt-6">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
                 <label
-                    className={`inline-flex items-center justify-center border border-neutral-900 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition ${uploading
+                    className={`inline-flex h-11 items-center justify-center gap-2 bg-neutral-900 px-4 text-xs font-medium text-white transition sm:text-sm ${uploading || processingId !== null
                         ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer hover:bg-neutral-50"
+                        : "cursor-pointer hover:bg-[#9a7541]"
                         }`}
                 >
-                    {uploading
-                        ? "Subiendo..."
-                        : "+ Agregar imágenes"}
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 8.5h3l1.5-2h7l1.5 2h3v10H4z" />
+                        <circle cx="12" cy="13.5" r="3.25" />
+                    </svg>
+
+                    {uploading ? "Subiendo..." : "Tomar foto"}
+
+                    <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment"
+                        disabled={uploading || processingId !== null}
+                        onChange={handleUpload}
+                        className="sr-only"
+                    />
+                </label>
+
+                <label
+                    className={`inline-flex h-11 items-center justify-center gap-2 border border-neutral-300 bg-white px-4 text-xs font-medium text-neutral-800 transition sm:text-sm ${uploading || processingId !== null
+                        ? "cursor-not-allowed opacity-50"
+                        : "cursor-pointer hover:border-neutral-900"
+                        }`}
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                    >
+                        <rect x="3.5" y="4.5" width="17" height="15" rx="1" />
+                        <circle cx="9" cy="10" r="1.5" />
+                        <path d="m5.5 17 4.2-4.2 3.2 3 2.2-2.2 3.4 3.4" />
+                    </svg>
+
+                    {uploading ? "Subiendo..." : "Elegir fotos"}
 
                     <input
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
                         multiple
-                        disabled={
-                            uploading ||
-                            processingId !==
-                            null
-                        }
-                        onChange={
-                            handleUpload
-                        }
+                        disabled={uploading || processingId !== null}
+                        onChange={handleUpload}
                         className="sr-only"
                     />
                 </label>
-
-                <p className="mt-2 text-xs text-neutral-500">
-                    Formatos admitidos: JPG,
-                    PNG y WebP.
-                </p>
-
-                {message && (
-                    <div
-                        role="status"
-                        className="mt-4 border border-neutral-200 bg-neutral-50 px-4 py-3"
-                    >
-                        <p className="text-sm font-medium text-neutral-900">
-                            {message}
-                        </p>
-                    </div>
-                )}
             </div>
 
+            <p className="mt-2 text-[10px] leading-4 text-neutral-400">
+                En celular, “Tomar foto” intenta abrir la cámara trasera. También podés elegir varias fotos de la galería.
+            </p>
+
+            {message && (
+                <div
+                    role="status"
+                    className="mt-3 border border-neutral-200 bg-[#faf8f4] px-3 py-2 text-xs text-neutral-600"
+                >
+                    {message}
+                </div>
+            )}
+
             {images.length > 0 ? (
-                <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                     {[...images]
                         .sort(
                             (a, b) =>
@@ -722,8 +759,7 @@ export function ProductImageManager({
                                 index
                             ) => {
                                 const isMain =
-                                    index ===
-                                    0;
+                                    index === 0;
 
                                 const isProcessing =
                                     processingId ===
@@ -743,7 +779,7 @@ export function ProductImageManager({
                                             image.id
                                         }
                                         className={`overflow-hidden border bg-white ${isMain
-                                            ? "border-neutral-900"
+                                            ? "border-[#b28a53]"
                                             : "border-neutral-200"
                                             }`}
                                     >
@@ -760,29 +796,21 @@ export function ProductImageManager({
                                             />
 
                                             <span
-                                                className={`absolute left-3 top-3 px-3 py-1.5 text-xs font-medium ${isMain
+                                                className={`absolute left-2 top-2 px-2 py-1 text-[8px] font-medium uppercase tracking-[0.1em] ${isMain
                                                     ? "bg-neutral-900 text-white"
-                                                    : "bg-white/95 text-neutral-900"
+                                                    : "bg-white/95 text-neutral-700"
                                                     }`}
                                             >
                                                 {isMain
                                                     ? "Principal"
-                                                    : `Imagen ${index +
+                                                    : `Foto ${index +
                                                     1
                                                     }`}
                                             </span>
                                         </div>
 
-                                        <div className="p-4">
-                                            <p className="text-sm font-medium text-neutral-900">
-                                                {isMain
-                                                    ? "Imagen principal"
-                                                    : `Imagen ${index +
-                                                    1
-                                                    }`}
-                                            </p>
-
-                                            <div className="mt-4 grid grid-cols-2 gap-2">
+                                        <div className="p-2">
+                                            <div className="grid grid-cols-2 gap-1.5">
                                                 <button
                                                     type="button"
                                                     disabled={
@@ -796,7 +824,8 @@ export function ProductImageManager({
                                                             "left"
                                                         )
                                                     }
-                                                    className="border border-neutral-300 px-3 py-2 text-sm text-neutral-900 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-30"
+                                                    aria-label="Mover imagen hacia la izquierda"
+                                                    className="h-8 border border-neutral-300 text-xs text-neutral-700 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-25"
                                                 >
                                                     ←
                                                 </button>
@@ -814,7 +843,8 @@ export function ProductImageManager({
                                                             "right"
                                                         )
                                                     }
-                                                    className="border border-neutral-300 px-3 py-2 text-sm text-neutral-900 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-30"
+                                                    aria-label="Mover imagen hacia la derecha"
+                                                    className="h-8 border border-neutral-300 text-xs text-neutral-700 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-25"
                                                 >
                                                     →
                                                 </button>
@@ -832,11 +862,11 @@ export function ProductImageManager({
                                                             image.id
                                                         )
                                                     }
-                                                    className="mt-2 w-full border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    className="mt-1.5 h-8 w-full border border-neutral-300 px-2 text-[9px] font-medium text-[#806037] transition hover:border-[#9a7541] disabled:cursor-not-allowed disabled:opacity-50"
                                                 >
                                                     {isProcessing
                                                         ? "Procesando..."
-                                                        : "Usar como principal"}
+                                                        : "Hacer principal"}
                                                 </button>
                                             )}
 
@@ -851,11 +881,11 @@ export function ProductImageManager({
                                                         image
                                                     )
                                                 }
-                                                className="mt-2 w-full border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="mt-1.5 h-8 w-full px-2 text-[9px] font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                                             >
                                                 {isProcessing
                                                     ? "Procesando..."
-                                                    : "Eliminar imagen"}
+                                                    : "Eliminar"}
                                             </button>
                                         </div>
                                     </article>
@@ -864,13 +894,12 @@ export function ProductImageManager({
                         )}
                 </div>
             ) : (
-                <div className="mt-8 border border-dashed border-neutral-300 px-6 py-12 text-center">
-                    <p className="text-sm text-neutral-600">
-                        Este producto todavía no
-                        tiene imágenes.
+                <div className="mt-4 flex min-h-28 items-center justify-center border border-dashed border-neutral-300 bg-[#fafafa] px-4 text-center">
+                    <p className="max-w-sm text-xs leading-5 text-neutral-500">
+                        Este producto todavía no tiene imágenes. Podés sacar una foto ahora o elegirla desde el dispositivo.
                     </p>
                 </div>
             )}
-        </section>
+        </div>
     );
 }

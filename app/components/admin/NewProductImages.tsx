@@ -3,331 +3,505 @@
 import {
     ChangeEvent,
     useEffect,
+    useRef,
     useState,
 } from "react";
 
-type SelectedImage = {
+type PendingImage = {
     id: string;
     file: File;
     previewUrl: string;
 };
 
-export function NewProductImages() {
-    const [images, setImages] = useState<SelectedImage[]>([]);
+const ACCEPTED_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+];
 
+function createImageId(
+    file: File
+) {
+    return `${file.name}-${file.size}-${file.lastModified}-${crypto.randomUUID()}`;
+}
+
+function sameFile(
+    a: File,
+    b: File
+) {
+    return (
+        a.name === b.name &&
+        a.size === b.size &&
+        a.lastModified ===
+        b.lastModified
+    );
+}
+
+export function NewProductImages() {
+    const hiddenFilesRef =
+        useRef<HTMLInputElement | null>(
+            null
+        );
+
+    const [
+        images,
+        setImages,
+    ] = useState<
+        PendingImage[]
+    >([]);
+
+    const [
+        mainImageId,
+        setMainImageId,
+    ] = useState<
+        string | null
+    >(null);
+
+    const [
+        message,
+        setMessage,
+    ] = useState<
+        string | null
+    >(null);
+
+    /*
+     * Liberamos las URLs temporales
+     * cuando el componente deja de existir.
+     */
     useEffect(() => {
         return () => {
-            images.forEach((image) => {
-                URL.revokeObjectURL(image.previewUrl);
-            });
+            images.forEach(
+                (image) =>
+                    URL.revokeObjectURL(
+                        image.previewUrl
+                    )
+            );
         };
     }, [images]);
 
-    function handleImagesChange(
-        event: ChangeEvent<HTMLInputElement>
+    function syncFormFiles(
+        nextImages: PendingImage[]
     ) {
-        const files = Array.from(event.target.files ?? []);
+        const input =
+            hiddenFilesRef.current;
 
-        const validFiles = files.filter((file) =>
-            [
-                "image/jpeg",
-                "image/png",
-                "image/webp",
-            ].includes(file.type)
+        if (!input) {
+            return;
+        }
+
+        const transfer =
+            new DataTransfer();
+
+        nextImages.forEach(
+            (image) => {
+                transfer.items.add(
+                    image.file
+                );
+            }
         );
 
-        const newImages = validFiles.map((file) => ({
-            id: crypto.randomUUID(),
-            file,
-            previewUrl: URL.createObjectURL(file),
-        }));
-
-        setImages((current) => [
-            ...current,
-            ...newImages,
-        ]);
-
-        event.target.value = "";
+        input.files =
+            transfer.files;
     }
 
-    function moveImage(
-        index: number,
-        direction: "left" | "right"
+    function addFiles(
+        incomingFiles: File[]
     ) {
-        const targetIndex =
-            direction === "left"
-                ? index - 1
-                : index + 1;
+        setMessage(null);
+
+        const invalidFile =
+            incomingFiles.find(
+                (file) =>
+                    !ACCEPTED_TYPES.includes(
+                        file.type
+                    )
+            );
+
+        if (invalidFile) {
+            setMessage(
+                `"${invalidFile.name}" no tiene un formato admitido. Usá JPG, PNG o WebP.`
+            );
+            return;
+        }
+
+        const uniqueFiles =
+            incomingFiles.filter(
+                (incoming) =>
+                    !images.some(
+                        (current) =>
+                            sameFile(
+                                current.file,
+                                incoming
+                            )
+                    )
+            );
 
         if (
-            targetIndex < 0 ||
-            targetIndex >= images.length
+            uniqueFiles.length === 0
+        ) {
+            setMessage(
+                "Esas imágenes ya están seleccionadas."
+            );
+            return;
+        }
+
+        const additions =
+            uniqueFiles.map(
+                (file) => ({
+                    id: createImageId(
+                        file
+                    ),
+                    file,
+                    previewUrl:
+                        URL.createObjectURL(
+                            file
+                        ),
+                })
+            );
+
+        const nextImages = [
+            ...images,
+            ...additions,
+        ];
+
+        setImages(
+            nextImages
+        );
+
+        if (!mainImageId) {
+            setMainImageId(
+                nextImages[0]?.id ??
+                null
+            );
+        }
+
+        syncFormFiles(
+            nextImages
+        );
+
+        setMessage(
+            additions.length ===
+                1
+                ? "Foto agregada."
+                : `${additions.length} fotos agregadas.`
+        );
+    }
+
+    function handlePickerChange(
+        event: ChangeEvent<HTMLInputElement>
+    ) {
+        const files =
+            event.target.files;
+
+        if (
+            !files ||
+            files.length === 0
         ) {
             return;
         }
 
-        setImages((current) => {
-            const next = [...current];
+        addFiles(
+            Array.from(files)
+        );
 
-            [next[index], next[targetIndex]] = [
-                next[targetIndex],
-                next[index],
-            ];
-
-            return next;
-        });
+        /*
+         * Permite volver a elegir
+         * el mismo archivo más adelante.
+         */
+        event.target.value =
+            "";
     }
 
-    function setAsMain(index: number) {
-        if (index === 0) {
-            return;
+    function removeImage(
+        imageId: string
+    ) {
+        const image =
+            images.find(
+                (current) =>
+                    current.id ===
+                    imageId
+            );
+
+        if (image) {
+            URL.revokeObjectURL(
+                image.previewUrl
+            );
         }
 
-        setImages((current) => {
-            const next = [...current];
+        const nextImages =
+            images.filter(
+                (current) =>
+                    current.id !==
+                    imageId
+            );
 
-            const [selected] = next.splice(index, 1);
+        setImages(
+            nextImages
+        );
 
-            next.unshift(selected);
+        if (
+            mainImageId ===
+            imageId
+        ) {
+            setMainImageId(
+                nextImages[0]?.id ??
+                null
+            );
+        }
 
-            return next;
-        });
+        syncFormFiles(
+            nextImages
+        );
+
+        setMessage(
+            "Foto eliminada de la selección."
+        );
     }
 
-    function removeImage(index: number) {
-        setImages((current) => {
-            const next = [...current];
-
-            const [removed] = next.splice(index, 1);
-
-            if (removed) {
-                URL.revokeObjectURL(
-                    removed.previewUrl
-                );
-            }
-
-            return next;
-        });
-    }
+    const mainImageIndex =
+        Math.max(
+            0,
+            images.findIndex(
+                (image) =>
+                    image.id ===
+                    mainImageId
+            )
+        );
 
     return (
-        <section className="border-t border-neutral-200 pt-8">
-            <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-                    Imágenes
-                </p>
+        <div>
+            <input
+                ref={
+                    hiddenFilesRef
+                }
+                type="file"
+                name="images"
+                multiple
+                accept="image/jpeg,image/png,image/webp"
+                className="sr-only"
+                tabIndex={-1}
+                aria-hidden="true"
+            />
 
-                <h2 className="mt-2 font-serif text-2xl text-neutral-900">
-                    Fotografías del producto
-                </h2>
+            <input
+                type="hidden"
+                name="main_image_index"
+                value={
+                    mainImageIndex
+                }
+            />
 
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600">
-                    Agregá las fotografías y ordenalas como
-                    querés que aparezcan en el catálogo.
-                    La primera será la imagen principal.
-                </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
+                        Fotografías
+                    </p>
+
+                    <h2 className="mt-1 font-serif text-xl text-neutral-900 sm:text-2xl">
+                        Imágenes del
+                        producto
+                    </h2>
+
+                    <p className="mt-1 max-w-xl text-xs leading-5 text-neutral-500 sm:text-sm">
+                        Sacá una foto o
+                        elegí imágenes que
+                        ya tengas en el
+                        dispositivo.
+                    </p>
+                </div>
+
+                {images.length >
+                    0 && (
+                        <p className="text-[10px] text-neutral-400">
+                            {
+                                images.length
+                            }{" "}
+                            {images.length ===
+                                1
+                                ? "foto"
+                                : "fotos"}
+                        </p>
+                    )}
             </div>
 
-            <div className="mt-6">
-                <label className="inline-flex cursor-pointer items-center justify-center border border-neutral-900 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50">
-                    + Agregar fotografías
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+                <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 bg-neutral-900 px-4 text-xs font-medium text-white transition hover:bg-[#9a7541] sm:text-sm">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 8.5h3l1.5-2h7l1.5 2h3v10H4z" />
+                        <circle
+                            cx="12"
+                            cy="13.5"
+                            r="3.25"
+                        />
+                    </svg>
+
+                    Tomar foto
+
+                    <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment"
+                        onChange={
+                            handlePickerChange
+                        }
+                        className="sr-only"
+                    />
+                </label>
+
+                <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 border border-neutral-300 bg-white px-4 text-xs font-medium text-neutral-800 transition hover:border-neutral-900 sm:text-sm">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                    >
+                        <rect
+                            x="3.5"
+                            y="4.5"
+                            width="17"
+                            height="15"
+                            rx="1"
+                        />
+                        <circle
+                            cx="9"
+                            cy="10"
+                            r="1.5"
+                        />
+                        <path d="m5.5 17 4.2-4.2 3.2 3 2.2-2.2 3.4 3.4" />
+                    </svg>
+
+                    Elegir fotos
 
                     <input
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
                         multiple
-                        onChange={handleImagesChange}
+                        onChange={
+                            handlePickerChange
+                        }
                         className="sr-only"
                     />
                 </label>
-
-                <p className="mt-2 text-xs text-neutral-500">
-                    Formatos admitidos: JPG, PNG y WebP.
-                </p>
             </div>
 
-            {/*
-                Los inputs file reales que se envían al servidor.
-                DataTransfer nos permite conservar el orden visual.
-            */}
-            <OrderedFileInputs images={images} />
+            <p className="mt-2 text-[10px] leading-4 text-neutral-400">
+                En celular, “Tomar
+                foto” intenta abrir la
+                cámara trasera. JPG,
+                PNG o WebP.
+            </p>
 
-            {images.length > 0 ? (
-                <div className="mt-8">
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        {images.map((image, index) => {
-                            const isMain = index === 0;
-                            const canMoveLeft = index > 0;
-                            const canMoveRight =
-                                index < images.length - 1;
+            {message && (
+                <div
+                    role="status"
+                    className="mt-3 border border-neutral-200 bg-[#faf8f4] px-3 py-2 text-xs text-neutral-600"
+                >
+                    {message}
+                </div>
+            )}
+
+            {images.length ===
+                0 ? (
+                <div className="mt-4 flex min-h-28 items-center justify-center border border-dashed border-neutral-300 bg-[#fafafa] px-4 text-center">
+                    <p className="max-w-sm text-xs leading-5 text-neutral-500">
+                        Todavía no
+                        agregaste fotos.
+                        Si publicás el
+                        producto, necesitás
+                        al menos una.
+                    </p>
+                </div>
+            ) : (
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-5">
+                    {images.map(
+                        (
+                            image,
+                            index
+                        ) => {
+                            const isMain =
+                                image.id ===
+                                mainImageId;
 
                             return (
                                 <article
-                                    key={image.id}
+                                    key={
+                                        image.id
+                                    }
                                     className={`overflow-hidden border bg-white ${isMain
-                                        ? "border-neutral-900"
+                                        ? "border-[#b28a53]"
                                         : "border-neutral-200"
                                         }`}
                                 >
-                                    <div className="relative aspect-square bg-neutral-100">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setMainImageId(
+                                                image.id
+                                            )
+                                        }
+                                        className="relative block aspect-square w-full bg-neutral-100 text-left"
+                                        aria-label={`Usar ${image.file.name} como imagen principal`}
+                                    >
                                         <img
-                                            src={image.previewUrl}
+                                            src={
+                                                image.previewUrl
+                                            }
                                             alt={`Vista previa ${index + 1}`}
                                             className="h-full w-full object-cover"
                                         />
 
                                         {isMain && (
-                                            <span className="absolute left-3 top-3 bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white">
+                                            <span className="absolute left-2 top-2 bg-neutral-900 px-2 py-1 text-[8px] font-medium uppercase tracking-[0.1em] text-white">
                                                 Principal
                                             </span>
                                         )}
+                                    </button>
 
-                                        {!isMain && (
-                                            <span className="absolute left-3 top-3 bg-white/95 px-3 py-1.5 text-xs font-medium text-neutral-900">
-                                                Imagen {index + 1}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="p-4">
-                                        <p className="truncate text-sm font-medium text-neutral-900">
-                                            {image.file.name}
-                                        </p>
-
-                                        <p className="mt-1 text-xs text-neutral-500">
-                                            {(
-                                                image.file.size /
-                                                1024 /
-                                                1024
-                                            ).toFixed(1)}{" "}
-                                            MB
-                                        </p>
-
-                                        <div className="mt-4 grid grid-cols-2 gap-2">
-                                            <button
-                                                type="button"
-                                                disabled={!canMoveLeft}
-                                                onClick={() =>
-                                                    moveImage(
-                                                        index,
-                                                        "left"
-                                                    )
-                                                }
-                                                className="border border-neutral-300 px-3 py-2 text-sm text-neutral-900 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-30"
-                                            >
-                                                ←
-                                            </button>
-
-                                            <button
-                                                type="button"
-                                                disabled={!canMoveRight}
-                                                onClick={() =>
-                                                    moveImage(
-                                                        index,
-                                                        "right"
-                                                    )
-                                                }
-                                                className="border border-neutral-300 px-3 py-2 text-sm text-neutral-900 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-30"
-                                            >
-                                                →
-                                            </button>
-                                        </div>
-
-                                        {!isMain && (
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    setAsMain(index)
-                                                }
-                                                className="mt-2 w-full border border-neutral-300 px-3 py-2 text-sm font-medium text-neutral-900 transition hover:border-neutral-900"
-                                            >
-                                                Usar como principal
-                                            </button>
-                                        )}
+                                    <div className="flex items-center justify-between gap-2 p-2">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setMainImageId(
+                                                    image.id
+                                                )
+                                            }
+                                            disabled={
+                                                isMain
+                                            }
+                                            className="min-w-0 truncate text-left text-[9px] font-medium text-[#806037] disabled:text-neutral-400"
+                                        >
+                                            {isMain
+                                                ? "Principal"
+                                                : "Hacer principal"}
+                                        </button>
 
                                         <button
                                             type="button"
                                             onClick={() =>
-                                                removeImage(index)
+                                                removeImage(
+                                                    image.id
+                                                )
                                             }
-                                            className="mt-2 w-full border border-neutral-200 px-3 py-2 text-sm text-neutral-600 transition hover:border-neutral-900 hover:text-neutral-900"
+                                            className="shrink-0 text-[9px] text-red-600"
                                         >
-                                            Quitar
+                                            Eliminar
                                         </button>
                                     </div>
                                 </article>
                             );
-                        })}
-                    </div>
-
-                    <p className="mt-4 text-xs leading-5 text-neutral-500">
-                        Usá las flechas para cambiar el orden.
-                        La primera fotografía será la principal;
-                        las siguientes aparecerán como Imagen 2,
-                        Imagen 3, etc.
-                    </p>
-                </div>
-            ) : (
-                <div className="mt-8 border border-dashed border-neutral-300 px-6 py-10 text-center">
-                    <p className="text-sm text-neutral-600">
-                        Todavía no seleccionaste fotografías.
-                    </p>
-
-                    <p className="mt-2 text-xs text-neutral-500">
-                        Los borradores pueden guardarse sin
-                        imágenes. Para publicar un producto
-                        necesitás al menos una fotografía.
-                    </p>
+                        }
+                    )}
                 </div>
             )}
-        </section>
-    );
-}
-
-function OrderedFileInputs({
-    images,
-}: {
-    images: SelectedImage[];
-}) {
-    return (
-        <>
-            {images.map((image) => (
-                <FileInput
-                    key={image.id}
-                    file={image.file}
-                />
-            ))}
-        </>
-    );
-}
-
-function FileInput({
-    file,
-}: {
-    file: File;
-}) {
-    const [input, setInput] =
-        useState<HTMLInputElement | null>(null);
-
-    useEffect(() => {
-        if (!input) {
-            return;
-        }
-
-        const dataTransfer = new DataTransfer();
-
-        dataTransfer.items.add(file);
-
-        input.files = dataTransfer.files;
-    }, [input, file]);
-
-    return (
-        <input
-            ref={setInput}
-            type="file"
-            name="images"
-            className="hidden"
-            tabIndex={-1}
-        />
+        </div>
     );
 }
