@@ -214,6 +214,16 @@ export function Footer() {
                                 </span>
                             </a>
 
+                            {/* Horarios */}
+                            <div className="border-l border-neutral-700 pl-3 text-xs leading-5 text-neutral-400">
+                                <p>
+                                    Lun–vie · 8:00–11:45 / 15:00–19:00
+                                </p>
+                                <p>
+                                    Sáb · 8:00–12:00 · Dom cerrado
+                                </p>
+                            </div>
+
                             {/* Teléfono fijo */}
                             <a
                                 href="tel:+59847232760"

@@ -123,7 +123,7 @@ export default async function ProductPage({
 
             {/* Navegación */}
             <div className="border-b border-[#ddd5c9] bg-[#faf8f4]">
-                <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+                <div className="mx-auto max-w-6xl px-4 py-2.5 sm:px-6 sm:py-3 lg:px-8">
                     <div className="flex items-center gap-2 overflow-hidden text-xs text-neutral-500 sm:text-sm">
 
                         <Link
@@ -166,12 +166,12 @@ export default async function ProductPage({
             </div>
 
             {/* Producto */}
-            <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-16">
+            <section className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-9">
 
-                <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+                <div className="grid gap-7 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:items-start lg:justify-center lg:gap-12">
 
                     {/* Galería */}
-                    <div className="min-w-0">
+                    <div className="min-w-0 lg:max-w-[560px]">
                         <ProductGallery
                             images={
                                 galleryImages
@@ -183,7 +183,7 @@ export default async function ProductPage({
                     </div>
 
                     {/* Información */}
-                    <div className="min-w-0 lg:sticky lg:top-36 lg:self-start">
+                    <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
 
                         {/* Categoría */}
                         {category && (
@@ -200,7 +200,7 @@ export default async function ProductPage({
                         )}
 
                         {/* Nombre */}
-                        <h1 className="mt-2 font-serif text-3xl leading-tight tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-5xl">
+                        <h1 className="mt-2 font-serif text-3xl leading-tight tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-4xl">
                             {
                                 product.name
                             }
@@ -216,7 +216,7 @@ export default async function ProductPage({
                         )}
 
                         {/* Precio + disponibilidad */}
-                        <div className="mt-5 border-y border-[#ddd5c9] py-5 sm:mt-6">
+                        <div className="mt-4 border-y border-[#ddd5c9] py-4 sm:mt-5">
 
                             <div className="flex items-end justify-between gap-4">
                                 <div>
@@ -290,7 +290,7 @@ export default async function ProductPage({
                         </div>
 
                         {/* CTA principal */}
-                        <div className="mt-5 sm:mt-6">
+                        <div className="mt-4 sm:mt-5">
                             {canBuy &&
                                 product.price !==
                                 null && (
@@ -382,7 +382,7 @@ export default async function ProductPage({
 
                         {/* Descripción */}
                         {product.description && (
-                            <div className="mt-8 border-t border-[#ddd5c9] pt-7">
+                            <div className="mt-6 border-t border-[#ddd5c9] pt-5">
                                 <h2 className="font-serif text-xl text-neutral-900">
                                     Descripción
                                 </h2>
@@ -396,15 +396,15 @@ export default async function ProductPage({
                         )}
 
                         {/* Detalles */}
-                        <div className="mt-8 border-t border-[#ddd5c9] pt-7">
+                        <div className="mt-6 border-t border-[#ddd5c9] pt-5">
                             <h2 className="font-serif text-xl text-neutral-900">
                                 Detalles
                             </h2>
 
-                            <dl className="mt-5 divide-y divide-neutral-200 border-y border-neutral-200 text-sm">
+                            <dl className="mt-4 divide-y divide-neutral-200 border-y border-neutral-200 text-sm">
 
                                 {category && (
-                                    <div className="flex justify-between gap-6 py-3.5">
+                                    <div className="flex justify-between gap-6 py-3">
                                         <dt className="text-neutral-500">
                                             Categoría
                                         </dt>
@@ -418,7 +418,7 @@ export default async function ProductPage({
                                 )}
 
                                 {product.material && (
-                                    <div className="flex justify-between gap-6 py-3.5">
+                                    <div className="flex justify-between gap-6 py-3">
                                         <dt className="text-neutral-500">
                                             Material
                                         </dt>
@@ -431,7 +431,7 @@ export default async function ProductPage({
                                     </div>
                                 )}
 
-                                <div className="flex justify-between gap-6 py-3.5">
+                                <div className="flex justify-between gap-6 py-3">
                                     <dt className="text-neutral-500">
                                         Modalidad
                                     </dt>
@@ -462,7 +462,7 @@ export default async function ProductPage({
 
             {/* Volver */}
             <section className="border-t border-[#ddd5c9] bg-[#faf8f4]">
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
                     <Link
                         href="/catalogo"
                         className="lezcano-arrow inline-flex items-center text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900"

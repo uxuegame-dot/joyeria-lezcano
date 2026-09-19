@@ -223,15 +223,15 @@ export default async function HomePage() {
       )}
 
       {/* JOYERÍA Y PLATERÍA */}
-      <section className="border-y border-[#ddd5c9] bg-[#f4f0e8] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section className="border-y border-[#ddd5c9] bg-[#f4f0e8] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <div className="max-w-2xl">
-              <p className="text-xs uppercase tracking-[0.25em] text-[#9a7541]">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
                 Dos expresiones de un mismo oficio
               </p>
 
-              <h2 className="mt-3 font-serif text-4xl tracking-tight text-neutral-900 sm:text-5xl">
+              <h2 className="mt-2.5 font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                 Joyería & Platería
               </h2>
 
@@ -244,7 +244,7 @@ export default async function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="mt-7 grid gap-4 sm:mt-8 lg:grid-cols-[1.25fr_0.75fr] lg:gap-5">
             {/* JOYERÍA */}
             <Reveal soft>
               <Link
@@ -265,12 +265,12 @@ export default async function HomePage() {
                   />
                 </div>
 
-                <div className="px-7 py-8 sm:px-9">
+                <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-9 lg:py-8">
                   <p className="text-[11px] uppercase tracking-[0.25em] text-[#c9a66b]">
                     Lezcano
                   </p>
 
-                  <h3 className="mt-2 font-serif text-3xl text-white sm:text-4xl">
+                  <h3 className="mt-2 font-serif text-2xl text-white sm:text-3xl lg:text-4xl">
                     Joyería
                   </h3>
 
@@ -281,7 +281,7 @@ export default async function HomePage() {
                     en plata y oro.
                   </p>
 
-                  <span className="lezcano-arrow mt-6 inline-flex border-b border-[#9a7541] pb-1 text-sm">
+                  <span className="lezcano-arrow mt-4 inline-flex border-b border-[#9a7541] pb-1 text-sm sm:mt-5">
                     Explorar joyería
 
                     <span className="arrow">
@@ -315,12 +315,12 @@ export default async function HomePage() {
                   />
                 </div>
 
-                <div className="px-7 py-8">
+                <div className="px-5 py-6 sm:px-7 sm:py-7 lg:py-8">
                   <p className="text-[11px] uppercase tracking-[0.25em] text-[#9a7541]">
                     Lezcano
                   </p>
 
-                  <h3 className="mt-2 font-serif text-3xl text-neutral-900">
+                  <h3 className="mt-2 font-serif text-2xl text-neutral-900 sm:text-3xl">
                     Platería
                   </h3>
 
@@ -331,7 +331,7 @@ export default async function HomePage() {
                     encargo.
                   </p>
 
-                  <span className="lezcano-arrow mt-6 inline-flex border-b border-[#b28a53] pb-1 text-sm text-neutral-900">
+                  <span className="lezcano-arrow mt-4 inline-flex border-b border-[#b28a53] pb-1 text-sm text-neutral-900 sm:mt-5">
                     Explorar platería
 
                     <span className="arrow">
@@ -347,8 +347,8 @@ export default async function HomePage() {
 
       {/* TALLER */}
       <section className="border-y border-neutral-800 bg-[#181817] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-24">
+          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
 
             {/* Texto */}
             <Reveal>
@@ -357,13 +357,13 @@ export default async function HomePage() {
                   El taller
                 </p>
 
-                <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
+                <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
                   Un oficio que se
                   construye con las
                   manos.
                 </h2>
 
-                <p className="mt-6 max-w-md text-sm leading-7 text-neutral-400 sm:text-base">
+                <p className="mt-4 max-w-md text-sm leading-6 text-neutral-400 sm:mt-5 sm:text-base sm:leading-7">
                   El taller es parte
                   de la identidad de
                   Lezcano. Allí se
@@ -376,7 +376,7 @@ export default async function HomePage() {
 
                 <Link
                   href="/la-joyeria"
-                  className="lezcano-arrow mt-8 inline-flex border-b border-[#9a7541] pb-1 text-sm text-white"
+                  className="lezcano-arrow mt-5 inline-flex border-b border-[#9a7541] pb-1 text-sm text-white sm:mt-6"
                 >
                   Conocer nuestra historia
 
@@ -392,7 +392,7 @@ export default async function HomePage() {
               soft
               delay={90}
             >
-              <div className="grid items-start gap-4 sm:grid-cols-[1.15fr_0.85fr]">
+              <div className="grid grid-cols-2 items-start gap-3 sm:grid-cols-[1.15fr_0.85fr] sm:gap-4">
                 <div className="group relative aspect-[4/5] overflow-hidden bg-neutral-900">
                   <Image
                     src="/images/lezcano/mesa-trabajo.jpg"
@@ -407,7 +407,7 @@ export default async function HomePage() {
                   />
                 </div>
 
-                <div className="group relative aspect-[3/4] overflow-hidden sm:mt-12">
+                <div className="group relative aspect-[3/4] overflow-hidden sm:mt-10">
                   <Image
                     src="/images/lezcano/maquina.jpg"
                     alt="Máquina tradicional del taller de Lezcano"
@@ -424,17 +424,17 @@ export default async function HomePage() {
 
       {/* SERVICIOS */}
       <section className="border-y border-[#ddd5c9] bg-[#eee8de]">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-24">
+          <div className="grid gap-7 sm:gap-8 lg:grid-cols-2 lg:gap-16">
 
             {/* Título */}
             <Reveal>
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-[#9a7541]">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
                   El trabajo continúa
                 </p>
 
-                <h2 className="mt-4 max-w-lg font-serif text-4xl leading-tight text-neutral-900 sm:text-5xl">
+                <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                   Reparar,
                   transformar
                   y crear.
@@ -456,7 +456,7 @@ export default async function HomePage() {
                   encargos especiales.
                 </p>
 
-                <div className="mt-8 divide-y divide-[#cec3b4] border-y border-[#cec3b4]">
+                <div className="mt-5 divide-y divide-[#cec3b4] border-y border-[#cec3b4] sm:mt-6">
                   {[
                     "Reparaciones",
                     "Trabajos personalizados",
@@ -470,9 +470,9 @@ export default async function HomePage() {
                           service
                         }
                         href="/servicios"
-                        className="group flex items-center justify-between py-5"
+                        className="group flex items-center justify-between py-4 sm:py-5"
                       >
-                        <span className="font-serif text-2xl text-neutral-900 transition-colors duration-300 group-hover:text-[#8a693c]">
+                        <span className="font-serif text-xl text-neutral-900 transition-colors duration-300 group-hover:text-[#8a693c] sm:text-2xl">
                           {
                             service
                           }
@@ -493,21 +493,21 @@ export default async function HomePage() {
 
       {/* TRABAJOS */}
       <section className="bg-[#f7f4ef]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div className="grid items-start gap-12 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+          <div className="grid items-start gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
 
             {/* Texto */}
             <Reveal>
               <div className="lg:pt-5">
-                <p className="text-xs uppercase tracking-[0.25em] text-[#9a7541]">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
                   Hecho en el taller
                 </p>
 
-                <h2 className="mt-4 font-serif text-4xl leading-tight text-neutral-900 sm:text-5xl">
+                <h2 className="mt-3 font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                   Trabajos realizados
                 </h2>
 
-                <p className="mt-5 max-w-sm text-sm leading-7 text-neutral-600">
+                <p className="mt-4 max-w-sm text-sm leading-6 text-neutral-600 sm:leading-7">
                   Una selección de
                   piezas, procesos y
                   trabajos realizados
@@ -516,7 +516,7 @@ export default async function HomePage() {
 
                 <Link
                   href="/trabajos"
-                  className="lezcano-arrow mt-7 inline-flex border-b border-[#b28a53] pb-1 text-sm font-medium text-neutral-900"
+                  className="lezcano-arrow mt-5 inline-flex border-b border-[#b28a53] pb-1 text-sm font-medium text-neutral-900 sm:mt-6"
                 >
                   Ver trabajos
 
@@ -532,7 +532,7 @@ export default async function HomePage() {
               soft
               delay={90}
             >
-              <div className="grid max-w-2xl gap-3 sm:grid-cols-[1.05fr_0.95fr]">
+              <div className="grid max-w-2xl grid-cols-[1.05fr_0.95fr] gap-2.5 sm:gap-3">
                 <div className="group relative aspect-[4/5] overflow-hidden bg-neutral-100">
                   <Image
                     src="/images/lezcano/trabajo-cuchilla.jpg"
@@ -572,18 +572,18 @@ export default async function HomePage() {
 
       {/* CIERRE */}
       <section className="bg-neutral-950 text-white">
-        <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
+        <div className="mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 sm:py-14 lg:px-8 lg:py-24">
           <Reveal>
             <p className="text-xs uppercase tracking-[0.25em] text-[#c9a66b]">
               Lezcano · Paysandú
             </p>
 
-            <h2 className="mt-5 font-serif text-4xl leading-tight sm:text-5xl">
+            <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
               ¿Tenés una pieza o
               una idea en mente?
             </h2>
 
-            <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-neutral-400 sm:text-base">
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-neutral-400 sm:mt-5 sm:text-base sm:leading-7">
               Consultanos por
               reparaciones,
               encargos o trabajos
@@ -594,7 +594,7 @@ export default async function HomePage() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="lezcano-button mt-9 inline-flex items-center gap-2 bg-[#b28a53] px-8 py-4 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+              className="lezcano-button mt-6 inline-flex items-center gap-2 bg-[#b28a53] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541] sm:mt-7 sm:px-7"
             >
               Consultar por WhatsApp
               <span>→</span>

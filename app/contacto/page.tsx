@@ -24,7 +24,8 @@ function Icon({
     | "location"
     | "phone"
     | "whatsapp"
-    | "instagram";
+    | "instagram"
+    | "clock";
 }) {
     if (type === "location") {
         return (
@@ -58,6 +59,22 @@ function Icon({
                 aria-hidden="true"
             >
                 <path d="M6.5 3h3l1.5 4-2 1.5a15 15 0 0 0 6.5 6.5l1.5-2 4 1.5v3c0 1.1-.9 2-2 2C10.4 19.5 4.5 13.6 4.5 5c0-1.1.9-2 2-2Z" />
+            </svg>
+        );
+    }
+
+    if (type === "clock") {
+        return (
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="h-5 w-5"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="12" r="8" />
+                <path d="M12 7v5l3 2" />
             </svg>
         );
     }
@@ -119,7 +136,7 @@ function ContactCard({
     children: ReactNode;
 }) {
     return (
-        <div className="group relative flex h-full min-h-[225px] flex-col overflow-hidden border border-[#d8cfc1] bg-white p-6 transition duration-500 hover:-translate-y-1 hover:border-[#b28a53] hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)]">
+        <div className="group relative flex h-full min-h-[200px] flex-col overflow-hidden border border-[#d8cfc1] bg-white p-5 transition duration-500 hover:-translate-y-1 hover:border-[#b28a53] hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] sm:p-6">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-[#b28a53] transition-transform duration-500 group-hover:scale-x-100" />
 
             {children}
@@ -134,16 +151,16 @@ export default function ContactoPage() {
             {/* Encabezado */}
             <section className="border-b border-[#ddd5c9]">
                 <Reveal>
-                    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-                        <p className="text-[11px] uppercase tracking-[0.28em] text-[#9a7541]">
+                    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+                        <p className="text-[10px] uppercase tracking-[0.26em] text-[#9a7541] sm:text-[11px]">
                             Lezcano · Paysandú
                         </p>
 
-                        <h1 className="mt-3 font-serif text-4xl text-neutral-900 sm:text-5xl">
+                        <h1 className="mt-2.5 font-serif text-3xl text-neutral-900 sm:text-4xl">
                             Contacto
                         </h1>
 
-                        <p className="mt-5 max-w-2xl text-sm leading-7 text-neutral-600 sm:text-base">
+                        <p className="mt-3.5 max-w-2xl text-sm leading-6 text-neutral-600 sm:text-base sm:leading-7">
                             Para consultas sobre
                             piezas, encargos o
                             trabajos, escribinos
@@ -156,9 +173,9 @@ export default function ContactoPage() {
             </section>
 
             {/* Contactos */}
-            <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+            <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
 
-                <div className="grid items-stretch gap-5 md:grid-cols-2">
+                <div className="grid items-stretch gap-4 md:grid-cols-2">
 
                     {/* Local */}
                     <Reveal
@@ -176,7 +193,7 @@ export default function ContactoPage() {
                                     <Icon type="location" />
                                 </span>
 
-                                <p className="mt-5 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
+                                <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
                                     Local
                                 </p>
 
@@ -189,7 +206,7 @@ export default function ContactoPage() {
                                     Uruguay
                                 </p>
 
-                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-6 text-sm font-medium text-neutral-900">
+                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-5 text-sm font-medium text-neutral-900">
                                     Abrir en Maps
 
                                     <span className="arrow">
@@ -217,7 +234,7 @@ export default function ContactoPage() {
                                     <Icon type="whatsapp" />
                                 </span>
 
-                                <p className="mt-5 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
+                                <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
                                     Consultas
                                 </p>
 
@@ -229,7 +246,7 @@ export default function ContactoPage() {
                                     +598 99 726 968
                                 </p>
 
-                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-6 text-sm font-medium text-neutral-900">
+                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-5 text-sm font-medium text-neutral-900">
                                     Escribir por WhatsApp
 
                                     <span className="arrow">
@@ -255,7 +272,7 @@ export default function ContactoPage() {
                                     <Icon type="phone" />
                                 </span>
 
-                                <p className="mt-5 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
+                                <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
                                     Teléfono
                                 </p>
 
@@ -267,7 +284,7 @@ export default function ContactoPage() {
                                     Teléfono del local
                                 </p>
 
-                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-6 text-sm font-medium text-neutral-900">
+                                <span className="lezcano-arrow mt-auto inline-flex w-fit pt-5 text-sm font-medium text-neutral-900">
                                     Llamar
 
                                     <span className="arrow">
@@ -289,7 +306,7 @@ export default function ContactoPage() {
                                 <Icon type="instagram" />
                             </span>
 
-                            <p className="mt-5 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
+                            <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
                                 Redes
                             </p>
 
@@ -297,7 +314,7 @@ export default function ContactoPage() {
                                 Instagram
                             </h2>
 
-                            <div className="mt-auto flex flex-col items-start gap-3 pt-6 text-sm">
+                            <div className="mt-auto flex flex-col items-start gap-3 pt-5 text-sm">
                                 <a
                                     href={
                                         JEWELRY_INSTAGRAM
@@ -331,6 +348,52 @@ export default function ContactoPage() {
                         </ContactCard>
                     </Reveal>
                 </div>
+
+                <Reveal
+                    soft
+                    delay={150}
+                >
+                    <div className="mt-4 border border-[#d8cfc1] bg-white p-5 sm:p-6">
+                        <div className="flex items-start gap-4">
+                            <span className="mt-0.5 inline-flex text-[#9a7541]">
+                                <Icon type="clock" />
+                            </span>
+
+                            <div className="min-w-0 flex-1">
+                                <p className="text-[10px] uppercase tracking-[0.18em] text-neutral-400">
+                                    Horarios
+                                </p>
+
+                                <h2 className="mt-2 font-serif text-2xl text-neutral-900">
+                                    Horario del local
+                                </h2>
+
+                                <div className="mt-3 max-w-2xl text-sm text-neutral-600">
+                                    <div className="flex flex-col gap-1 border-b border-neutral-100 py-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                                        <span>Lunes a viernes</span>
+                                        <span className="text-right text-neutral-900">
+                                            8:00–11:45 · 15:00–19:00
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-1 border-b border-neutral-100 py-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                                        <span>Sábado</span>
+                                        <span className="text-right text-neutral-900">
+                                            8:00–12:00
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-1 py-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                                        <span>Domingo</span>
+                                        <span className="text-right text-neutral-500">
+                                            Cerrado
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Reveal>
             </section>
         </main>
     );

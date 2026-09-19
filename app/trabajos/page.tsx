@@ -45,16 +45,16 @@ export default function TrabajosPage() {
         <main className="bg-[#f7f4ef]">
             <section className="border-b border-[#ddd5c9]">
                 <Reveal>
-                    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-                        <p className="text-[11px] uppercase tracking-[0.28em] text-[#9a7541]">
+                    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+                        <p className="text-[10px] uppercase tracking-[0.26em] text-[#9a7541] sm:text-[11px]">
                             Hecho en el taller
                         </p>
 
-                        <h1 className="mt-3 font-serif text-4xl text-neutral-900 sm:text-5xl">
+                        <h1 className="mt-2.5 font-serif text-3xl text-neutral-900 sm:text-4xl">
                             Trabajos realizados
                         </h1>
 
-                        <p className="mt-5 max-w-2xl text-sm leading-7 text-neutral-600 sm:text-base">
+                        <p className="mt-3.5 max-w-2xl text-sm leading-6 text-neutral-600 sm:text-base sm:leading-7">
                             Una selección de piezas, procesos y trabajos que han
                             pasado por el taller de Lezcano.
                         </p>
@@ -62,8 +62,8 @@ export default function TrabajosPage() {
                 </Reveal>
             </section>
 
-            <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-6">
+            <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+                <div className="grid grid-cols-2 gap-x-3.5 gap-y-6 sm:gap-x-5 sm:gap-y-8 lg:grid-cols-3 lg:gap-x-6">
                     {WORKS.map((work, index) => (
                         <Reveal
                             key={`${work.src}-${index}`}
@@ -87,7 +87,7 @@ export default function TrabajosPage() {
                                     </div>
                                 </div>
 
-                                <p className="mt-3 text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:text-[10px]">
+                                <p className="mt-2.5 text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:mt-3 sm:text-[10px]">
                                     Lezcano
                                 </p>
 
@@ -100,8 +100,8 @@ export default function TrabajosPage() {
                 </div>
 
                 <Reveal soft>
-                    <div className="mt-14 border-t border-[#ddd5c9] pt-10 text-center">
-                        <p className="mx-auto max-w-xl text-sm leading-7 text-neutral-600">
+                    <div className="mt-10 border-t border-[#ddd5c9] pt-7 text-center sm:mt-12 sm:pt-8">
+                        <p className="mx-auto max-w-xl text-sm leading-6 text-neutral-600 sm:leading-7">
                             ¿Tenés una idea o una pieza que quieras trabajar?
                             Escribinos y contanos qué tenés en mente.
                         </p>
@@ -110,7 +110,7 @@ export default function TrabajosPage() {
                             href={WHATSAPP_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="lezcano-button mt-6 inline-flex min-h-12 items-center justify-center bg-neutral-900 px-7 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="lezcano-button mt-5 inline-flex min-h-11 items-center justify-center bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
                         >
                             Consultar por WhatsApp
                             <span className="ml-2">→</span>

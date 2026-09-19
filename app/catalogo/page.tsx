@@ -212,7 +212,7 @@ export default async function CatalogoPage({
 
             {/* Encabezado */}
             <section className="border-b border-[#ddd5c9]">
-                <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+                <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
                     <p className="text-[11px] uppercase tracking-[0.28em] text-[#9a7541]">
                         Lezcano
                     </p>
@@ -246,7 +246,7 @@ export default async function CatalogoPage({
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                     {/* Línea superior */}
-                    <div className="flex flex-col gap-4 py-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-3 py-3.5 lg:flex-row lg:items-center lg:justify-between">
 
                         {/* Buscador */}
                         <form
@@ -308,7 +308,7 @@ export default async function CatalogoPage({
                                 defaultValue={searchTerm}
                                 enterKeyHint="search"
                                 placeholder="Buscar productos..."
-                                className="w-full border-b border-neutral-300 bg-transparent py-3 pl-8 pr-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                className="w-full border-b border-neutral-300 bg-transparent py-2.5 pl-8 pr-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
                             />
 
                             <button
@@ -400,7 +400,7 @@ export default async function CatalogoPage({
                     </div>
 
                     {/* Líneas */}
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-neutral-200 py-4">
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-neutral-200 py-3">
                         <Link
                             href={getLineUrl(
                                 null,
@@ -458,14 +458,14 @@ export default async function CatalogoPage({
                     {/* Categorías */}
                     {(selectedLine ||
                         selectedCategory) && (
-                            <div className="flex gap-2 overflow-x-auto border-t border-neutral-200 py-4">
+                            <div className="flex gap-2 overflow-x-auto border-t border-neutral-200 py-3">
                                 <Link
                                     href={getLineUrl(
                                         selectedLine,
                                         searchTerm,
                                         sort
                                     )}
-                                    className={`shrink-0 rounded-full border px-4 py-2 text-xs transition ${!selectedCategory
+                                    className={`shrink-0 rounded-full border px-3.5 py-1.5 text-xs transition ${!selectedCategory
                                         ? "border-neutral-900 bg-neutral-900 text-white"
                                         : "border-neutral-300 bg-white text-neutral-600 hover:border-neutral-500"
                                         }`}
@@ -520,7 +520,7 @@ export default async function CatalogoPage({
                                                     category.id
                                                 }
                                                 href={`/catalogo?${categoryParams.toString()}`}
-                                                className={`shrink-0 rounded-full border px-4 py-2 text-xs transition ${selectedCategory ===
+                                                className={`shrink-0 rounded-full border px-3.5 py-1.5 text-xs transition ${selectedCategory ===
                                                     category.slug
                                                     ? "border-neutral-900 bg-neutral-900 text-white"
                                                     : "border-neutral-300 bg-white text-neutral-600 hover:border-neutral-500"
@@ -539,7 +539,7 @@ export default async function CatalogoPage({
             </section>
 
             {/* Productos */}
-            <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+            <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
                 {filteredProducts.length === 0 ? (
                     <div className="border border-[#ddd5c9] bg-white px-6 py-16 text-center">
                         <p className="text-[11px] uppercase tracking-[0.2em] text-[#9a7541]">
@@ -564,7 +564,7 @@ export default async function CatalogoPage({
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-14">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-9">
                         {filteredProducts.map(
                             (product) => {
                                 const images = [
@@ -648,7 +648,7 @@ export default async function CatalogoPage({
                                         </div>
 
                                         {/* Datos */}
-                                        <div className="mt-4 min-h-[115px]">
+                                        <div className="mt-3 min-h-[100px]">
                                             {category?.name && (
                                                 <p className="text-[10px] uppercase tracking-[0.18em] text-[#9a7541]">
                                                     {
@@ -671,7 +671,7 @@ export default async function CatalogoPage({
                                                 </p>
                                             )}
 
-                                            <div className="mt-3 flex min-h-[22px] items-center justify-between gap-3">
+                                            <div className="mt-2.5 flex min-h-[22px] items-center justify-between gap-3">
                                                 {product.price !==
                                                     null ? (
                                                     <p className="text-sm font-medium text-neutral-900">
