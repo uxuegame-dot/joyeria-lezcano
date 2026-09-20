@@ -794,24 +794,24 @@ export default async function PedidosAdministracionPage({
     return (
         <main className="min-h-screen bg-[#f7f4ef]">
             <section className="border-b border-[#ddd5c9]">
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+                <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Link
                         href="/administracion"
-                        className="text-sm text-neutral-500 transition hover:text-neutral-900"
+                        className="text-xs text-neutral-500 transition hover:text-neutral-900 sm:text-sm"
                     >
                         ← Administración
                     </Link>
 
-                    <div className="mt-6">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
+                    <div className="mt-4">
+                        <p className="text-[9px] uppercase tracking-[0.22em] text-[#9a7541] sm:text-[10px]">
                             Administración
                         </p>
 
-                        <h1 className="mt-2 font-serif text-4xl tracking-tight text-neutral-900">
+                        <h1 className="mt-1 font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl">
                             Pedidos
                         </h1>
 
-                        <p className="mt-3 max-w-xl text-sm leading-6 text-neutral-600">
+                        <p className="mt-1.5 max-w-xl text-sm leading-6 text-neutral-600">
                             Organizá, priorizá y
                             gestioná los pedidos de
                             la tienda online.
@@ -820,13 +820,14 @@ export default async function PedidosAdministracionPage({
                 </div>
             </section>
 
-            <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+            <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+                <div className="-mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:overflow-visible sm:px-0">
+                    <div className="flex min-w-max gap-2 sm:grid sm:min-w-0 sm:grid-cols-3 lg:grid-cols-5">
                     <Link
                         href={buildOrdersUrl({
                             vista: "atencion",
                         })}
-                        className={`border p-4 transition hover:border-[#b28a53] sm:p-5 ${selectedView ===
+                        className={`min-w-[132px] rounded-[12px] border p-3 transition hover:border-[#b28a53] sm:min-w-0 sm:p-4 ${selectedView ===
                             "atencion"
                             ? "border-[#b28a53] bg-[#f0e8dc]"
                             : "border-[#ddd5c9] bg-white"
@@ -835,7 +836,7 @@ export default async function PedidosAdministracionPage({
                         <p className="text-[9px] uppercase tracking-[0.16em] text-[#9a7541] sm:text-[10px]">
                             Requieren atención
                         </p>
-                        <p className="mt-2 font-serif text-3xl text-neutral-900">
+                        <p className="mt-1.5 font-serif text-2xl text-neutral-900">
                             {attentionCount}
                         </p>
                         <p className="mt-1 text-[11px] leading-4 text-neutral-500">
@@ -847,7 +848,7 @@ export default async function PedidosAdministracionPage({
                         href={buildOrdersUrl({
                             vista: "pagados",
                         })}
-                        className={`border p-4 transition hover:border-[#b28a53] sm:p-5 ${selectedView ===
+                        className={`min-w-[132px] rounded-[12px] border p-3 transition hover:border-[#b28a53] sm:min-w-0 sm:p-4 ${selectedView ===
                             "pagados"
                             ? "border-[#b28a53] bg-[#f0e8dc]"
                             : "border-[#ddd5c9] bg-white"
@@ -856,7 +857,7 @@ export default async function PedidosAdministracionPage({
                         <p className="text-[9px] uppercase tracking-[0.16em] text-neutral-500 sm:text-[10px]">
                             Pago confirmado
                         </p>
-                        <p className="mt-2 font-serif text-3xl text-neutral-900">
+                        <p className="mt-1.5 font-serif text-2xl text-neutral-900">
                             {paidCount}
                         </p>
                         <p className="mt-1 text-[11px] leading-4 text-neutral-500">
@@ -868,7 +869,7 @@ export default async function PedidosAdministracionPage({
                         href={buildOrdersUrl({
                             vista: "preparacion",
                         })}
-                        className={`border p-4 transition hover:border-[#b28a53] sm:p-5 ${selectedView ===
+                        className={`min-w-[132px] rounded-[12px] border p-3 transition hover:border-[#b28a53] sm:min-w-0 sm:p-4 ${selectedView ===
                             "preparacion"
                             ? "border-[#b28a53] bg-[#f0e8dc]"
                             : "border-[#ddd5c9] bg-white"
@@ -877,7 +878,7 @@ export default async function PedidosAdministracionPage({
                         <p className="text-[9px] uppercase tracking-[0.16em] text-neutral-500 sm:text-[10px]">
                             En preparación
                         </p>
-                        <p className="mt-2 font-serif text-3xl text-neutral-900">
+                        <p className="mt-1.5 font-serif text-2xl text-neutral-900">
                             {preparingCount}
                         </p>
                         <p className="mt-1 text-[11px] leading-4 text-neutral-500">
@@ -889,7 +890,7 @@ export default async function PedidosAdministracionPage({
                         href={buildOrdersUrl({
                             vista: "entrega",
                         })}
-                        className={`border p-4 transition hover:border-[#b28a53] sm:p-5 ${selectedView ===
+                        className={`min-w-[132px] rounded-[12px] border p-3 transition hover:border-[#b28a53] sm:min-w-0 sm:p-4 ${selectedView ===
                             "entrega"
                             ? "border-[#b28a53] bg-[#f0e8dc]"
                             : "border-[#ddd5c9] bg-white"
@@ -898,7 +899,7 @@ export default async function PedidosAdministracionPage({
                         <p className="text-[9px] uppercase tracking-[0.16em] text-neutral-500 sm:text-[10px]">
                             Para entregar
                         </p>
-                        <p className="mt-2 font-serif text-3xl text-neutral-900">
+                        <p className="mt-1.5 font-serif text-2xl text-neutral-900">
                             {deliveryCount}
                         </p>
                         <p className="mt-1 text-[11px] leading-4 text-neutral-500">
@@ -910,7 +911,7 @@ export default async function PedidosAdministracionPage({
                         href={buildOrdersUrl({
                             vista: "finalizados",
                         })}
-                        className={`col-span-2 border p-4 transition hover:border-[#b28a53] sm:p-5 md:col-span-1 ${selectedView ===
+                        className={`min-w-[132px] rounded-[12px] border p-3 transition hover:border-[#b28a53] sm:min-w-0 sm:p-4 ${selectedView ===
                             "finalizados"
                             ? "border-[#b28a53] bg-[#f0e8dc]"
                             : "border-[#ddd5c9] bg-white"
@@ -919,19 +920,20 @@ export default async function PedidosAdministracionPage({
                         <p className="text-[9px] uppercase tracking-[0.16em] text-neutral-500 sm:text-[10px]">
                             Finalizados
                         </p>
-                        <p className="mt-2 font-serif text-3xl text-neutral-900">
+                        <p className="mt-1.5 font-serif text-2xl text-neutral-900">
                             {completedCount}
                         </p>
                         <p className="mt-1 text-[11px] leading-4 text-neutral-500">
                             Entregados o retirados
                         </p>
                     </Link>
+                    </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-3">
                     <Link
                         href="/administracion/pedidos"
-                        className={`inline-flex border px-4 py-2 text-xs font-medium transition ${selectedView ===
+                        className={`inline-flex rounded-full border px-4 py-2 text-xs font-medium transition ${selectedView ===
                             "todos" &&
                             !hasFilters
                             ? "border-neutral-900 bg-neutral-900 text-white"
@@ -942,7 +944,7 @@ export default async function PedidosAdministracionPage({
                     </Link>
                 </div>
 
-                <section className="mt-7 border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                <section className="mt-4 rounded-[14px] border border-[#ddd5c9] bg-white p-3 sm:p-4">
                     <form
                         method="GET"
                         action="/administracion/pedidos"
@@ -958,7 +960,7 @@ export default async function PedidosAdministracionPage({
                                 />
                             )}
 
-                        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(150px,0.7fr))]">
+                        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(150px,0.7fr))]">
                             <div>
                                 <label
                                     htmlFor="buscar"
@@ -975,7 +977,7 @@ export default async function PedidosAdministracionPage({
                                         searchTerm
                                     }
                                     placeholder="# pedido, cliente, producto, teléfono o email"
-                                    className="mt-2 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                    className="mt-2 h-11 w-full rounded-[9px] border border-[#d8cec1] bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541] focus:ring-2 focus:ring-[#b28a53]/10"
                                 />
                             </div>
 
@@ -993,7 +995,7 @@ export default async function PedidosAdministracionPage({
                                     defaultValue={
                                         selectedStatus
                                     }
-                                    className="mt-2 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                    className="mt-2 h-11 w-full rounded-[9px] border border-[#d8cec1] bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541] focus:ring-2 focus:ring-[#b28a53]/10"
                                 >
                                     <option value="">
                                         Todos
@@ -1042,7 +1044,7 @@ export default async function PedidosAdministracionPage({
                                     defaultValue={
                                         selectedDelivery
                                     }
-                                    className="mt-2 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                    className="mt-2 h-11 w-full rounded-[9px] border border-[#d8cec1] bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541] focus:ring-2 focus:ring-[#b28a53]/10"
                                 >
                                     <option value="">
                                         Todos
@@ -1070,7 +1072,7 @@ export default async function PedidosAdministracionPage({
                                     defaultValue={
                                         selectedSort
                                     }
-                                    className="mt-2 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                    className="mt-2 h-11 w-full rounded-[9px] border border-[#d8cec1] bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541] focus:ring-2 focus:ring-[#b28a53]/10"
                                 >
                                     <option value="prioridad">
                                         Requieren atención primero
@@ -1113,7 +1115,7 @@ export default async function PedidosAdministracionPage({
                     </form>
                 </section>
 
-                <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p className="text-sm font-medium text-neutral-900">
                             {filteredCount === 0
@@ -1143,7 +1145,7 @@ export default async function PedidosAdministracionPage({
                 </div>
 
                 {visibleOrders.length === 0 ? (
-                    <div className="mt-5 border border-[#ddd5c9] bg-white px-6 py-16 text-center">
+                    <div className="mt-5 rounded-[18px] border border-[#ddd5c9] bg-[#fffdf9] px-6 py-12 text-center shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-[#9a7541]">
                             Pedidos
                         </p>
@@ -1170,7 +1172,7 @@ export default async function PedidosAdministracionPage({
                         )}
                     </div>
                 ) : (
-                    <div className="mt-5 overflow-hidden border border-[#ddd5c9] bg-white">
+                    <div className="mt-4 overflow-hidden rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                         {visibleOrders.map(
                             (order, index) => {
                                 const requiresAttention =
@@ -1274,7 +1276,7 @@ export default async function PedidosAdministracionPage({
                                                                     }
                                                                     className="flex min-w-0 items-center gap-2.5"
                                                                 >
-                                                                    <div className="h-11 w-11 shrink-0 overflow-hidden border border-neutral-200 bg-neutral-100">
+                                                                    <div className="h-11 w-11 shrink-0 overflow-hidden rounded-[9px] border border-[#e2d8cc] bg-[#f4f0ea]">
                                                                         {item.image_url ? (
                                                                             <img
                                                                                 src={
@@ -1449,7 +1451,7 @@ export default async function PedidosAdministracionPage({
                                                                     }
                                                                     className="flex min-w-0 items-center gap-3"
                                                                 >
-                                                                    <div className="h-12 w-12 shrink-0 overflow-hidden border border-neutral-200 bg-neutral-100">
+                                                                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-[10px] border border-[#e2d8cc] bg-[#f4f0ea]">
                                                                         {item.image_url ? (
                                                                             <img
                                                                                 src={
@@ -1570,7 +1572,7 @@ export default async function PedidosAdministracionPage({
                                             currentPage -
                                             1,
                                     })}
-                                    className="border border-[#d8cfc1] bg-white px-4 py-2.5 text-xs font-medium text-neutral-700 transition hover:border-neutral-900"
+                                    className="rounded-[10px] border border-[#d8cfc1] bg-white px-4 py-2.5 text-xs font-medium text-neutral-700 transition hover:border-[#b78a54] hover:bg-[#fffaf6]"
                                 >
                                     ← Anterior
                                 </Link>
@@ -1585,7 +1587,7 @@ export default async function PedidosAdministracionPage({
                                                 currentPage +
                                                 1,
                                         })}
-                                        className="border border-[#d8cfc1] bg-white px-4 py-2.5 text-xs font-medium text-neutral-700 transition hover:border-neutral-900"
+                                        className="rounded-[10px] border border-[#d8cfc1] bg-white px-4 py-2.5 text-xs font-medium text-neutral-700 transition hover:border-[#b78a54] hover:bg-[#fffaf6]"
                                     >
                                         Siguiente →
                                     </Link>

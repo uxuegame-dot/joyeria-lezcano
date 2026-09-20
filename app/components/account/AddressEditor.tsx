@@ -1,8 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import {
+    FormEvent,
+    useState,
+} from "react";
+
 import { useRouter } from "next/navigation";
-import { saveDefaultAddress } from "@/app/lib/addresses/actions";
+
+import {
+    saveDefaultAddress,
+} from "@/app/lib/addresses/actions";
 
 type AddressData = {
     address_line: string;
@@ -21,31 +28,58 @@ export function AddressEditor({
     recipientName,
     phone,
 }: AddressEditorProps) {
-    const router = useRouter();
+    const router =
+        useRouter();
 
-    const [currentAddress, setCurrentAddress] =
-        useState<AddressData | null>(initialAddress);
+    const [
+        currentAddress,
+        setCurrentAddress,
+    ] = useState<AddressData | null>(
+        initialAddress
+    );
 
-    const [editing, setEditing] =
-        useState(!initialAddress);
+    const [
+        editing,
+        setEditing,
+    ] = useState(
+        !initialAddress
+    );
 
-    const [addressLine, setAddressLine] =
-        useState(initialAddress?.address_line ?? "");
+    const [
+        addressLine,
+        setAddressLine,
+    ] = useState(
+        initialAddress?.address_line ?? ""
+    );
 
-    const [city, setCity] =
-        useState(initialAddress?.city ?? "");
+    const [
+        city,
+        setCity,
+    ] = useState(
+        initialAddress?.city ?? ""
+    );
 
-    const [department, setDepartment] =
-        useState(initialAddress?.department ?? "");
+    const [
+        department,
+        setDepartment,
+    ] = useState(
+        initialAddress?.department ?? ""
+    );
 
-    const [saving, setSaving] =
-        useState(false);
+    const [
+        saving,
+        setSaving,
+    ] = useState(false);
 
-    const [error, setError] =
-        useState("");
+    const [
+        error,
+        setError,
+    ] = useState("");
 
-    const [message, setMessage] =
-        useState("");
+    const [
+        message,
+        setMessage,
+    ] = useState("");
 
     function handleEdit() {
         setError("");
@@ -61,7 +95,9 @@ export function AddressEditor({
         setAddressLine(
             currentAddress.address_line
         );
-        setCity(currentAddress.city);
+        setCity(
+            currentAddress.city
+        );
         setDepartment(
             currentAddress.department
         );
@@ -83,13 +119,14 @@ export function AddressEditor({
         setMessage("");
         setSaving(true);
 
-        const result = await saveDefaultAddress({
-            recipientName,
-            phone,
-            addressLine,
-            city,
-            department,
-        });
+        const result =
+            await saveDefaultAddress({
+                recipientName,
+                phone,
+                addressLine,
+                city,
+                department,
+            });
 
         if (!result.success) {
             setError(result.error);
@@ -98,69 +135,98 @@ export function AddressEditor({
         }
 
         const nextAddress = {
-            address_line: addressLine.trim(),
-            city: city.trim(),
-            department: department.trim(),
+            address_line:
+                addressLine.trim(),
+            city:
+                city.trim(),
+            department:
+                department.trim(),
         };
 
-        setCurrentAddress(nextAddress);
-        setAddressLine(nextAddress.address_line);
-        setCity(nextAddress.city);
-        setDepartment(nextAddress.department);
+        setCurrentAddress(
+            nextAddress
+        );
+        setAddressLine(
+            nextAddress.address_line
+        );
+        setCity(
+            nextAddress.city
+        );
+        setDepartment(
+            nextAddress.department
+        );
         setEditing(false);
         setSaving(false);
-        setMessage("Dirección guardada.");
+        setMessage(
+            "Dirección guardada correctamente."
+        );
 
         router.refresh();
     }
 
     return (
-        <section className="border border-[#d8cfc1] bg-white p-5 sm:p-6">
+        <section className="rounded-[18px] border border-[#d8cfc1] bg-white p-5 shadow-[0_8px_24px_rgba(43,36,28,0.035)] sm:p-6">
             <div className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a7541] sm:text-[10px]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#9a7541]">
                         Envíos
                     </p>
 
-                    <h2 className="mt-2 font-serif text-2xl text-neutral-900">
+                    <h2 className="mt-1.5 font-serif text-[22px] leading-tight text-neutral-900 sm:text-2xl">
                         Dirección de envío
                     </h2>
                 </div>
 
-                {currentAddress && !editing && (
-                    <button
-                        type="button"
-                        onClick={handleEdit}
-                        className="text-xs text-neutral-500 underline underline-offset-4 transition hover:text-neutral-900"
-                    >
-                        Editar
-                    </button>
-                )}
+                {currentAddress &&
+                    !editing && (
+                        <button
+                            type="button"
+                            onClick={
+                                handleEdit
+                            }
+                            className="rounded-full border border-[#ded2c1] bg-[#faf6ef] px-3 py-1.5 text-[11px] font-medium text-[#80613a] transition hover:border-[#b28a53] hover:bg-[#f5ecdf]"
+                        >
+                            Editar
+                        </button>
+                    )}
             </div>
 
-            {!editing && currentAddress ? (
+            {!editing &&
+            currentAddress ? (
                 <div className="mt-5">
-                    <p className="text-sm font-medium text-neutral-900">
-                        {currentAddress.address_line}
-                    </p>
+                    <div className="rounded-[12px] border border-[#ece4d9] bg-[#fbf8f3] px-4 py-3.5">
+                        <p className="text-sm font-medium text-neutral-900">
+                            {
+                                currentAddress.address_line
+                            }
+                        </p>
 
-                    <p className="mt-1 text-sm text-neutral-600">
-                        {currentAddress.city}, {currentAddress.department}
-                    </p>
+                        <p className="mt-1 text-sm text-neutral-600">
+                            {
+                                currentAddress.city
+                            }
+                            ,{" "}
+                            {
+                                currentAddress.department
+                            }
+                        </p>
+                    </div>
 
-                    <p className="mt-5 border-t border-neutral-100 pt-4 text-xs leading-5 text-neutral-500">
+                    <p className="mt-4 text-xs leading-5 text-neutral-500">
                         Esta dirección se completa automáticamente cuando elegís envío en una nueva compra.
                     </p>
 
                     {message && (
-                        <p className="mt-3 text-xs font-medium text-[#8a693c]">
+                        <p className="mt-3 text-xs font-medium text-[#687457]">
                             {message}
                         </p>
                     )}
                 </div>
             ) : (
                 <form
-                    onSubmit={handleSubmit}
+                    onSubmit={
+                        handleSubmit
+                    }
                     className="mt-5 space-y-4"
                 >
                     <div>
@@ -173,16 +239,22 @@ export function AddressEditor({
 
                         <input
                             id="account-address"
-                            value={addressLine}
-                            onChange={(event) =>
+                            value={
+                                addressLine
+                            }
+                            onChange={(
+                                event
+                            ) =>
                                 setAddressLine(
-                                    event.target.value
+                                    event
+                                        .target
+                                        .value
                                 )
                             }
                             required
                             autoComplete="street-address"
                             placeholder="Calle y número"
-                            className="h-11 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                            className="h-11 w-full rounded-[10px] border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#a67c45] focus:ring-2 focus:ring-[#a67c45]/10"
                         />
                     </div>
 
@@ -197,15 +269,21 @@ export function AddressEditor({
 
                             <input
                                 id="account-city"
-                                value={city}
-                                onChange={(event) =>
+                                value={
+                                    city
+                                }
+                                onChange={(
+                                    event
+                                ) =>
                                     setCity(
-                                        event.target.value
+                                        event
+                                            .target
+                                            .value
                                     )
                                 }
                                 required
                                 autoComplete="address-level2"
-                                className="h-11 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                className="h-11 w-full rounded-[10px] border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#a67c45] focus:ring-2 focus:ring-[#a67c45]/10"
                             />
                         </div>
 
@@ -219,15 +297,21 @@ export function AddressEditor({
 
                             <input
                                 id="account-department"
-                                value={department}
-                                onChange={(event) =>
+                                value={
+                                    department
+                                }
+                                onChange={(
+                                    event
+                                ) =>
                                     setDepartment(
-                                        event.target.value
+                                        event
+                                            .target
+                                            .value
                                     )
                                 }
                                 required
                                 autoComplete="address-level1"
-                                className="h-11 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                className="h-11 w-full rounded-[10px] border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#a67c45] focus:ring-2 focus:ring-[#a67c45]/10"
                             />
                         </div>
                     </div>
@@ -235,31 +319,37 @@ export function AddressEditor({
                     {error && (
                         <div
                             role="alert"
-                            className="border border-red-200 bg-red-50 px-3.5 py-3 text-xs leading-5 text-red-700"
+                            className="rounded-[10px] border border-red-200 bg-red-50 px-3.5 py-3 text-xs leading-5 text-red-700"
                         >
                             {error}
                         </div>
                     )}
 
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-3">
                         <button
                             type="submit"
-                            disabled={saving}
-                            className="bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#9a7541] disabled:cursor-not-allowed disabled:bg-neutral-400"
+                            disabled={
+                                saving
+                            }
+                            className="rounded-[10px] bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#8a693c] disabled:cursor-not-allowed disabled:bg-neutral-400"
                         >
                             {saving
                                 ? "Guardando..."
                                 : currentAddress
-                                    ? "Guardar cambios"
-                                    : "Guardar dirección"}
+                                  ? "Guardar cambios"
+                                  : "Guardar dirección"}
                         </button>
 
                         {currentAddress && (
                             <button
                                 type="button"
-                                onClick={handleCancel}
-                                disabled={saving}
-                                className="text-sm text-neutral-500 underline underline-offset-4 transition hover:text-neutral-900 disabled:opacity-50"
+                                onClick={
+                                    handleCancel
+                                }
+                                disabled={
+                                    saving
+                                }
+                                className="text-sm font-medium text-neutral-500 transition hover:text-neutral-900 disabled:opacity-50"
                             >
                                 Cancelar
                             </button>

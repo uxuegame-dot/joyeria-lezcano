@@ -119,13 +119,11 @@ export default async function ProductPage({
     );
 
     return (
-        <main className="bg-[#f7f4ef]">
-
+        <main className="min-h-screen bg-[#f8f5ef]">
             {/* Navegación */}
-            <div className="border-b border-[#ddd5c9] bg-[#faf8f4]">
-                <div className="mx-auto max-w-6xl px-4 py-2.5 sm:px-6 sm:py-3 lg:px-8">
-                    <div className="flex items-center gap-2 overflow-hidden text-xs text-neutral-500 sm:text-sm">
-
+            <div className="border-b border-[#e2d9cc] bg-[#fcfaf6]">
+                <div className="mx-auto max-w-5xl px-4 py-2.5 sm:px-6 lg:px-8">
+                    <div className="flex items-center gap-2 overflow-hidden text-[11px] text-neutral-500 sm:text-xs">
                         <Link
                             href="/catalogo"
                             className="shrink-0 transition-colors hover:text-neutral-900"
@@ -135,9 +133,7 @@ export default async function ProductPage({
 
                         {category && (
                             <>
-                                <span className="text-neutral-300">
-                                    /
-                                </span>
+                                <span className="text-neutral-300">/</span>
 
                                 <Link
                                     href={`/catalogo?categoria=${encodeURIComponent(
@@ -145,177 +141,125 @@ export default async function ProductPage({
                                     )}`}
                                     className="hidden shrink-0 transition-colors hover:text-neutral-900 sm:inline"
                                 >
-                                    {
-                                        category.name
-                                    }
+                                    {category.name}
                                 </Link>
 
-                                <span className="hidden text-neutral-300 sm:inline">
-                                    /
-                                </span>
+                                <span className="hidden text-neutral-300 sm:inline">/</span>
                             </>
                         )}
 
                         <span className="truncate text-neutral-700">
-                            {
-                                product.name
-                            }
+                            {product.name}
                         </span>
                     </div>
                 </div>
             </div>
 
             {/* Producto */}
-            <section className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-9">
-
-                <div className="grid gap-7 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:items-start lg:justify-center lg:gap-12">
-
+            <section className="mx-auto max-w-5xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+                <div className="grid gap-5 lg:grid-cols-[minmax(0,460px)_minmax(0,1fr)] lg:items-start lg:gap-8">
                     {/* Galería */}
-                    <div className="min-w-0 lg:max-w-[560px]">
+                    <div className="min-w-0">
                         <ProductGallery
-                            images={
-                                galleryImages
-                            }
-                            productName={
-                                product.name
-                            }
+                            images={galleryImages}
+                            productName={product.name}
                         />
                     </div>
 
                     {/* Información */}
-                    <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
+                    <div className="min-w-0 rounded-[22px] border border-[#e1d7c9] bg-white/80 p-4 shadow-[0_12px_34px_rgba(78,59,38,0.045)] sm:p-5 lg:sticky lg:top-24 lg:self-start lg:p-6">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            {category ? (
+                                <Link
+                                    href={`/catalogo?categoria=${encodeURIComponent(
+                                        category.slug
+                                    )}`}
+                                    className="inline-flex rounded-full bg-[#f1e7d7] px-3 py-1 text-[9px] font-medium uppercase tracking-[0.18em] text-[#966c32] transition hover:bg-[#eadbc5]"
+                                >
+                                    {category.name}
+                                </Link>
+                            ) : (
+                                <span />
+                            )}
 
-                        {/* Categoría */}
-                        {category && (
-                            <Link
-                                href={`/catalogo?categoria=${encodeURIComponent(
-                                    category.slug
-                                )}`}
-                                className="inline-block text-[10px] uppercase tracking-[0.22em] text-[#9a7541] transition-colors hover:text-[#7d5d34] sm:text-xs"
-                            >
-                                {
-                                    category.name
-                                }
-                            </Link>
-                        )}
+                            {isConsultation && (
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f3eadc] px-3 py-1 text-[10px] font-medium text-[#8e6a38]">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-[#b28a53]" />
+                                    Por encargo
+                                </span>
+                            )}
 
-                        {/* Nombre */}
-                        <h1 className="mt-2 font-serif text-3xl leading-tight tracking-tight text-neutral-900 sm:mt-3 sm:text-4xl lg:text-4xl">
-                            {
-                                product.name
-                            }
+                            {canBuy && product.product_type === "unique" && (
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-[10px] font-medium text-neutral-700">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-900" />
+                                    Pieza única
+                                </span>
+                            )}
+
+                            {canBuy && product.product_type === "direct" && (
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f1e7d7] px-3 py-1 text-[10px] font-medium text-[#7d5d34]">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-[#a87c3f]" />
+                                    Disponible
+                                </span>
+                            )}
+
+                            {isOutOfStock && (
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-[10px] font-medium text-neutral-500">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
+                                    Sin stock
+                                </span>
+                            )}
+                        </div>
+
+                        <h1 className="mt-3 font-serif text-[28px] leading-[1.05] tracking-tight text-neutral-900 sm:text-[34px]">
+                            {product.name}
                         </h1>
 
-                        {/* Material */}
                         {product.material && (
-                            <p className="mt-2 text-sm text-neutral-500">
-                                {
-                                    product.material
-                                }
+                            <p className="mt-1.5 text-sm text-neutral-500">
+                                {product.material}
                             </p>
                         )}
 
-                        {/* Precio + disponibilidad */}
-                        <div className="mt-4 border-y border-[#ddd5c9] py-4 sm:mt-5">
-
+                        <div className="mt-4 border-y border-[#e2d9cc] py-3.5">
                             <div className="flex items-end justify-between gap-4">
-                                <div>
-                                    {product.price !==
-                                        null ? (
-                                        <p className="font-serif text-3xl leading-none text-neutral-900">
-                                            $
-                                            {Number(
-                                                product.price
-                                            ).toLocaleString(
-                                                "es-UY"
-                                            )}
-                                        </p>
-                                    ) : (
-                                        <p className="font-serif text-2xl text-neutral-900">
-                                            Consultar
-                                            precio
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="text-right">
-                                    {isConsultation && (
-                                        <span className="inline-flex items-center gap-2 text-xs text-[#9a7541]">
-                                            <span className="h-1.5 w-1.5 rounded-full bg-[#9a7541]" />
-
-                                            Por encargo
-                                        </span>
-                                    )}
-
-                                    {canBuy &&
-                                        product.product_type ===
-                                        "unique" && (
-                                            <span className="inline-flex items-center gap-2 text-xs text-neutral-600">
-                                                <span className="h-1.5 w-1.5 rounded-full bg-neutral-900" />
-
-                                                Pieza única
-                                            </span>
-                                        )}
-
-                                    {canBuy &&
-                                        product.product_type ===
-                                        "direct" && (
-                                            <span className="inline-flex items-center gap-2 text-xs text-neutral-600">
-                                                <span className="h-1.5 w-1.5 rounded-full bg-[#9a7541]" />
-
-                                                Disponible
-                                            </span>
-                                        )}
-
-                                    {isOutOfStock && (
-                                        <span className="inline-flex items-center gap-2 text-xs text-neutral-400">
-                                            <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
-
-                                            Sin stock
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            {canBuy &&
-                                product.product_type ===
-                                "unique" && (
-                                    <p className="mt-3 text-xs text-neutral-500">
-                                        {
-                                            product.stock
-                                        }{" "}
-                                        disponible
+                                {product.price !== null ? (
+                                    <p className="font-serif text-[28px] leading-none text-neutral-900 sm:text-3xl">
+                                        ${Number(product.price).toLocaleString("es-UY")}
+                                    </p>
+                                ) : (
+                                    <p className="font-serif text-2xl text-neutral-900">
+                                        Consultar precio
                                     </p>
                                 )}
+
+                                {canBuy && product.product_type === "unique" && (
+                                    <p className="text-[11px] text-neutral-500">
+                                        {product.stock} disponible
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
                         {/* CTA principal */}
-                        <div className="mt-4 sm:mt-5">
-                            {canBuy &&
-                                product.price !==
-                                null && (
-                                    <AddToCartButton
-                                        product={{
-                                            id: product.id,
-                                            slug: product.slug,
-                                            name: product.name,
-                                            price: Number(
-                                                product.price
-                                            ),
-                                            stock:
-                                                product.stock,
-                                            material:
-                                                product.material,
-                                            imageUrl:
-                                                mainImage,
-                                        }}
-                                    />
-                                )}
+                        <div className="mt-4">
+                            {canBuy && product.price !== null && (
+                                <AddToCartButton
+                                    product={{
+                                        id: product.id,
+                                        slug: product.slug,
+                                        name: product.name,
+                                        price: Number(product.price),
+                                        stock: product.stock,
+                                        material: product.material,
+                                        imageUrl: mainImage,
+                                    }}
+                                />
+                            )}
 
                             {isOutOfStock && (
-                                <div className="border border-neutral-200 bg-white px-5 py-4 text-center text-sm text-neutral-500">
-                                    Actualmente no
-                                    disponible
+                                <div className="rounded-[14px] border border-neutral-200 bg-neutral-50 px-5 py-3.5 text-center text-sm text-neutral-500">
+                                    Actualmente no disponible
                                 </div>
                             )}
 
@@ -324,135 +268,88 @@ export default async function ProductPage({
                                     href={whatsappUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="lezcano-button flex min-h-14 w-full items-center justify-center bg-neutral-900 px-6 py-4 text-center text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                                    className="lezcano-button flex min-h-12 w-full items-center justify-center rounded-[14px] bg-neutral-900 px-5 py-3.5 text-center text-sm font-medium text-white transition hover:bg-[#9a7541]"
                                 >
-                                    Consultar por
-                                    WhatsApp
-
-                                    <span className="ml-2">
-                                        →
-                                    </span>
+                                    Consultar por WhatsApp
+                                    <span className="ml-2">→</span>
                                 </a>
                             )}
                         </div>
 
                         {/* Mensajes de confianza */}
-                        <div className="mt-4 grid grid-cols-2 gap-2 text-[10px] uppercase tracking-[0.1em] text-neutral-400 sm:flex sm:gap-6">
-
-                            <div className="flex items-center gap-2">
+                        <div className="mt-3 grid grid-cols-2 gap-2 text-[9px] font-medium uppercase tracking-[0.08em] text-neutral-500">
+                            <div className="flex items-center gap-2 rounded-[12px] bg-[#f8f4ed] px-3 py-2.5">
                                 <svg
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeWidth="1.5"
-                                    className="h-4 w-4"
+                                    className="h-3.5 w-3.5 shrink-0"
                                     aria-hidden="true"
                                 >
-                                    <rect
-                                        x="5"
-                                        y="10"
-                                        width="14"
-                                        height="10"
-                                        rx="1"
-                                    />
-
+                                    <rect x="5" y="10" width="14" height="10" rx="1" />
                                     <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                                 </svg>
-
                                 Compra segura
                             </div>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 rounded-[12px] bg-[#f8f4ed] px-3 py-2.5">
                                 <svg
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeWidth="1.5"
-                                    className="h-4 w-4"
+                                    className="h-3.5 w-3.5 shrink-0"
                                     aria-hidden="true"
                                 >
                                     <path d="M3 7h12v10H3z" />
-
                                     <path d="M15 10h3l3 3v4h-6" />
                                 </svg>
-
                                 Envíos Uruguay
                             </div>
                         </div>
 
-                        {/* Descripción */}
                         {product.description && (
-                            <div className="mt-6 border-t border-[#ddd5c9] pt-5">
-                                <h2 className="font-serif text-xl text-neutral-900">
+                            <div className="mt-5 border-t border-[#e2d9cc] pt-4">
+                                <h2 className="font-serif text-lg text-neutral-900">
                                     Descripción
                                 </h2>
 
-                                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-neutral-600">
-                                    {
-                                        product.description
-                                    }
+                                <p className="mt-2 whitespace-pre-line text-sm leading-6 text-neutral-600">
+                                    {product.description}
                                 </p>
                             </div>
                         )}
 
-                        {/* Detalles */}
-                        <div className="mt-6 border-t border-[#ddd5c9] pt-5">
-                            <h2 className="font-serif text-xl text-neutral-900">
+                        <div className="mt-5 border-t border-[#e2d9cc] pt-4">
+                            <h2 className="font-serif text-lg text-neutral-900">
                                 Detalles
                             </h2>
 
-                            <dl className="mt-4 divide-y divide-neutral-200 border-y border-neutral-200 text-sm">
-
+                            <dl className="mt-3 divide-y divide-[#eee7de] border-y border-[#eee7de] text-sm">
                                 {category && (
-                                    <div className="flex justify-between gap-6 py-3">
-                                        <dt className="text-neutral-500">
-                                            Categoría
-                                        </dt>
-
-                                        <dd className="text-right text-neutral-900">
-                                            {
-                                                category.name
-                                            }
-                                        </dd>
+                                    <div className="flex justify-between gap-6 py-2.5">
+                                        <dt className="text-neutral-500">Categoría</dt>
+                                        <dd className="text-right text-neutral-900">{category.name}</dd>
                                     </div>
                                 )}
 
                                 {product.material && (
-                                    <div className="flex justify-between gap-6 py-3">
-                                        <dt className="text-neutral-500">
-                                            Material
-                                        </dt>
-
-                                        <dd className="text-right text-neutral-900">
-                                            {
-                                                product.material
-                                            }
-                                        </dd>
+                                    <div className="flex justify-between gap-6 py-2.5">
+                                        <dt className="text-neutral-500">Material</dt>
+                                        <dd className="text-right text-neutral-900">{product.material}</dd>
                                     </div>
                                 )}
 
-                                <div className="flex justify-between gap-6 py-3">
-                                    <dt className="text-neutral-500">
-                                        Modalidad
-                                    </dt>
-
-                                    <dd className="text-right text-neutral-900">
-                                        {
-                                            modalityLabel
-                                        }
-                                    </dd>
+                                <div className="flex justify-between gap-6 py-2.5">
+                                    <dt className="text-neutral-500">Modalidad</dt>
+                                    <dd className="text-right text-neutral-900">{modalityLabel}</dd>
                                 </div>
                             </dl>
 
                             {isConsultation && (
-                                <p className="mt-5 text-xs leading-5 text-neutral-500">
-                                    Las piezas por
-                                    encargo y los
-                                    trabajos
-                                    personalizados se
-                                    coordinan
-                                    directamente con
-                                    la joyería.
+                                <p className="mt-4 text-xs leading-5 text-neutral-500">
+                                    Las piezas por encargo y los trabajos personalizados se coordinan directamente con la joyería.
                                 </p>
                             )}
                         </div>
@@ -460,17 +357,13 @@ export default async function ProductPage({
                 </div>
             </section>
 
-            {/* Volver */}
-            <section className="border-t border-[#ddd5c9] bg-[#faf8f4]">
-                <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
+            <section className="border-t border-[#e2d9cc] bg-[#fcfaf6]">
+                <div className="mx-auto max-w-5xl px-4 py-3.5 sm:px-6 lg:px-8">
                     <Link
                         href="/catalogo"
                         className="lezcano-arrow inline-flex items-center text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900"
                     >
-                        <span className="arrow">
-                            ←
-                        </span>
-
+                        <span className="arrow">←</span>
                         Volver al catálogo
                     </Link>
                 </div>

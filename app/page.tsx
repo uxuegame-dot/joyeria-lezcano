@@ -80,24 +80,27 @@ export default async function HomePage() {
 
       {/* DESTACADOS */}
       {featuredProducts.length > 0 && (
-        <section className="border-b border-[#ddd5c9] bg-[#faf8f4]">
+        <section className="border-b border-[#dfd4c5] bg-gradient-to-b from-[#fbf8f2] via-[#faf5ec] to-[#f6efe4]">
           <Reveal soft>
-            <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
-              <div className="flex flex-col gap-4 border-b border-[#ded7cc] pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-[#9a7541] sm:text-[11px]">
-                    Selección Lezcano
-                  </p>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#dec9a9] bg-white/70 px-3 py-1.5 shadow-[0_6px_18px_rgba(90,67,34,0.04)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#b78949]" />
 
-                  <h2 className="mt-2 font-serif text-2xl leading-tight tracking-tight text-neutral-900 sm:text-3xl">
-                    Piezas para regalar,
-                    usar y conservar.
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#9a7541] sm:text-[10px]">
+                      Selección Lezcano
+                    </p>
+                  </div>
+
+                  <h2 className="mt-3 max-w-2xl font-serif text-[28px] leading-[1.04] tracking-tight text-neutral-900 sm:text-[32px]">
+                    Piezas para regalar, usar y conservar.
                   </h2>
                 </div>
 
                 <Link
                   href="/catalogo"
-                  className="lezcano-arrow group inline-flex shrink-0 items-center self-start border-b border-[#b28a53] pb-1 text-sm font-medium text-neutral-900 transition hover:text-[#9a7541] sm:self-auto"
+                  className="lezcano-arrow inline-flex w-fit shrink-0 items-center rounded-full border border-[#d8c4a4] bg-white/75 px-4 py-2.5 text-sm font-medium text-[#7f5b2e] shadow-[0_6px_18px_rgba(90,67,34,0.04)] transition hover:border-[#b28a53] hover:bg-white hover:text-neutral-900"
                 >
                   Ver todo el catálogo
 
@@ -151,9 +154,9 @@ export default async function HomePage() {
                       >
                         <Link
                           href={`/catalogo/${product.slug}`}
-                          className="group block"
+                          className="group block h-full overflow-hidden rounded-[20px] border border-[#dfd3c2] bg-white/85 p-2.5 shadow-[0_10px_28px_rgba(72,52,28,0.05)] transition duration-300 hover:-translate-y-0.5 hover:border-[#c9a975] hover:bg-white hover:shadow-[0_16px_34px_rgba(72,52,28,0.08)]"
                         >
-                          <div className="relative aspect-square overflow-hidden bg-[#eee9e1] lg:mx-auto lg:w-full lg:max-w-[220px]">
+                          <div className="relative aspect-square overflow-hidden rounded-[15px] bg-[#eee9e1]">
                             {imageUrl ? (
                               <img
                                 src={
@@ -175,24 +178,24 @@ export default async function HomePage() {
                               />
                             )}
 
-                            <div className="pointer-events-none absolute inset-0 border border-black/[0.06]" />
+                            <div className="pointer-events-none absolute inset-0 rounded-[15px] border border-black/[0.05]" />
 
-                            <div className="absolute bottom-3 right-3 hidden h-8 w-8 items-center justify-center bg-white/95 text-sm text-neutral-900 opacity-0 shadow-sm transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100 lg:flex">
+                            <div className="absolute bottom-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full border border-white/80 bg-white/90 text-sm text-[#7d592c] opacity-0 shadow-sm backdrop-blur transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100">
                               →
                             </div>
                           </div>
 
-                          <div className="pt-3 lg:mx-auto lg:max-w-[220px]">
+                          <div className="px-1 pb-1 pt-3">
                             {category && (
-                              <p className="text-[9px] uppercase tracking-[0.22em] text-[#9a7541] sm:text-[10px]">
+                              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#aa7f44]">
                                 {
                                   category.name
                                 }
                               </p>
                             )}
 
-                            <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
-                              <h3 className="font-serif text-base leading-tight text-neutral-900 transition duration-300 group-hover:text-[#8a693c] sm:text-lg">
+                            <div className="mt-1.5 flex items-end justify-between gap-3">
+                              <h3 className="min-w-0 font-serif text-[17px] leading-tight text-neutral-900 transition duration-300 group-hover:text-[#8a693c] sm:text-[18px]">
                                 {
                                   product.name
                                 }
@@ -200,7 +203,7 @@ export default async function HomePage() {
 
                               {product.price !==
                                 null && (
-                                  <p className="shrink-0 text-xs text-neutral-600 sm:text-sm">
+                                  <p className="shrink-0 text-[12px] font-medium text-neutral-600 sm:text-[13px]">
                                     $
                                     {Number(
                                       product.price
@@ -223,120 +226,104 @@ export default async function HomePage() {
       )}
 
       {/* JOYERÍA Y PLATERÍA */}
-      <section className="border-y border-[#ddd5c9] bg-[#f4f0e8] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section className="border-y border-[#e1d8ca] bg-[#f7f2e9]">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
           <Reveal>
-            <div className="max-w-2xl">
-              <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
-                Dos expresiones de un mismo oficio
-              </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#a47a3c] sm:text-[10px]">
+                  Dos expresiones de un mismo oficio
+                </p>
 
-              <h2 className="mt-2.5 font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-                Joyería & Platería
-              </h2>
+                <h2 className="mt-2 font-serif text-[30px] leading-none tracking-tight text-neutral-900 sm:text-4xl">
+                  Joyería & Platería
+                </h2>
 
-              <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
-                Dos líneas distintas,
-                unidas por una misma
-                tradición de oficio y
-                atención al detalle.
-              </p>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-neutral-600">
+                  Dos líneas distintas, unidas por una misma tradición de oficio y atención al detalle.
+                </p>
+              </div>
+
+              <Link
+                href="/catalogo"
+                className="lezcano-arrow inline-flex w-fit items-center text-sm font-medium text-[#8b642f] transition hover:text-neutral-900"
+              >
+                Ver catálogo
+                <span className="arrow">→</span>
+              </Link>
             </div>
           </Reveal>
 
-          <div className="mt-7 grid gap-4 sm:mt-8 lg:grid-cols-[1.25fr_0.75fr] lg:gap-5">
-            {/* JOYERÍA */}
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
             <Reveal soft>
               <Link
                 href="/catalogo?linea=joyeria"
-                className="group block overflow-hidden bg-neutral-950 text-white"
+                className="group grid overflow-hidden rounded-[22px] border border-[#dfd4c5] bg-white shadow-[0_12px_34px_rgba(68,51,31,0.05)] sm:grid-cols-[1.05fr_0.95fr]"
               >
-                <div className="relative aspect-[16/9] overflow-hidden bg-neutral-100">
+                <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 sm:aspect-auto sm:min-h-[255px]">
                   <Image
                     src="/images/lezcano/joyeria-anillos.jpg"
                     alt="Anillos de Joyería Lezcano"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    sizes="(max-width: 640px) 100vw, 50vw"
                     className="lezcano-image object-cover"
-                    style={{
-                      objectPosition:
-                        "center center",
-                    }}
+                    style={{ objectPosition: "center center" }}
                   />
                 </div>
 
-                <div className="px-5 py-6 sm:px-7 sm:py-7 lg:px-9 lg:py-8">
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-[#c9a66b]">
+                <div className="flex flex-col justify-center px-5 py-5 sm:px-6 sm:py-6">
+                  <span className="inline-flex w-fit rounded-full bg-[#f2e8d8] px-3 py-1 text-[9px] font-medium uppercase tracking-[0.18em] text-[#956b31]">
                     Lezcano
-                  </p>
+                  </span>
 
-                  <h3 className="mt-2 font-serif text-2xl text-white sm:text-3xl lg:text-4xl">
+                  <h3 className="mt-3 font-serif text-2xl leading-none text-neutral-900 sm:text-[28px]">
                     Joyería
                   </h3>
 
-                  <p className="mt-3 max-w-md text-sm leading-6 text-neutral-400">
-                    Anillos, aros,
-                    cadenas, pulseras,
-                    dijes y otras piezas
-                    en plata y oro.
+                  <p className="mt-3 text-sm leading-6 text-neutral-600">
+                    Anillos, aros, cadenas, pulseras, dijes y otras piezas en plata y oro.
                   </p>
 
-                  <span className="lezcano-arrow mt-4 inline-flex border-b border-[#9a7541] pb-1 text-sm sm:mt-5">
+                  <span className="lezcano-arrow mt-4 inline-flex w-fit text-sm font-medium text-[#8b642f]">
                     Explorar joyería
-
-                    <span className="arrow">
-                      →
-                    </span>
+                    <span className="arrow">→</span>
                   </span>
                 </div>
               </Link>
             </Reveal>
 
-            {/* PLATERÍA */}
-            <Reveal
-              soft
-              delay={80}
-            >
+            <Reveal soft delay={70}>
               <Link
                 href="/catalogo?linea=plateria"
-                className="group block overflow-hidden border border-[#d2c8b9] bg-[#ece5da]"
+                className="group grid overflow-hidden rounded-[22px] border border-[#dfd4c5] bg-[#efe7da] shadow-[0_12px_34px_rgba(68,51,31,0.05)] sm:grid-cols-[1.05fr_0.95fr]"
               >
-                <div className="relative aspect-[16/9] overflow-hidden bg-neutral-100 lg:aspect-auto lg:h-[270px]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 sm:aspect-auto sm:min-h-[255px]">
                   <Image
                     src="/images/lezcano/plateria-bombillas.jpg"
                     alt="Bombillas de Platería Lezcano"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    sizes="(max-width: 640px) 100vw, 50vw"
                     className="lezcano-image object-cover"
-                    style={{
-                      objectPosition:
-                        "center 42%",
-                    }}
+                    style={{ objectPosition: "center 42%" }}
                   />
                 </div>
 
-                <div className="px-5 py-6 sm:px-7 sm:py-7 lg:py-8">
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-[#9a7541]">
-                    Lezcano
-                  </p>
+                <div className="flex flex-col justify-center px-5 py-5 sm:px-6 sm:py-6">
+                  <span className="inline-flex w-fit rounded-full bg-white/70 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.18em] text-[#956b31]">
+                    Oficio
+                  </span>
 
-                  <h3 className="mt-2 font-serif text-2xl text-neutral-900 sm:text-3xl">
+                  <h3 className="mt-3 font-serif text-2xl leading-none text-neutral-900 sm:text-[28px]">
                     Platería
                   </h3>
 
                   <p className="mt-3 text-sm leading-6 text-neutral-600">
-                    Bombillas, cabos,
-                    boquillas y trabajos
-                    realizados por
-                    encargo.
+                    Bombillas, cabos, boquillas y trabajos realizados por encargo.
                   </p>
 
-                  <span className="lezcano-arrow mt-4 inline-flex border-b border-[#b28a53] pb-1 text-sm text-neutral-900 sm:mt-5">
+                  <span className="lezcano-arrow mt-4 inline-flex w-fit text-sm font-medium text-[#8b642f]">
                     Explorar platería
-
-                    <span className="arrow">
-                      →
-                    </span>
+                    <span className="arrow">→</span>
                   </span>
                 </div>
               </Link>
@@ -346,73 +333,52 @@ export default async function HomePage() {
       </section>
 
       {/* TALLER */}
-      <section className="border-y border-neutral-800 bg-[#181817] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-24">
-          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-
-            {/* Texto */}
+      <section className="border-y border-neutral-800 bg-[#171716] text-white">
+        <div className="mx-auto max-w-6xl px-4 py-9 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
+          <div className="grid items-center gap-7 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
             <Reveal>
-              <div className="lg:pt-8">
-                <p className="text-xs uppercase tracking-[0.25em] text-[#c9a66b]">
+              <div className="max-w-md">
+                <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#d1aa6e] sm:text-[10px]">
                   El taller
                 </p>
 
-                <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
-                  Un oficio que se
-                  construye con las
-                  manos.
+                <h2 className="mt-2.5 font-serif text-[30px] leading-[1.08] tracking-tight sm:text-4xl">
+                  Un oficio que se construye con las manos.
                 </h2>
 
-                <p className="mt-4 max-w-md text-sm leading-6 text-neutral-400 sm:mt-5 sm:text-base sm:leading-7">
-                  El taller es parte
-                  de la identidad de
-                  Lezcano. Allí se
-                  realizan trabajos de
-                  platería,
-                  reparaciones,
-                  encargos y piezas
-                  especiales.
+                <p className="mt-3.5 text-sm leading-6 text-neutral-400">
+                  El taller es parte de la identidad de Lezcano. Allí se realizan trabajos de platería, reparaciones, encargos y piezas especiales.
                 </p>
 
                 <Link
                   href="/la-joyeria"
-                  className="lezcano-arrow mt-5 inline-flex border-b border-[#9a7541] pb-1 text-sm text-white sm:mt-6"
+                  className="lezcano-arrow mt-5 inline-flex w-fit items-center text-sm font-medium text-[#d1aa6e] transition hover:text-white"
                 >
                   Conocer nuestra historia
-
-                  <span className="arrow">
-                    →
-                  </span>
+                  <span className="arrow">→</span>
                 </Link>
               </div>
             </Reveal>
 
-            {/* Fotografías */}
-            <Reveal
-              soft
-              delay={90}
-            >
-              <div className="grid grid-cols-2 items-start gap-3 sm:grid-cols-[1.15fr_0.85fr] sm:gap-4">
-                <div className="group relative aspect-[4/5] overflow-hidden bg-neutral-900">
+            <Reveal soft delay={80}>
+              <div className="grid grid-cols-[1.08fr_0.92fr] gap-2.5 sm:gap-3">
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-neutral-900 sm:aspect-[5/4]">
                   <Image
                     src="/images/lezcano/mesa-trabajo.jpg"
                     alt="Mesa de trabajo y herramientas del taller de Lezcano"
                     fill
-                    sizes="(max-width: 640px) 100vw, 40vw"
+                    sizes="(max-width: 640px) 58vw, 38vw"
                     className="lezcano-image object-cover"
-                    style={{
-                      objectPosition:
-                        "center 45%",
-                    }}
+                    style={{ objectPosition: "center 45%" }}
                   />
                 </div>
 
-                <div className="group relative aspect-[3/4] overflow-hidden sm:mt-10">
+                <div className="group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-neutral-900 sm:aspect-[5/4] sm:translate-y-5">
                   <Image
                     src="/images/lezcano/maquina.jpg"
                     alt="Máquina tradicional del taller de Lezcano"
                     fill
-                    sizes="(max-width: 640px) 100vw, 28vw"
+                    sizes="(max-width: 640px) 42vw, 30vw"
                     className="lezcano-image object-cover"
                   />
                 </div>
@@ -423,143 +389,118 @@ export default async function HomePage() {
       </section>
 
       {/* SERVICIOS */}
-      <section className="border-y border-[#ddd5c9] bg-[#eee8de]">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-24">
-          <div className="grid gap-7 sm:gap-8 lg:grid-cols-2 lg:gap-16">
-
-            {/* Título */}
-            <Reveal>
+      <section className="border-y border-[#dfd5c6] bg-[#f0e8db]">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+          <Reveal>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
+                <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#9a7541] sm:text-[10px]">
                   El trabajo continúa
                 </p>
 
-                <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-                  Reparar,
-                  transformar
-                  y crear.
+                <h2 className="mt-2 font-serif text-[30px] leading-none tracking-tight text-neutral-900 sm:text-4xl">
+                  Reparar, transformar y crear.
                 </h2>
               </div>
-            </Reveal>
 
-            {/* Servicios */}
-            <Reveal
-              soft
-              delay={80}
-            >
-              <div>
-                <p className="max-w-xl text-sm leading-7 text-neutral-600 sm:text-base">
-                  También trabajamos
-                  sobre piezas
-                  existentes y
-                  desarrollamos
-                  encargos especiales.
-                </p>
+              <p className="max-w-md text-sm leading-6 text-neutral-600 sm:text-right">
+                Trabajamos sobre piezas existentes y desarrollamos encargos especiales.
+              </p>
+            </div>
+          </Reveal>
 
-                <div className="mt-5 divide-y divide-[#cec3b4] border-y border-[#cec3b4] sm:mt-6">
-                  {[
-                    "Reparaciones",
-                    "Trabajos personalizados",
-                    "Piezas por encargo",
-                  ].map(
-                    (
-                      service
-                    ) => (
-                      <Link
-                        key={
-                          service
-                        }
-                        href="/servicios"
-                        className="group flex items-center justify-between py-4 sm:py-5"
-                      >
-                        <span className="font-serif text-xl text-neutral-900 transition-colors duration-300 group-hover:text-[#8a693c] sm:text-2xl">
-                          {
-                            service
-                          }
-                        </span>
+          <Reveal soft delay={70}>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                ["01", "Reparaciones", "Recuperamos y ponemos a punto piezas que querés seguir usando."],
+                ["02", "Trabajos personalizados", "Desarrollamos soluciones a medida según tu idea o necesidad."],
+                ["03", "Piezas por encargo", "Coordinamos piezas especiales y trabajos de taller por encargo."],
+              ].map(([number, title, description]) => (
+                <Link
+                  key={title}
+                  href="/servicios"
+                  className="group rounded-[18px] border border-[#d9cdbd] bg-white/70 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-[#b99158] hover:bg-white sm:p-5"
+                >
+                  <span className="text-[9px] font-semibold tracking-[0.18em] text-[#ad8650]">
+                    {number}
+                  </span>
 
-                        <span className="transition-transform duration-300 group-hover:translate-x-1">
-                          →
-                        </span>
-                      </Link>
-                    )
-                  )}
-                </div>
-              </div>
-            </Reveal>
-          </div>
+                  <h3 className="mt-3 font-serif text-xl leading-tight text-neutral-900 sm:text-[22px]">
+                    {title}
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-[1.45] text-neutral-600">
+                    {description}
+                  </p>
+
+                  <span className="lezcano-arrow mt-4 inline-flex text-sm font-medium text-[#8b642f]">
+                    Ver servicio
+                    <span className="arrow">→</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* TRABAJOS */}
-      <section className="bg-[#f7f4ef]">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
-          <div className="grid items-start gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:gap-14">
-
-            {/* Texto */}
+      <section className="bg-[#faf7f2]">
+        <div className="mx-auto max-w-6xl px-4 py-9 sm:px-6 sm:py-11 lg:px-8 lg:py-14">
+          <div className="grid items-center gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:gap-12">
             <Reveal>
-              <div className="lg:pt-5">
-                <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
+              <div className="max-w-sm">
+                <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#9a7541] sm:text-[10px]">
                   Hecho en el taller
                 </p>
 
-                <h2 className="mt-3 font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+                <h2 className="mt-2.5 font-serif text-[30px] leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl">
                   Trabajos realizados
                 </h2>
 
-                <p className="mt-4 max-w-sm text-sm leading-6 text-neutral-600 sm:leading-7">
-                  Una selección de
-                  piezas, procesos y
-                  trabajos realizados
-                  en Lezcano.
+                <p className="mt-3.5 text-sm leading-6 text-neutral-600">
+                  Una selección de piezas, procesos y trabajos realizados en Lezcano.
                 </p>
 
                 <Link
                   href="/trabajos"
-                  className="lezcano-arrow mt-5 inline-flex border-b border-[#b28a53] pb-1 text-sm font-medium text-neutral-900 sm:mt-6"
+                  className="lezcano-arrow mt-5 inline-flex w-fit items-center text-sm font-medium text-[#8b642f] transition hover:text-neutral-900"
                 >
                   Ver trabajos
-
-                  <span className="arrow">
-                    →
-                  </span>
+                  <span className="arrow">→</span>
                 </Link>
               </div>
             </Reveal>
 
-            {/* Galería */}
-            <Reveal
-              soft
-              delay={90}
-            >
-              <div className="grid max-w-2xl grid-cols-[1.05fr_0.95fr] gap-2.5 sm:gap-3">
-                <div className="group relative aspect-[4/5] overflow-hidden bg-neutral-100">
+            <Reveal soft delay={80}>
+              <div className="grid grid-cols-[1.05fr_0.95fr] gap-2.5 sm:gap-3">
+                <div className="group relative aspect-[4/5] overflow-hidden rounded-[18px] bg-neutral-100 sm:aspect-[5/4]">
                   <Image
                     src="/images/lezcano/trabajo-cuchilla.jpg"
                     alt="Trabajo de platería realizado por Lezcano"
                     fill
-                    sizes="(max-width: 640px) 100vw, 32vw"
+                    sizes="(max-width: 640px) 54vw, 34vw"
                     className="lezcano-image object-cover"
                   />
                 </div>
 
-                <div className="grid gap-3">
-                  <div className="group relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                <div className="grid gap-2.5 sm:gap-3">
+                  <div className="group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-neutral-100">
                     <Image
                       src="/images/lezcano/trabajo-cabo.jpg"
                       alt="Trabajo de platería realizado en el taller"
                       fill
-                      sizes="(max-width: 640px) 100vw, 28vw"
+                      sizes="(max-width: 640px) 46vw, 30vw"
                       className="lezcano-image object-cover"
                     />
                   </div>
 
-                  <div className="group relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                  <div className="group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-neutral-100">
                     <Image
                       src="/images/lezcano/trabajo-bombilla.jpg"
                       alt="Trabajo de bombilla realizado en Lezcano"
                       fill
-                      sizes="(max-width: 640px) 100vw, 28vw"
+                      sizes="(max-width: 640px) 46vw, 30vw"
                       className="lezcano-image object-cover"
                     />
                   </div>
@@ -571,36 +512,36 @@ export default async function HomePage() {
       </section>
 
       {/* CIERRE */}
-      <section className="bg-neutral-950 text-white">
-        <div className="mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 sm:py-14 lg:px-8 lg:py-24">
-          <Reveal>
-            <p className="text-xs uppercase tracking-[0.25em] text-[#c9a66b]">
-              Lezcano · Paysandú
-            </p>
+      <section className="border-t border-[#e2d8ca] bg-[#f7f2e9] px-4 py-7 sm:px-6 sm:py-9 lg:px-8 lg:py-11">
+        <Reveal>
+          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[24px] bg-[#151514] px-5 py-8 text-center text-white shadow-[0_18px_45px_rgba(0,0,0,0.12)] sm:px-8 sm:py-10">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#b28a53]/15 blur-3xl" />
 
-            <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
-              ¿Tenés una pieza o
-              una idea en mente?
-            </h2>
+            <div className="relative z-10 mx-auto max-w-2xl">
+              <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#d0aa70] sm:text-[10px]">
+                Lezcano · Paysandú
+              </p>
 
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-neutral-400 sm:mt-5 sm:text-base sm:leading-7">
-              Consultanos por
-              reparaciones,
-              encargos o trabajos
-              personalizados.
-            </p>
+              <h2 className="mt-2.5 font-serif text-[30px] leading-[1.05] tracking-tight sm:text-4xl">
+                ¿Tenés una pieza o una idea en mente?
+              </h2>
 
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="lezcano-button mt-6 inline-flex items-center gap-2 bg-[#b28a53] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541] sm:mt-7 sm:px-7"
-            >
-              Consultar por WhatsApp
-              <span>→</span>
-            </a>
-          </Reveal>
-        </div>
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-neutral-400">
+                Consultanos por reparaciones, encargos o trabajos personalizados.
+              </p>
+
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lezcano-button mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#b78e55] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#9b743f]"
+              >
+                Consultar por WhatsApp
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </Reveal>
       </section>
     </>
   );

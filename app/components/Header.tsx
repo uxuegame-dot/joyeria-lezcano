@@ -58,7 +58,7 @@ export async function Header() {
         <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/95 backdrop-blur-md">
 
             {/* Fila principal */}
-            <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-4 sm:h-24 sm:px-6 lg:px-8">
+            <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-3.5 sm:h-[82px] sm:px-6 lg:h-[88px] lg:px-8">
 
                 {/* Logo */}
                 <Link
@@ -66,13 +66,13 @@ export async function Header() {
                     aria-label="Lezcano - Inicio"
                     className="flex shrink-0 items-center transition-opacity duration-300 hover:opacity-85"
                 >
-                    <div className="relative h-16 w-36 overflow-hidden sm:h-20 sm:w-48">
+                    <div className="relative h-14 w-32 overflow-hidden sm:h-16 sm:w-40 lg:h-[68px] lg:w-44">
                         <Image
                             src="/images/logo-lezcano.png"
                             alt="Lezcano Joyería"
                             fill
                             priority
-                            sizes="(max-width: 640px) 144px, 192px"
+                            sizes="(max-width: 640px) 128px, (max-width: 1024px) 160px, 176px"
                             className="scale-[2.35] object-contain"
                         />
                     </div>
@@ -236,7 +236,7 @@ export async function Header() {
                 aria-label="Accesos rápidos"
                 className="border-t border-neutral-800/90 lg:hidden"
             >
-                <div className="mx-auto flex h-11 max-w-7xl items-center justify-center px-4 sm:px-6">
+                <div className="mx-auto flex h-10 max-w-7xl items-center justify-center px-3.5 sm:px-6">
                     {MOBILE_QUICK_LINKS.map(
                         (
                             link,

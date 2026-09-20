@@ -285,7 +285,7 @@ export default async function DashboardAdministracionPage() {
     return (
         <main className="min-h-screen bg-[#f7f4ef]">
             <section className="border-b border-[#ddd5c9]">
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Link
                         href="/administracion"
                         className="text-xs text-neutral-500 transition hover:text-neutral-900 sm:text-sm"
@@ -312,10 +312,10 @@ export default async function DashboardAdministracionPage() {
 
             <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
                 {/* Métricas principales */}
-                <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+                <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
                     <Link
                         href="/administracion/pedidos?vista=atencion"
-                        className="border border-[#ddd5c9] bg-white p-3 transition hover:border-[#b28a53] sm:p-4"
+                        className="rounded-[14px] border border-[#ddd5c9] bg-[#fffdf9] p-3 shadow-[0_6px_20px_rgba(65,48,29,0.025)] transition hover:-translate-y-0.5 hover:border-[#b78a54] hover:shadow-[0_10px_24px_rgba(65,48,29,0.05)] sm:p-4"
                     >
                         <p className="text-[8px] uppercase tracking-[0.15em] text-[#9a7541] sm:text-[9px]">
                             Requieren atención
@@ -332,7 +332,7 @@ export default async function DashboardAdministracionPage() {
 
                     <Link
                         href="/administracion/pedidos"
-                        className="border border-[#ddd5c9] bg-white p-3 transition hover:border-[#b28a53] sm:p-4"
+                        className="rounded-[14px] border border-[#ddd5c9] bg-[#fffdf9] p-3 shadow-[0_6px_20px_rgba(65,48,29,0.025)] transition hover:-translate-y-0.5 hover:border-[#b78a54] hover:shadow-[0_10px_24px_rgba(65,48,29,0.05)] sm:p-4"
                     >
                         <p className="text-[8px] uppercase tracking-[0.15em] text-[#9a7541] sm:text-[9px]">
                             En curso
@@ -347,7 +347,7 @@ export default async function DashboardAdministracionPage() {
                         </p>
                     </Link>
 
-                    <div className="border border-[#ddd5c9] bg-white p-3 sm:p-4">
+                    <div className="rounded-[14px] border border-[#d8c6ad] bg-gradient-to-br from-[#fffaf2] to-[#f6eadb] p-3 shadow-[0_6px_20px_rgba(65,48,29,0.03)] sm:p-4">
                         <p className="text-[8px] uppercase tracking-[0.15em] text-[#9a7541] sm:text-[9px]">
                             Monto de ventas completadas
                         </p>
@@ -365,7 +365,7 @@ export default async function DashboardAdministracionPage() {
 
                     <Link
                         href="/administracion/productos?stock=sin-stock"
-                        className="border border-[#ddd5c9] bg-white p-3 transition hover:border-[#b28a53] sm:p-4"
+                        className="rounded-[14px] border border-[#ddd5c9] bg-[#fffdf9] p-3 shadow-[0_6px_20px_rgba(65,48,29,0.025)] transition hover:-translate-y-0.5 hover:border-[#b78a54] hover:shadow-[0_10px_24px_rgba(65,48,29,0.05)] sm:p-4"
                     >
                         <p className="text-[8px] uppercase tracking-[0.15em] text-[#9a7541] sm:text-[9px]">
                             Sin stock
@@ -383,7 +383,7 @@ export default async function DashboardAdministracionPage() {
 
                 <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.6fr)]">
                     {/* Actividad reciente */}
-                    <section className="border border-[#ddd5c9] bg-white">
+                    <section className="overflow-hidden rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                         <div className="flex items-center justify-between gap-4 border-b border-neutral-100 px-4 py-3">
                             <div>
                                 <p className="text-[9px] uppercase tracking-[0.16em] text-[#9a7541]">
@@ -486,7 +486,7 @@ export default async function DashboardAdministracionPage() {
 
                     {/* Resumen lateral */}
                     <div className="space-y-4">
-                        <section className="border border-[#ddd5c9] bg-white p-4">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                             <p className="text-[9px] uppercase tracking-[0.16em] text-[#9a7541]">
                                 Últimos períodos
                             </p>
@@ -549,7 +549,7 @@ export default async function DashboardAdministracionPage() {
                             </div>
                         </section>
 
-                        <section className="border border-[#ddd5c9] bg-white p-4">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                             <div className="flex items-center justify-between gap-4">
                                 <div>
                                     <p className="text-[9px] uppercase tracking-[0.16em] text-[#9a7541]">
@@ -599,7 +599,7 @@ export default async function DashboardAdministracionPage() {
                             </div>
                         </section>
 
-                        <section className="border border-[#ddd5c9] bg-white p-4">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
                             <p className="text-[9px] uppercase tracking-[0.16em] text-[#9a7541]">
                                 Accesos rápidos
                             </p>
@@ -607,7 +607,7 @@ export default async function DashboardAdministracionPage() {
                             <div className="mt-3 grid gap-2">
                                 <Link
                                     href="/administracion/productos/nuevo"
-                                    className="flex h-10 items-center justify-between bg-neutral-900 px-3 text-xs font-medium text-white transition hover:bg-[#9a7541]"
+                                    className="flex h-10 items-center justify-between rounded-[10px] bg-neutral-900 px-3 text-xs font-medium text-white transition hover:bg-[#9a7541]"
                                 >
                                     Nuevo producto
                                     <span>+</span>
@@ -615,7 +615,7 @@ export default async function DashboardAdministracionPage() {
 
                                 <Link
                                     href="/administracion/pedidos?vista=atencion"
-                                    className="flex h-10 items-center justify-between border border-neutral-300 px-3 text-xs font-medium text-neutral-800 transition hover:border-neutral-900"
+                                    className="flex h-10 items-center justify-between rounded-[10px] border border-[#d7c9b8] bg-white px-3 text-xs font-medium text-neutral-800 transition hover:border-[#b78a54] hover:bg-[#fffaf6]"
                                 >
                                     Pedidos a revisar
                                     <span>→</span>

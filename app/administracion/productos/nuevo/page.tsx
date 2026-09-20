@@ -5,13 +5,13 @@ import { getActiveCategories } from "@/app/lib/products";
 import { createProduct } from "@/app/lib/products/actions";
 
 const inputClassName =
-    "mt-1.5 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
+    "mt-1.5 h-11 w-full rounded-[9px] border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
 
 const textareaClassName =
-    "mt-1.5 w-full resize-y border border-neutral-300 bg-white px-3 py-2.5 text-sm leading-6 text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
+    "mt-1.5 w-full resize-y rounded-[9px] border border-neutral-300 bg-white px-3 py-2.5 text-sm leading-6 text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
 
 const selectClassName =
-    "mt-1.5 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]";
+    "mt-1.5 h-11 w-full rounded-[9px] border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]";
 
 export default async function NuevoProductoPage() {
     const categories =
@@ -79,7 +79,7 @@ export default async function NuevoProductoPage() {
                 >
                     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(290px,0.75fr)] lg:items-start">
                         {/* Información */}
-                        <section className="border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
@@ -228,7 +228,7 @@ export default async function NuevoProductoPage() {
                         </section>
 
                         {/* Venta y publicación */}
-                        <section className="border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5">
                             <div>
                                 <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
                                     Gestión
@@ -378,7 +378,7 @@ export default async function NuevoProductoPage() {
                     </div>
 
                     {/* Imágenes */}
-                    <section className="mt-4 border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                    <section className="mt-4 rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5">
                         <NewProductImages />
                     </section>
 
@@ -393,7 +393,7 @@ export default async function NuevoProductoPage() {
 
                         <button
                             type="submit"
-                            className="h-10 bg-neutral-900 px-5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="h-10 rounded-[10px] bg-neutral-900 px-5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
                         >
                             Guardar producto
                         </button>
@@ -402,11 +402,11 @@ export default async function NuevoProductoPage() {
             </section>
 
             {/* Barra fija móvil */}
-            <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d8cfc1] bg-white/95 px-4 py-3 backdrop-blur sm:hidden">
+            <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d8cfc1] bg-[#fffdf9]/95 px-4 py-3 shadow-[0_-8px_24px_rgba(65,48,29,0.06)] backdrop-blur sm:hidden">
                 <div className="mx-auto flex max-w-6xl gap-2">
                     <Link
                         href="/administracion/productos"
-                        className="inline-flex h-11 flex-1 items-center justify-center border border-neutral-300 text-sm font-medium text-neutral-700"
+                        className="inline-flex h-11 flex-1 items-center justify-center rounded-[10px] border border-[#d8cec1] bg-white text-sm font-medium text-neutral-700"
                     >
                         Cancelar
                     </Link>
@@ -414,7 +414,7 @@ export default async function NuevoProductoPage() {
                     <button
                         type="submit"
                         form="new-product-form"
-                        className="h-11 flex-[1.3] bg-neutral-900 px-4 text-sm font-medium text-white"
+                        className="h-11 flex-[1.3] rounded-[10px] bg-neutral-900 px-4 text-sm font-medium text-white"
                     >
                         Guardar producto
                     </button>

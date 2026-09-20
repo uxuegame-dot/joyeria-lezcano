@@ -13,13 +13,13 @@ import { getActiveCategories } from "@/app/lib/products";
 import { createClient } from "@/app/lib/supabase/server";
 
 const inputClassName =
-    "mt-1.5 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
+    "mt-1.5 h-11 w-full rounded-[9px] border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
 
 const textareaClassName =
-    "mt-1.5 w-full resize-y border border-neutral-300 bg-white px-3 py-2.5 text-sm leading-6 text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
+    "mt-1.5 w-full resize-y rounded-[9px] border border-neutral-300 bg-white px-3 py-2.5 text-sm leading-6 text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]";
 
 const selectClassName =
-    "mt-1.5 h-11 w-full border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]";
+    "mt-1.5 h-11 w-full rounded-[9px] border border-neutral-300 bg-white px-3 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]";
 
 type EditarProductoPageProps = {
     params: Promise<{
@@ -207,9 +207,9 @@ export default async function EditarProductoPage({
     }
 
     return (
-        <main className="min-h-screen bg-[#f7f4ef]">
+        <main className="min-h-screen bg-[#f8f5f0]">
             {/* Encabezado compacto */}
-            <section className="border-b border-[#ddd5c9]">
+            <section className="border-b border-[#e0d6c8] bg-[#fbf8f2]">
                 <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Link
                         href="/administracion/productos"
@@ -224,7 +224,7 @@ export default async function EditarProductoPage({
                                 Administración
                             </p>
 
-                            <h1 className="mt-1 font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl">
+                            <h1 className="mt-1 font-serif text-[30px] leading-none tracking-tight text-neutral-900 sm:text-4xl">
                                 Editar producto
                             </h1>
 
@@ -234,7 +234,7 @@ export default async function EditarProductoPage({
                         </div>
 
                         <span
-                            className={`w-fit shrink-0 border px-2.5 py-1 text-[10px] font-medium ${getStatusClasses(
+                            className={`w-fit shrink-0 rounded-full border px-3 py-1.5 text-[10px] font-medium ${getStatusClasses(
                                 product.status
                             )}`}
                         >
@@ -263,7 +263,7 @@ export default async function EditarProductoPage({
 
                     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(290px,0.75fr)] lg:items-start">
                         {/* Información principal */}
-                        <section className="border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                        <section className="rounded-[14px] border border-[#ddd5c9] bg-white p-4 shadow-[0_8px_24px_rgba(67,52,35,0.035)] sm:p-5">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
@@ -424,7 +424,7 @@ export default async function EditarProductoPage({
                         </section>
 
                         {/* Venta y publicación */}
-                        <section className="border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                        <section className="rounded-[14px] border border-[#ddd5c9] bg-white p-4 shadow-[0_8px_24px_rgba(67,52,35,0.035)] sm:p-5">
                             <div>
                                 <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
                                     Gestión
@@ -590,7 +590,7 @@ export default async function EditarProductoPage({
 
                         <button
                             type="submit"
-                            className="h-10 bg-neutral-900 px-5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="h-10 rounded-[9px] bg-neutral-900 px-5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
                         >
                             Guardar cambios
                         </button>
@@ -598,7 +598,7 @@ export default async function EditarProductoPage({
                 </form>
 
                 {/* Fotografías */}
-                <div className="mt-5 border border-[#ddd5c9] bg-white p-4 sm:p-5">
+                <div className="mt-5 rounded-[14px] border border-[#ddd5c9] bg-white p-4 shadow-[0_8px_24px_rgba(67,52,35,0.035)] sm:p-5">
                     <ProductImageManager
                         productId={
                             productId
@@ -614,7 +614,7 @@ export default async function EditarProductoPage({
                 </div>
 
                 {/* Información técnica */}
-                <details className="mt-4 border border-[#ddd5c9] bg-white">
+                <details className="mt-4 overflow-hidden rounded-[14px] border border-[#ddd5c9] bg-white">
                     <summary className="cursor-pointer list-none px-4 py-3 text-xs font-medium text-neutral-600">
                         Información técnica
                     </summary>
@@ -633,7 +633,7 @@ export default async function EditarProductoPage({
                 </details>
 
                 {/* Zona de peligro */}
-                <details className="mt-4 border border-red-200 bg-white">
+                <details className="mt-4 overflow-hidden rounded-[14px] border border-red-200 bg-white">
                     <summary className="cursor-pointer list-none px-4 py-3 text-xs font-medium text-red-700">
                         Eliminar producto
                     </summary>
@@ -651,7 +651,7 @@ export default async function EditarProductoPage({
                         >
                             <button
                                 type="submit"
-                                className="border border-red-300 px-4 py-2.5 text-xs font-medium text-red-700 transition hover:border-red-500 hover:bg-red-50"
+                                className="rounded-[9px] border border-red-300 px-4 py-2.5 text-xs font-medium text-red-700 transition hover:border-red-500 hover:bg-red-50"
                             >
                                 Eliminar definitivamente
                             </button>
@@ -665,7 +665,7 @@ export default async function EditarProductoPage({
                 <div className="mx-auto flex max-w-6xl gap-2">
                     <Link
                         href="/administracion/productos"
-                        className="inline-flex h-11 flex-1 items-center justify-center border border-neutral-300 text-sm font-medium text-neutral-700"
+                        className="inline-flex h-11 flex-1 items-center justify-center rounded-[9px] border border-neutral-300 text-sm font-medium text-neutral-700"
                     >
                         Cancelar
                     </Link>
@@ -673,7 +673,7 @@ export default async function EditarProductoPage({
                     <button
                         type="submit"
                         form="edit-product-form"
-                        className="h-11 flex-[1.3] bg-neutral-900 px-4 text-sm font-medium text-white"
+                        className="h-11 flex-[1.3] rounded-[9px] bg-neutral-900 px-4 text-sm font-medium text-white"
                     >
                         Guardar cambios
                     </button>

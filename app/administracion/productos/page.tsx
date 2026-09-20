@@ -813,9 +813,9 @@ export default async function ProductosAdministracionPage({
     };
 
     return (
-        <main className="min-h-screen bg-[#f7f4ef]">
+        <main className="min-h-screen bg-[#f8f5f0]">
             {/* Encabezado compacto */}
-            <section className="border-b border-[#ddd5c9]">
+            <section className="border-b border-[#e0d6c8] bg-[#fbf8f2]">
                 <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Link
                         href="/administracion"
@@ -830,7 +830,7 @@ export default async function ProductosAdministracionPage({
                                 Administración
                             </p>
 
-                            <h1 className="mt-1 font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl">
+                            <h1 className="mt-1 font-serif text-[30px] leading-none tracking-tight text-neutral-900 sm:text-4xl">
                                 Productos
                             </h1>
 
@@ -841,7 +841,7 @@ export default async function ProductosAdministracionPage({
 
                         <Link
                             href="/administracion/productos/nuevo"
-                            className="lezcano-button inline-flex h-10 shrink-0 items-center justify-center bg-neutral-900 px-4 text-xs font-medium text-white transition hover:bg-[#9a7541] sm:h-11 sm:px-5 sm:text-sm"
+                            className="lezcano-button inline-flex h-10 shrink-0 items-center justify-center rounded-[10px] bg-neutral-900 px-4 text-xs font-medium text-white shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition hover:bg-[#9a7541] sm:h-11 sm:px-5 sm:text-sm"
                         >
                             <span className="sm:hidden">+ Nuevo</span>
                             <span className="hidden sm:inline">+ Nuevo producto</span>
@@ -856,7 +856,7 @@ export default async function ProductosAdministracionPage({
                     <div className="flex min-w-max gap-2 sm:grid sm:min-w-0 sm:grid-cols-4">
                         <Link
                             href="/administracion/productos"
-                            className="min-w-[118px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] sm:min-w-0"
+                            className="min-w-[118px] rounded-[12px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] hover:bg-[#fffdf9] sm:min-w-0"
                         >
                             <p className="text-[8px] uppercase tracking-[0.15em] text-neutral-400">
                                 Total
@@ -876,7 +876,7 @@ export default async function ProductosAdministracionPage({
                             href={buildProductsUrl({
                                 estado: "active",
                             })}
-                            className="min-w-[118px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] sm:min-w-0"
+                            className="min-w-[118px] rounded-[12px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] hover:bg-[#fffdf9] sm:min-w-0"
                         >
                             <p className="text-[8px] uppercase tracking-[0.15em] text-neutral-400">
                                 Publicados
@@ -896,7 +896,7 @@ export default async function ProductosAdministracionPage({
                             href={buildProductsUrl({
                                 stock: "sin-stock",
                             })}
-                            className="min-w-[118px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] sm:min-w-0"
+                            className="min-w-[118px] rounded-[12px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] hover:bg-[#fffdf9] sm:min-w-0"
                         >
                             <p className="text-[8px] uppercase tracking-[0.15em] text-neutral-400">
                                 Sin stock
@@ -916,7 +916,7 @@ export default async function ProductosAdministracionPage({
                             href={buildProductsUrl({
                                 destacado: "si",
                             })}
-                            className="min-w-[118px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] sm:min-w-0"
+                            className="min-w-[118px] rounded-[12px] border border-[#ddd5c9] bg-white px-3 py-2.5 transition hover:border-[#b28a53] hover:bg-[#fffdf9] sm:min-w-0"
                         >
                             <p className="text-[8px] uppercase tracking-[0.15em] text-neutral-400">
                                 Destacados
@@ -935,7 +935,7 @@ export default async function ProductosAdministracionPage({
                 </div>
 
                 {/* Búsqueda y filtros compactos */}
-                <section className="mt-4 border border-[#ddd5c9] bg-white">
+                <section className="mt-4 overflow-hidden rounded-[14px] border border-[#ddd5c9] bg-white">
                     <form
                         action="/administracion/productos"
                         method="get"
@@ -1020,7 +1020,7 @@ export default async function ProductosAdministracionPage({
                                 defaultValue={searchTerm}
                                 enterKeyHint="search"
                                 placeholder="Buscar por nombre o material..."
-                                className="h-10 w-full border border-neutral-300 bg-white pl-9 pr-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                className="h-10 w-full rounded-[10px] border border-[#d9d0c4] bg-[#fffdfa] pl-9 pr-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#b28a53] focus:bg-white"
                             />
 
                             <button
@@ -1059,7 +1059,7 @@ export default async function ProductosAdministracionPage({
                                     id="linea"
                                     name="linea"
                                     defaultValue={params.linea ?? ""}
-                                    className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                    className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                 >
                                     <option value="">Todas</option>
                                     <option value="joyeria">Joyería</option>
@@ -1079,7 +1079,7 @@ export default async function ProductosAdministracionPage({
                                     id="categoria"
                                     name="categoria"
                                     defaultValue={selectedCategory}
-                                    className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                    className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                 >
                                     <option value="">Todas</option>
 
@@ -1111,7 +1111,7 @@ export default async function ProductosAdministracionPage({
                                     id="estado"
                                     name="estado"
                                     defaultValue={selectedStatus}
-                                    className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                    className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                 >
                                     <option value="">Todos</option>
                                     <option value="active">Publicados</option>
@@ -1133,7 +1133,7 @@ export default async function ProductosAdministracionPage({
                                     id="stock"
                                     name="stock"
                                     defaultValue={selectedStock}
-                                    className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                    className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                 >
                                     <option value="">Todos</option>
                                     <option value="disponible">Con stock</option>
@@ -1169,7 +1169,7 @@ export default async function ProductosAdministracionPage({
                                         id="modalidad"
                                         name="modalidad"
                                         defaultValue={selectedProductType}
-                                        className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                        className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                     >
                                         <option value="">Todas</option>
                                         <option value="direct">Venta directa</option>
@@ -1191,7 +1191,7 @@ export default async function ProductosAdministracionPage({
                                         id="destacado"
                                         name="destacado"
                                         defaultValue={selectedFeatured}
-                                        className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                        className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                     >
                                         <option value="">Todos</option>
                                         <option value="si">Solo destacados</option>
@@ -1210,7 +1210,7 @@ export default async function ProductosAdministracionPage({
                                         id="ordenar"
                                         name="ordenar"
                                         defaultValue={selectedSort}
-                                        className="h-9 w-full border border-neutral-300 bg-white px-2 text-xs text-neutral-800 outline-none focus:border-[#9a7541] sm:text-sm"
+                                        className="h-9 w-full rounded-[9px] border border-[#d9d0c4] bg-[#fffdfa] px-2 text-xs text-neutral-800 outline-none transition focus:border-[#b28a53] focus:bg-white sm:text-sm"
                                     >
                                         <option value="recientes">Más recientes</option>
                                         <option value="antiguos">Más antiguos</option>
@@ -1228,7 +1228,7 @@ export default async function ProductosAdministracionPage({
                         <div className="mt-3 flex items-center gap-2">
                             <button
                                 type="submit"
-                                className="h-9 bg-neutral-900 px-4 text-xs font-medium text-white transition hover:bg-[#9a7541] sm:text-sm"
+                                className="h-9 rounded-[9px] bg-neutral-900 px-4 text-xs font-medium text-white transition hover:bg-[#9a7541] sm:text-sm"
                             >
                                 Aplicar filtros
                             </button>
@@ -1264,7 +1264,7 @@ export default async function ProductosAdministracionPage({
                 </div>
 
                 {productList.length === 0 ? (
-                    <div className="mt-3 border border-[#ddd5c9] bg-white px-5 py-10 text-center">
+                    <div className="mt-3 rounded-[16px] border border-[#ddd5c9] bg-white px-5 py-10 text-center shadow-[0_8px_24px_rgba(67,52,35,0.035)]">
                         <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
                             Catálogo
                         </p>
@@ -1280,25 +1280,24 @@ export default async function ProductosAdministracionPage({
                         {hasFilters ? (
                             <Link
                                 href="/administracion/productos"
-                                className="mt-5 inline-flex bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition hover:bg-[#9a7541]"
+                                className="mt-5 inline-flex rounded-[9px] bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition hover:bg-[#9a7541]"
                             >
                                 Ver todos
                             </Link>
                         ) : (
                             <Link
                                 href="/administracion/productos/nuevo"
-                                className="mt-5 inline-flex bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition hover:bg-[#9a7541]"
+                                className="mt-5 inline-flex rounded-[9px] bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition hover:bg-[#9a7541]"
                             >
                                 Cargar primer producto
                             </Link>
                         )}
                     </div>
                 ) : (
-                    <div className="mt-3 overflow-hidden border border-[#ddd5c9] bg-white">
+                    <div className="mt-3 space-y-2">
                         {productList.map(
                             (
-                                product,
-                                index
+                                product
                             ) => {
                                 const category =
                                     Array.isArray(
@@ -1332,18 +1331,14 @@ export default async function ProductosAdministracionPage({
                                 return (
                                     <article
                                         key={product.id}
-                                        className={`p-3 ${index !==
-                                            productList.length - 1
-                                            ? "border-b border-neutral-200"
-                                            : ""
-                                            }`}
+                                        className="rounded-[14px] border border-[#ddd5c9] bg-white p-3 shadow-[0_7px_22px_rgba(67,52,35,0.03)] transition duration-300 hover:-translate-y-[1px] hover:border-[#c8b18b] hover:bg-[#fffdf9] hover:shadow-[0_10px_28px_rgba(67,52,35,0.055)]"
                                     >
                                         {/* Celular / tablet */}
                                         <div className="lg:hidden">
                                             <div className="grid grid-cols-[58px_minmax(0,1fr)_auto] items-start gap-3">
                                                 <Link
                                                     href={`/administracion/productos/${product.id}`}
-                                                    className="group block h-[58px] w-[58px] overflow-hidden bg-neutral-100"
+                                                    className="group block h-[58px] w-[58px] overflow-hidden rounded-[12px] bg-[#f0ece5]"
                                                 >
                                                     {imageUrl ? (
                                                         <img
@@ -1381,14 +1376,14 @@ export default async function ProductosAdministracionPage({
 
                                                     <Link
                                                         href={`/administracion/productos/${product.id}`}
-                                                        className="mt-0.5 block truncate font-serif text-lg leading-tight text-neutral-900"
+                                                        className="mt-0.5 block truncate font-serif text-[17px] leading-tight text-neutral-900 transition hover:text-[#806037]"
                                                     >
                                                         {product.name}
                                                     </Link>
 
                                                     <div className="mt-1 flex flex-wrap items-center gap-1.5">
                                                         <span
-                                                            className={`inline-flex border px-1.5 py-0.5 text-[8px] font-medium ${getStatusClasses(
+                                                            className={`inline-flex rounded-full border px-2 py-0.5 text-[8px] font-medium ${getStatusClasses(
                                                                 product.status
                                                             )}`}
                                                         >
@@ -1445,10 +1440,10 @@ export default async function ProductosAdministracionPage({
                                         </div>
 
                                         {/* Escritorio */}
-                                        <div className="hidden items-center gap-4 lg:grid lg:grid-cols-[60px_minmax(220px,1.5fr)_150px_90px_110px_70px]">
+                                        <div className="hidden items-center gap-4 lg:grid lg:grid-cols-[56px_minmax(220px,1.5fr)_150px_82px_108px_76px]">
                                             <Link
                                                 href={`/administracion/productos/${product.id}`}
-                                                className="group block h-[60px] w-[60px] overflow-hidden bg-neutral-100"
+                                                className="group block h-[56px] w-[56px] overflow-hidden rounded-[12px] bg-[#f0ece5]"
                                             >
                                                 {imageUrl ? (
                                                     <img
@@ -1485,7 +1480,7 @@ export default async function ProductosAdministracionPage({
 
                                                 <Link
                                                     href={`/administracion/productos/${product.id}`}
-                                                    className="mt-0.5 block truncate font-serif text-xl leading-tight text-neutral-900 transition hover:text-[#8a693c]"
+                                                    className="mt-0.5 block truncate font-serif text-[18px] leading-tight text-neutral-900 transition hover:text-[#806037]"
                                                 >
                                                     {product.name}
                                                 </Link>
@@ -1499,7 +1494,7 @@ export default async function ProductosAdministracionPage({
 
                                             <div className="min-w-0">
                                                 <span
-                                                    className={`inline-flex border px-2 py-1 text-[9px] font-medium ${getStatusClasses(
+                                                    className={`inline-flex rounded-full border px-2.5 py-1 text-[9px] font-medium ${getStatusClasses(
                                                         product.status
                                                     )}`}
                                                 >
@@ -1553,7 +1548,7 @@ export default async function ProductosAdministracionPage({
 
                                             <Link
                                                 href={`/administracion/productos/${product.id}`}
-                                                className="inline-flex h-8 items-center justify-center border border-neutral-300 px-2 text-[10px] font-medium text-neutral-800 transition hover:border-neutral-900"
+                                                className="inline-flex h-8 items-center justify-center rounded-[9px] border border-[#d8cfc1] bg-[#fbf8f2] px-3 text-[10px] font-medium text-neutral-800 transition hover:border-[#b28a53] hover:bg-[#f3eadc] hover:text-[#806037]"
                                             >
                                                 Editar
                                             </Link>
@@ -1579,7 +1574,7 @@ export default async function ProductosAdministracionPage({
                                         currentPage -
                                         1,
                                 })}
-                                className="flex h-9 items-center justify-center border border-neutral-300 bg-white px-3 text-xs text-neutral-700 transition hover:border-neutral-900"
+                                className="flex h-9 items-center justify-center rounded-[9px] border border-[#d8cfc1] bg-white px-3 text-xs text-neutral-700 transition hover:border-[#b28a53] hover:text-[#806037]"
                             >
                                 ← Anterior
                             </Link>
@@ -1691,7 +1686,7 @@ export default async function ProductosAdministracionPage({
                                         currentPage +
                                         1,
                                 })}
-                                className="flex h-9 items-center justify-center border border-neutral-300 bg-white px-3 text-xs text-neutral-700 transition hover:border-neutral-900"
+                                className="flex h-9 items-center justify-center rounded-[9px] border border-[#d8cfc1] bg-white px-3 text-xs text-neutral-700 transition hover:border-[#b28a53] hover:text-[#806037]"
                             >
                                 Siguiente →
                             </Link>

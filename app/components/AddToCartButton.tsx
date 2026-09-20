@@ -48,7 +48,7 @@ export function AddToCartButton({
             type="button"
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
-            className="w-full bg-neutral-900 px-6 py-4 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-neutral-300"
+            className="min-h-12 w-full rounded-[14px] bg-neutral-900 px-5 py-3.5 text-sm font-medium text-white shadow-[0_10px_24px_rgba(0,0,0,0.08)] transition hover:bg-[#9a7541] disabled:cursor-not-allowed disabled:bg-neutral-300"
         >
             {added ? "Agregado al carrito ✓" : "Agregar al carrito"}
         </button>

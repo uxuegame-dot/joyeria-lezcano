@@ -114,9 +114,9 @@ export default async function PedidoPage({
         );
 
     return (
-        <main className="bg-[#f7f4ef]">
-            <section className="border-b border-[#ddd5c9]">
-                <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
+        <main className="min-h-screen bg-[#f6f2eb]">
+            <section className="border-b border-[#ddd1c0]">
+                <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Link
                         href="/mi-cuenta/pedidos"
                         className="lezcano-arrow inline-flex text-sm text-neutral-500 transition hover:text-neutral-900"
@@ -131,7 +131,7 @@ export default async function PedidoPage({
                                 Pedido
                             </p>
 
-                            <h1 className="mt-1.5 font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+                            <h1 className="mt-1.5 font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl">
                                 #{order.order_number}
                             </h1>
 
@@ -140,15 +140,15 @@ export default async function PedidoPage({
                             </p>
                         </div>
 
-                        <div className="w-fit border border-[#d8cfc1] bg-white px-3.5 py-2 text-xs font-medium text-neutral-900 sm:px-4 sm:text-sm">
+                        <div className="w-fit rounded-full border border-[#ddcfbd] bg-[#fffdf9] px-3.5 py-2 text-xs font-medium text-neutral-900 sm:px-4 sm:text-sm">
                             {STATUS_LABELS[order.status] || order.status}
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-                <section className="border border-[#d8cfc1] bg-white p-4 sm:p-6 lg:p-7">
+            <section className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+                <section className="rounded-[18px] border border-[#d9ccba] bg-[#fffdf9] p-4 shadow-[0_10px_30px_rgba(65,48,29,0.035)] sm:p-6">
                     <p className="text-[9px] uppercase tracking-[0.2em] text-[#9a7541] sm:text-[10px]">
                         Seguimiento
                     </p>
@@ -158,7 +158,7 @@ export default async function PedidoPage({
                     </h2>
 
                     {isProblemStatus ? (
-                        <div className="mt-5 border border-neutral-200 bg-[#faf8f4] p-4 sm:mt-6 sm:p-5">
+                        <div className="mt-5 rounded-[14px] border border-neutral-200 bg-[#faf8f4] p-4 sm:mt-6 sm:p-5">
                             <p className="text-sm font-medium text-neutral-900">
                                 {order.status === "cancelled"
                                     ? "Este pedido fue cancelado."
@@ -266,8 +266,8 @@ export default async function PedidoPage({
                     )}
                 </section>
 
-                <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-                    <section className="border border-[#d8cfc1] bg-white p-4 sm:p-6 lg:p-7">
+                <div className="mt-4 grid gap-4 sm:mt-5 sm:gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+                    <section className="rounded-[18px] border border-[#d9ccba] bg-[#fffdf9] p-4 shadow-[0_10px_30px_rgba(65,48,29,0.035)] sm:p-6">
                         <h2 className="font-serif text-xl text-neutral-900 sm:text-2xl">
                             Productos
                         </h2>
@@ -276,7 +276,7 @@ export default async function PedidoPage({
                             {order.items.map((item) => {
                                 const content = (
                                     <>
-                                        <div className="h-16 w-16 shrink-0 overflow-hidden bg-[#eee9e1] sm:h-20 sm:w-20">
+                                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-[12px] bg-[#eee9e1] sm:h-20 sm:w-20">
                                             {item.image_url ? (
                                                 <img
                                                     src={item.image_url}

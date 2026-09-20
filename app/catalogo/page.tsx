@@ -212,18 +212,18 @@ export default async function CatalogoPage({
 
             {/* Encabezado */}
             <section className="border-b border-[#ddd5c9]">
-                <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
-                    <p className="text-[11px] uppercase tracking-[0.28em] text-[#9a7541]">
+                <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7">
+                    <p className="text-[9px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-[10px]">
                         Lezcano
                     </p>
 
-                    <div className="mt-3 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+                    <div className="mt-2 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                         <div>
-                            <h1 className="font-serif text-4xl tracking-tight text-neutral-900 sm:text-5xl">
+                            <h1 className="font-serif text-3xl tracking-tight text-neutral-900 sm:text-4xl">
                                 Catálogo
                             </h1>
 
-                            <p className="mt-3 max-w-xl text-sm leading-7 text-neutral-600">
+                            <p className="mt-2 max-w-xl text-[13px] leading-6 text-neutral-600 sm:text-sm">
                                 Joyería y platería para
                                 descubrir, regalar y
                                 conservar.
@@ -246,7 +246,7 @@ export default async function CatalogoPage({
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                     {/* Línea superior */}
-                    <div className="flex flex-col gap-3 py-3.5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
 
                         {/* Buscador */}
                         <form
@@ -323,7 +323,7 @@ export default async function CatalogoPage({
                         <form
                             action="/catalogo"
                             method="get"
-                            className="flex items-center gap-3"
+                            className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-end gap-2 sm:flex sm:w-auto sm:items-center sm:gap-3"
                         >
                             {selectedLine && (
                                 <input
@@ -358,7 +358,7 @@ export default async function CatalogoPage({
 
                             <label
                                 htmlFor="ordenar"
-                                className="whitespace-nowrap text-xs uppercase tracking-[0.15em] text-neutral-500"
+                                className="hidden whitespace-nowrap text-xs uppercase tracking-[0.15em] text-neutral-500 sm:block"
                             >
                                 Ordenar por
                             </label>
@@ -367,7 +367,7 @@ export default async function CatalogoPage({
                                 id="ordenar"
                                 name="ordenar"
                                 defaultValue={sort}
-                                className="border-b border-neutral-300 bg-white py-2 pr-7 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                className="min-w-0 border-b border-neutral-300 bg-white py-2 pr-7 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
                             >
                                 <option value="destacados">
                                     Destacados
@@ -392,7 +392,7 @@ export default async function CatalogoPage({
 
                             <button
                                 type="submit"
-                                className="border border-neutral-300 px-4 py-2 text-sm text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900"
+                                className="h-10 rounded-[8px] border border-neutral-300 px-3 text-sm text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900"
                             >
                                 Aplicar
                             </button>
@@ -400,7 +400,7 @@ export default async function CatalogoPage({
                     </div>
 
                     {/* Líneas */}
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-neutral-200 py-3">
+                    <div className="-mx-4 flex items-center gap-5 overflow-x-auto border-t border-neutral-200 px-4 py-3 sm:mx-0 sm:gap-6 sm:px-0">
                         <Link
                             href={getLineUrl(
                                 null,
@@ -539,14 +539,14 @@ export default async function CatalogoPage({
             </section>
 
             {/* Productos */}
-            <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+            <section className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7">
                 {filteredProducts.length === 0 ? (
-                    <div className="border border-[#ddd5c9] bg-white px-6 py-16 text-center">
+                    <div className="rounded-[16px] border border-[#ddd5c9] bg-white px-5 py-10 text-center sm:px-6 sm:py-12">
                         <p className="text-[11px] uppercase tracking-[0.2em] text-[#9a7541]">
                             Sin resultados
                         </p>
 
-                        <h2 className="mt-3 font-serif text-3xl text-neutral-900">
+                        <h2 className="mt-2 font-serif text-2xl text-neutral-900 sm:text-3xl">
                             No encontramos piezas
                         </h2>
 
@@ -564,7 +564,7 @@ export default async function CatalogoPage({
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-9">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-7 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-8">
                         {filteredProducts.map(
                             (product) => {
                                 const images = [
@@ -618,7 +618,7 @@ export default async function CatalogoPage({
                                         className="group block"
                                     >
                                         {/* Imagen */}
-                                        <div className="relative aspect-square overflow-hidden bg-white">
+                                        <div className="relative aspect-square overflow-hidden rounded-[12px] bg-white">
                                             {imageUrl ? (
                                                 <img
                                                     src={
@@ -648,7 +648,7 @@ export default async function CatalogoPage({
                                         </div>
 
                                         {/* Datos */}
-                                        <div className="mt-3 min-h-[100px]">
+                                        <div className="mt-2.5 min-h-[88px]">
                                             {category?.name && (
                                                 <p className="text-[10px] uppercase tracking-[0.18em] text-[#9a7541]">
                                                     {
@@ -657,7 +657,7 @@ export default async function CatalogoPage({
                                                 </p>
                                             )}
 
-                                            <h2 className="mt-1.5 font-serif text-lg leading-tight text-neutral-900 transition-colors duration-300 group-hover:text-[#8a693c]">
+                                            <h2 className="mt-1 font-serif text-base leading-tight text-neutral-900 transition-colors duration-300 group-hover:text-[#8a693c] sm:text-lg">
                                                 {
                                                     product.name
                                                 }
@@ -671,7 +671,7 @@ export default async function CatalogoPage({
                                                 </p>
                                             )}
 
-                                            <div className="mt-2.5 flex min-h-[22px] items-center justify-between gap-3">
+                                            <div className="mt-2 flex min-h-[22px] flex-wrap items-center justify-between gap-x-2 gap-y-1">
                                                 {product.price !==
                                                     null ? (
                                                     <p className="text-sm font-medium text-neutral-900">

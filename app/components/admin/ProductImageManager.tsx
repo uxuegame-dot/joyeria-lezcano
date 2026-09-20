@@ -647,34 +647,51 @@ export function ProductImageManager({
 
     return (
         <div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
-                        Fotografías
-                    </p>
+                    <div className="flex items-center gap-2">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#f1e8da] text-[#8a693c]">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                className="h-3.5 w-3.5"
+                                aria-hidden="true"
+                            >
+                                <path d="M4 8.5h3l1.5-2h7l1.5 2h3v10H4z" />
+                                <circle cx="12" cy="13.5" r="3.25" />
+                            </svg>
+                        </span>
 
-                    <h2 className="mt-1 font-serif text-xl text-neutral-900 sm:text-2xl">
+                        <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541]">
+                            Fotografías
+                        </p>
+                    </div>
+
+                    <h2 className="mt-2 font-serif text-xl text-neutral-900">
                         Imágenes del producto
                     </h2>
 
-                    <p className="mt-1 max-w-xl text-xs leading-5 text-neutral-500 sm:text-sm">
+                    <p className="mt-1 max-w-xl text-xs leading-5 text-neutral-500">
                         Agregá fotos, ordenalas y elegí cuál aparece primero en el catálogo.
                     </p>
                 </div>
 
                 {images.length > 0 && (
-                    <p className="text-[10px] text-neutral-400">
+                    <span className="inline-flex w-fit rounded-full bg-[#f5f0e8] px-2.5 py-1 text-[10px] font-medium text-[#806037]">
                         {images.length} {images.length === 1 ? "foto" : "fotos"}
-                    </p>
+                    </span>
                 )}
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <label
-                    className={`inline-flex h-11 items-center justify-center gap-2 bg-neutral-900 px-4 text-xs font-medium text-white transition sm:text-sm ${uploading || processingId !== null
-                        ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer hover:bg-[#9a7541]"
-                        }`}
+                    className={`inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-neutral-900 px-4 text-xs font-medium text-white shadow-[0_7px_18px_rgba(0,0,0,0.08)] transition sm:text-sm ${
+                        uploading || processingId !== null
+                            ? "cursor-not-allowed opacity-50"
+                            : "cursor-pointer hover:bg-[#9a7541]"
+                    }`}
                 >
                     <svg
                         viewBox="0 0 24 24"
@@ -701,10 +718,11 @@ export function ProductImageManager({
                 </label>
 
                 <label
-                    className={`inline-flex h-11 items-center justify-center gap-2 border border-neutral-300 bg-white px-4 text-xs font-medium text-neutral-800 transition sm:text-sm ${uploading || processingId !== null
-                        ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer hover:border-neutral-900"
-                        }`}
+                    className={`inline-flex h-10 items-center justify-center gap-2 rounded-[9px] border border-[#d8cfc1] bg-[#fffdfa] px-4 text-xs font-medium text-neutral-800 transition sm:text-sm ${
+                        uploading || processingId !== null
+                            ? "cursor-not-allowed opacity-50"
+                            : "cursor-pointer hover:border-[#b28a53] hover:bg-[#f8f2e9] hover:text-[#806037]"
+                    }`}
                 >
                     <svg
                         viewBox="0 0 24 24"
@@ -739,19 +757,18 @@ export function ProductImageManager({
             {message && (
                 <div
                     role="status"
-                    className="mt-3 border border-neutral-200 bg-[#faf8f4] px-3 py-2 text-xs text-neutral-600"
+                    className="mt-3 rounded-[10px] border border-[#e1d8cc] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-600"
                 >
                     {message}
                 </div>
             )}
 
             {images.length > 0 ? (
-                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                     {[...images]
                         .sort(
                             (a, b) =>
-                                a.sort_order -
-                                b.sort_order
+                                a.sort_order - b.sort_order
                         )
                         .map(
                             (
@@ -770,20 +787,20 @@ export function ProductImageManager({
 
                                 const canMoveRight =
                                     index <
-                                    images.length -
-                                    1;
+                                    images.length - 1;
 
                                 return (
                                     <article
                                         key={
                                             image.id
                                         }
-                                        className={`overflow-hidden border bg-white ${isMain
-                                            ? "border-[#b28a53]"
-                                            : "border-neutral-200"
-                                            }`}
+                                        className={`overflow-hidden rounded-[13px] border bg-white shadow-[0_7px_20px_rgba(67,52,35,0.035)] ${
+                                            isMain
+                                                ? "border-[#b28a53] ring-1 ring-[#b28a53]/15"
+                                                : "border-[#e1d8cc]"
+                                        }`}
                                     >
-                                        <div className="relative aspect-square bg-neutral-100">
+                                        <div className="relative aspect-square overflow-hidden bg-[#f0ece5]">
                                             <img
                                                 src={getPublicUrl(
                                                     image.storage_path
@@ -796,27 +813,29 @@ export function ProductImageManager({
                                             />
 
                                             <span
-                                                className={`absolute left-2 top-2 px-2 py-1 text-[8px] font-medium uppercase tracking-[0.1em] ${isMain
-                                                    ? "bg-neutral-900 text-white"
-                                                    : "bg-white/95 text-neutral-700"
-                                                    }`}
+                                                className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[8px] font-medium uppercase tracking-[0.1em] shadow-sm ${
+                                                    isMain
+                                                        ? "bg-neutral-900 text-white"
+                                                        : "bg-white/95 text-neutral-700"
+                                                }`}
                                             >
                                                 {isMain
                                                     ? "Principal"
-                                                    : `Foto ${index +
-                                                    1
-                                                    }`}
+                                                    : `Foto ${
+                                                          index +
+                                                          1
+                                                      }`}
                                             </span>
                                         </div>
 
-                                        <div className="p-2">
+                                        <div className="p-2.5">
                                             <div className="grid grid-cols-2 gap-1.5">
                                                 <button
                                                     type="button"
                                                     disabled={
                                                         !canMoveLeft ||
                                                         processingId !==
-                                                        null
+                                                            null
                                                     }
                                                     onClick={() =>
                                                         handleMove(
@@ -825,7 +844,7 @@ export function ProductImageManager({
                                                         )
                                                     }
                                                     aria-label="Mover imagen hacia la izquierda"
-                                                    className="h-8 border border-neutral-300 text-xs text-neutral-700 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-25"
+                                                    className="h-8 rounded-[8px] border border-[#ddd5c9] bg-[#fffdfa] text-xs text-neutral-700 transition hover:border-[#b28a53] hover:text-[#806037] disabled:cursor-not-allowed disabled:opacity-25"
                                                 >
                                                     ←
                                                 </button>
@@ -835,7 +854,7 @@ export function ProductImageManager({
                                                     disabled={
                                                         !canMoveRight ||
                                                         processingId !==
-                                                        null
+                                                            null
                                                     }
                                                     onClick={() =>
                                                         handleMove(
@@ -844,7 +863,7 @@ export function ProductImageManager({
                                                         )
                                                     }
                                                     aria-label="Mover imagen hacia la derecha"
-                                                    className="h-8 border border-neutral-300 text-xs text-neutral-700 transition hover:border-neutral-900 disabled:cursor-not-allowed disabled:opacity-25"
+                                                    className="h-8 rounded-[8px] border border-[#ddd5c9] bg-[#fffdfa] text-xs text-neutral-700 transition hover:border-[#b28a53] hover:text-[#806037] disabled:cursor-not-allowed disabled:opacity-25"
                                                 >
                                                     →
                                                 </button>
@@ -862,7 +881,7 @@ export function ProductImageManager({
                                                             image.id
                                                         )
                                                     }
-                                                    className="mt-1.5 h-8 w-full border border-neutral-300 px-2 text-[9px] font-medium text-[#806037] transition hover:border-[#9a7541] disabled:cursor-not-allowed disabled:opacity-50"
+                                                    className="mt-1.5 h-8 w-full rounded-[8px] border border-[#d7c6a7] bg-[#fbf6ed] px-2 text-[9px] font-medium text-[#806037] transition hover:border-[#9a7541] hover:bg-[#f3eadc] disabled:cursor-not-allowed disabled:opacity-50"
                                                 >
                                                     {isProcessing
                                                         ? "Procesando..."
@@ -881,7 +900,7 @@ export function ProductImageManager({
                                                         image
                                                     )
                                                 }
-                                                className="mt-1.5 h-8 w-full px-2 text-[9px] font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="mt-1.5 h-8 w-full rounded-[8px] px-2 text-[9px] font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                                             >
                                                 {isProcessing
                                                     ? "Procesando..."
@@ -894,7 +913,7 @@ export function ProductImageManager({
                         )}
                 </div>
             ) : (
-                <div className="mt-4 flex min-h-28 items-center justify-center border border-dashed border-neutral-300 bg-[#fafafa] px-4 text-center">
+                <div className="mt-4 flex min-h-28 items-center justify-center rounded-[12px] border border-dashed border-[#d8cfc1] bg-[#faf7f2] px-4 text-center">
                     <p className="max-w-sm text-xs leading-5 text-neutral-500">
                         Este producto todavía no tiene imágenes. Podés sacar una foto ahora o elegirla desde el dispositivo.
                     </p>

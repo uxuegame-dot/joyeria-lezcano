@@ -568,7 +568,7 @@ export default async function AdminOrderPage({
                         </div>
 
                         <span
-                            className={`w-fit border px-3 py-1.5 text-[10px] font-medium sm:px-4 sm:py-2 sm:text-xs ${getStatusClasses(
+                            className={`w-fit rounded-full border px-3 py-1.5 text-[10px] font-medium sm:px-4 sm:py-2 sm:text-xs ${getStatusClasses(
                                 order.status
                             )}`}
                         >
@@ -585,8 +585,8 @@ export default async function AdminOrderPage({
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-7">
                     <div className="space-y-5">
                         {/* Gestión */}
-                        <section className="border border-[#d8cfc1] bg-white">
-                            <div className="border-b border-neutral-100 bg-[#eee8de] px-4 py-4 sm:px-5 sm:py-5">
+                        <section className="overflow-hidden rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] shadow-[0_8px_24px_rgba(65,48,29,0.03)]">
+                            <div className="border-b border-[#e7dccd] bg-gradient-to-br from-[#f5eadb] to-[#fffaf2] px-4 py-4 sm:px-5 sm:py-5">
                                 <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:text-[10px]">
                                     Qué hacer
                                     ahora
@@ -644,7 +644,7 @@ export default async function AdminOrderPage({
                         </section>
 
                         {/* Productos */}
-                        <section className="border border-[#d8cfc1] bg-white p-4 sm:p-5">
+                        <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5">
                             <div className="flex items-end justify-between gap-4">
                                 <div>
                                     <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:text-[10px]">
@@ -685,7 +685,7 @@ export default async function AdminOrderPage({
                                                 }
                                                 className="grid grid-cols-[64px_minmax(0,1fr)] gap-3 py-4 sm:grid-cols-[80px_minmax(0,1fr)_auto] sm:items-center sm:gap-4"
                                             >
-                                                <div className="h-16 w-16 overflow-hidden border border-neutral-200 bg-neutral-100 sm:h-20 sm:w-20">
+                                                <div className="h-16 w-16 overflow-hidden rounded-[10px] border border-[#e2d8cc] bg-[#f4f0ea] sm:h-20 sm:w-20">
                                                     {item.image_url ? (
                                                         <img
                                                             src={
@@ -827,7 +827,7 @@ export default async function AdminOrderPage({
 
                         {/* Observaciones */}
                         {order.customer_notes && (
-                            <section className="border border-[#d8cfc1] bg-white p-4 sm:p-5">
+                            <section className="rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5">
                                 <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:text-[10px]">
                                     Cliente
                                 </p>
@@ -846,7 +846,7 @@ export default async function AdminOrderPage({
                     </div>
 
                     {/* Cliente y entrega */}
-                    <aside className="h-fit border border-[#d8cfc1] bg-white p-4 sm:p-5 lg:sticky lg:top-32">
+                    <aside className="h-fit rounded-[16px] border border-[#ddd5c9] bg-[#fffdf9] p-4 shadow-[0_8px_24px_rgba(65,48,29,0.03)] sm:p-5 lg:sticky lg:top-32">
                         <p className="text-[9px] uppercase tracking-[0.18em] text-[#9a7541] sm:text-[10px]">
                             Datos del
                             pedido
@@ -885,7 +885,7 @@ export default async function AdminOrderPage({
                                             href={`https://wa.me/${whatsappNumber}`}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="mt-1 inline-flex text-[11px] font-medium text-[#806037] underline underline-offset-3"
+                                            className="mt-1 inline-flex rounded-full bg-[#f3eadf] px-2.5 py-1 text-[10px] font-medium text-[#806037] transition hover:bg-[#eadbc8]"
                                         >
                                             Abrir
                                             WhatsApp
@@ -906,7 +906,7 @@ export default async function AdminOrderPage({
                                     {order.customer_email && (
                                         <a
                                             href={`mailto:${order.customer_email}`}
-                                            className="mt-1 inline-flex text-[11px] font-medium text-[#806037] underline underline-offset-3"
+                                            className="mt-1 inline-flex rounded-full bg-[#f3eadf] px-2.5 py-1 text-[10px] font-medium text-[#806037] transition hover:bg-[#eadbc8]"
                                         >
                                             Enviar
                                             email
@@ -930,7 +930,7 @@ export default async function AdminOrderPage({
 
                             {order.delivery_method ===
                                 "shipping" && (
-                                    <div className="border border-neutral-200 bg-[#faf8f4] p-3">
+                                    <div className="rounded-[12px] border border-[#e1d5c6] bg-[#faf6ef] p-3">
                                         <p className="text-[9px] uppercase tracking-[0.14em] text-neutral-400">
                                             Dirección
                                             de entrega

@@ -529,7 +529,7 @@ export function CheckoutForm() {
     if (!loaded || !userLoaded) {
         return (
             <main className="bg-[#f7f4ef]">
-                <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
                     <div className="flex min-h-[220px] items-center justify-center">
                         <p className="text-sm text-neutral-500">
                             Preparando tu
@@ -547,13 +547,13 @@ export function CheckoutForm() {
     if (cart.length === 0) {
         return (
             <main className="bg-[#f7f4ef]">
-                <div className="mx-auto max-w-3xl px-4 py-12 text-center sm:px-6 sm:py-16 lg:px-8">
-                    <div className="border border-[#ddd5c9] bg-white px-6 py-14">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541]">
+                <div className="mx-auto max-w-3xl px-4 py-8 text-center sm:px-6 sm:py-10 lg:px-8">
+                    <div className="rounded-[24px] border border-[#ddcfbc] bg-[linear-gradient(145deg,#fffdfa_0%,#faf4e9_100%)] px-6 py-10 shadow-[0_12px_30px_rgba(61,45,28,0.05)]">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#a87636]">
                             Tu selección
                         </p>
 
-                        <h1 className="mt-3 font-serif text-3xl text-neutral-900 sm:text-4xl">
+                        <h1 className="mt-2 font-serif text-[29px] tracking-[-0.03em] text-[#211c19] sm:text-[34px]">
                             No hay productos
                             para comprar
                         </h1>
@@ -565,7 +565,7 @@ export function CheckoutForm() {
 
                         <Link
                             href="/catalogo"
-                            className="lezcano-button mt-7 inline-flex min-h-12 items-center justify-center bg-neutral-900 px-7 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="lezcano-button mt-6 inline-flex min-h-11 items-center justify-center rounded-[12px] bg-[#1d1b19] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#9a6c31]"
                         >
                             Volver al catálogo
                         </Link>
@@ -577,10 +577,10 @@ export function CheckoutForm() {
 
     return (
         <main className="bg-[#f7f4ef]">
-            <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-16">
+            <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
 
                 {/* Encabezado */}
-                <div className="border-b border-[#ddd5c9] pb-6">
+                <div className="border-b border-[#dfd3c3] pb-4">
                     <Link
                         href="/carrito"
                         className="lezcano-arrow inline-flex items-center text-xs text-neutral-500 transition-colors hover:text-neutral-900 sm:text-sm"
@@ -592,13 +592,13 @@ export function CheckoutForm() {
                         Volver al carrito
                     </Link>
 
-                    <div className="mt-5 flex items-end justify-between gap-5">
+                    <div className="mt-4 flex items-end justify-between gap-5">
                         <div>
-                            <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541]">
+                            <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#a87636]">
                                 Último paso
                             </p>
 
-                            <h1 className="mt-2 font-serif text-3xl leading-tight text-neutral-900 sm:text-4xl">
+                            <h1 className="mt-1.5 font-serif text-[29px] leading-tight tracking-[-0.035em] text-[#211c19] sm:text-[34px]">
                                 Finalizar pedido
                             </h1>
                         </div>
@@ -611,7 +611,7 @@ export function CheckoutForm() {
                         </p>
                     </div>
 
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-neutral-600">
+                    <p className="mt-2.5 max-w-xl text-sm leading-6 text-[#6d625a]">
                         Revisá tus datos,
                         elegí cómo recibir
                         tu compra y confirmá
@@ -623,20 +623,20 @@ export function CheckoutForm() {
                     onSubmit={
                         handleSubmit
                     }
-                    className="mt-7 grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start lg:gap-14"
+                    className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_350px] lg:items-start lg:gap-8"
                 >
-                    <div className="space-y-7">
+                    <div className="space-y-4">
 
                         {/* Datos personales */}
-                        <section className="border border-[#ddd5c9] bg-white p-5 sm:p-6">
+                        <section className="rounded-[20px] border border-[#dfd3c3] bg-white/90 p-[18px] shadow-[0_8px_22px_rgba(61,45,28,0.035)] sm:p-5">
 
                             <div className="flex items-start justify-between gap-5">
                                 <div>
-                                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#9a7541]">
+                                    <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#a87636]">
                                         01
                                     </p>
 
-                                    <h2 className="mt-1 font-serif text-2xl text-neutral-900">
+                                    <h2 className="mt-1 font-serif text-[22px] tracking-[-0.02em] text-[#241f1c]">
                                         Tus datos
                                     </h2>
                                 </div>
@@ -742,7 +742,7 @@ export function CheckoutForm() {
                                  * datos incompletos
                                  * o edición manual.
                                  */
-                                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                                <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
 
                                     <div>
                                         <label
@@ -769,7 +769,7 @@ export function CheckoutForm() {
                                                 )
                                             }
                                             autoComplete="given-name"
-                                            className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                            className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                         />
                                     </div>
 
@@ -798,7 +798,7 @@ export function CheckoutForm() {
                                                 )
                                             }
                                             autoComplete="family-name"
-                                            className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                            className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                         />
                                     </div>
 
@@ -828,7 +828,7 @@ export function CheckoutForm() {
                                                 )
                                             }
                                             autoComplete="email"
-                                            className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                            className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                         />
                                     </div>
 
@@ -859,7 +859,7 @@ export function CheckoutForm() {
                                                 )
                                             }
                                             autoComplete="tel"
-                                            className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                            className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                         />
                                     </div>
 
@@ -887,25 +887,25 @@ export function CheckoutForm() {
                         </section>
 
                         {/* Forma de entrega */}
-                        <section className="border border-[#ddd5c9] bg-white p-5 sm:p-6">
+                        <section className="rounded-[20px] border border-[#dfd3c3] bg-white/90 p-[18px] shadow-[0_8px_22px_rgba(61,45,28,0.035)] sm:p-5">
                             <div>
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-[#9a7541]">
+                                <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#a87636]">
                                     02
                                 </p>
 
-                                <h2 className="mt-1 font-serif text-2xl text-neutral-900">
+                                <h2 className="mt-1 font-serif text-[22px] tracking-[-0.02em] text-[#241f1c]">
                                     Forma de entrega
                                 </h2>
                             </div>
 
-                            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                            <div className="mt-4 grid gap-3 sm:grid-cols-2">
 
                                 {/* Retiro */}
                                 <label
-                                    className={`cursor-pointer border p-4 transition ${deliveryMethod ===
+                                    className={`cursor-pointer rounded-[15px] border p-3.5 transition ${deliveryMethod ===
                                         "pickup"
-                                        ? "border-neutral-900 bg-[#f8f5ef]"
-                                        : "border-neutral-300 bg-white hover:border-neutral-500"
+                                        ? "border-[#b98a48] bg-[#fbf3e5] shadow-[0_6px_16px_rgba(87,61,30,0.06)]"
+                                        : "border-[#ddd3c5] bg-white hover:border-[#c8a875]"
                                         }`}
                                 >
                                     <div className="flex items-start gap-3">
@@ -943,10 +943,10 @@ export function CheckoutForm() {
 
                                 {/* Envío */}
                                 <label
-                                    className={`cursor-pointer border p-4 transition ${deliveryMethod ===
+                                    className={`cursor-pointer rounded-[15px] border p-3.5 transition ${deliveryMethod ===
                                         "shipping"
-                                        ? "border-neutral-900 bg-[#f8f5ef]"
-                                        : "border-neutral-300 bg-white hover:border-neutral-500"
+                                        ? "border-[#b98a48] bg-[#fbf3e5] shadow-[0_6px_16px_rgba(87,61,30,0.06)]"
+                                        : "border-[#ddd3c5] bg-white hover:border-[#c8a875]"
                                         }`}
                                 >
                                     <div className="flex items-start gap-3">
@@ -986,11 +986,11 @@ export function CheckoutForm() {
                             {/* Dirección */}
                             {deliveryMethod ===
                                 "shipping" && (
-                                    <div className="mt-5 border-t border-neutral-100 pt-5">
+                                    <div className="mt-4 border-t border-[#eee5da] pt-4">
                                         {isLoggedIn &&
                                             savedShippingAddress &&
                                             !editingShippingAddress ? (
-                                            <div className="border border-[#d8cfc1] bg-[#faf8f4] p-4">
+                                            <div className="rounded-[15px] border border-[#dfd3c3] bg-[#fbf7f0] p-3.5">
                                                 <div className="flex items-start justify-between gap-4">
                                                     <div>
                                                         <p className="text-[10px] uppercase tracking-[0.18em] text-[#9a7541]">
@@ -1019,12 +1019,12 @@ export function CheckoutForm() {
                                                     </button>
                                                 </div>
 
-                                                <p className="mt-4 border-t border-neutral-200 pt-3 text-[11px] leading-5 text-neutral-500">
+                                                <p className="mt-3 border-t border-[#e7ded2] pt-3 text-[11px] leading-5 text-neutral-500">
                                                     Usaremos esta dirección para el pedido. Podés cambiarla sin salir del checkout.
                                                 </p>
                                             </div>
                                         ) : (
-                                            <div className="grid gap-4 sm:grid-cols-2">
+                                            <div className="grid gap-3.5 sm:grid-cols-2">
                                                 <div className="sm:col-span-2">
                                                     <label
                                                         htmlFor="address"
@@ -1045,7 +1045,7 @@ export function CheckoutForm() {
                                                         }
                                                         autoComplete="street-address"
                                                         placeholder="Calle y número"
-                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                                        className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                                     />
                                                 </div>
 
@@ -1068,7 +1068,7 @@ export function CheckoutForm() {
                                                             )
                                                         }
                                                         autoComplete="address-level2"
-                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                                        className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                                     />
                                                 </div>
 
@@ -1091,7 +1091,7 @@ export function CheckoutForm() {
                                                             )
                                                         }
                                                         autoComplete="address-level1"
-                                                        className="h-12 w-full border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#9a7541]"
+                                                        className="h-11 w-full rounded-[11px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 text-sm text-neutral-900 outline-none transition focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                                                     />
                                                 </div>
 
@@ -1133,13 +1133,13 @@ export function CheckoutForm() {
                         </section>
 
                         {/* Observaciones */}
-                        <section className="border border-[#ddd5c9] bg-white p-5 sm:p-6">
+                        <section className="rounded-[20px] border border-[#dfd3c3] bg-white/90 p-[18px] shadow-[0_8px_22px_rgba(61,45,28,0.035)] sm:p-5">
                             <div>
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-[#9a7541]">
+                                <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#a87636]">
                                     03
                                 </p>
 
-                                <h2 className="mt-1 font-serif text-2xl text-neutral-900">
+                                <h2 className="mt-1 font-serif text-[22px] tracking-[-0.02em] text-[#241f1c]">
                                     Observaciones
                                 </h2>
                             </div>
@@ -1156,16 +1156,16 @@ export function CheckoutForm() {
                                 name="notes"
                                 rows={3}
                                 placeholder="Escribí acá si necesitás aclarar algo..."
-                                className="mt-4 w-full resize-y border border-neutral-300 bg-white px-3.5 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#9a7541]"
+                                className="mt-3.5 w-full resize-y rounded-[12px] border border-[#d8cfc1] bg-[#fffdfa] px-3.5 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#b98a48] focus:ring-2 focus:ring-[#b98a48]/10"
                             />
                         </section>
                     </div>
 
                     {/* Resumen */}
-                    <aside className="border border-[#d8cfc1] bg-white p-5 sm:p-6 lg:sticky lg:top-36">
+                    <aside className="rounded-[22px] border border-[#d8c8b2] bg-[linear-gradient(145deg,#fffdfa_0%,#faf5ec_100%)] p-5 shadow-[0_12px_30px_rgba(61,45,28,0.055)] lg:sticky lg:top-28">
 
                         <div className="flex items-center justify-between">
-                            <h2 className="font-serif text-2xl text-neutral-900">
+                            <h2 className="font-serif text-[23px] tracking-[-0.025em] text-[#241f1c]">
                                 Tu pedido
                             </h2>
 
@@ -1178,17 +1178,17 @@ export function CheckoutForm() {
                         </div>
 
                         {/* Productos */}
-                        <div className="mt-5 divide-y divide-neutral-200 border-y border-neutral-200">
+                        <div className="mt-4 divide-y divide-[#e6ddd1] border-y border-[#e6ddd1]">
                             {cart.map(
                                 (item) => (
                                     <div
                                         key={
                                             item.id
                                         }
-                                        className="flex gap-3 py-4"
+                                        className="flex gap-3 py-3.5"
                                     >
                                         {item.imageUrl && (
-                                            <div className="h-14 w-14 shrink-0 overflow-hidden bg-neutral-100">
+                                            <div className="h-[52px] w-[52px] shrink-0 overflow-hidden rounded-[11px] bg-neutral-100">
                                                 <img
                                                     src={
                                                         item.imageUrl
@@ -1251,7 +1251,7 @@ export function CheckoutForm() {
 
                             {deliveryMethod ===
                                 "shipping" && (
-                                    <div className="mt-4 flex items-start gap-2 border-t border-neutral-100 pt-4">
+                                    <div className="mt-3.5 rounded-[13px] border border-[#e5d6c0] bg-white/65 p-3">
                                         <svg
                                             viewBox="0 0 24 24"
                                             fill="none"
@@ -1280,7 +1280,7 @@ export function CheckoutForm() {
                         {error && (
                             <div
                                 role="alert"
-                                className="mt-5 border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
+                                className="mt-4 rounded-[12px] border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
                             >
                                 {error}
                             </div>
@@ -1292,7 +1292,7 @@ export function CheckoutForm() {
                             disabled={
                                 submitting
                             }
-                            className="lezcano-button mt-6 flex min-h-14 w-full items-center justify-center bg-neutral-900 px-6 py-4 text-sm font-medium text-white transition hover:bg-[#9a7541] disabled:cursor-not-allowed disabled:bg-neutral-400"
+                            className="lezcano-button mt-5 flex min-h-12 w-full items-center justify-center rounded-[12px] bg-[#1d1b19] px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_rgba(29,27,25,0.12)] transition hover:bg-[#9a6c31] disabled:cursor-not-allowed disabled:bg-neutral-400"
                         >
                             {submitting
                                 ? deliveryMethod ===
@@ -1311,7 +1311,7 @@ export function CheckoutForm() {
                             )}
                         </button>
 
-                        <div className="mt-4 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.1em] text-neutral-400">
+                        <div className="mt-3 flex items-center justify-center gap-2 text-[9px] uppercase tracking-[0.1em] text-neutral-400">
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -1334,7 +1334,7 @@ export function CheckoutForm() {
                             Pedido protegido
                         </div>
 
-                        <p className="mt-4 text-center text-[11px] leading-5 text-neutral-500">
+                        <p className="mt-3 text-center text-[11px] leading-5 text-neutral-500">
                             {deliveryMethod ===
                                 "pickup"
                                 ? "Primero registraremos el pedido y luego te llevaremos a Mercado Pago para completar el pago de forma segura."

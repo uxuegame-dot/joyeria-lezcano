@@ -125,11 +125,11 @@ export function CartPage() {
     if (cart.length === 0) {
         return (
             <main className="bg-[#f7f4ef]">
-                <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-                    <div className="border border-[#ddd5c9] bg-white px-6 py-14 text-center sm:px-10 sm:py-16">
+                <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+                    <div className="rounded-[24px] border border-[#ddcfbc] bg-[linear-gradient(145deg,#fffdfa_0%,#faf4e9_100%)] px-6 py-10 text-center shadow-[0_12px_30px_rgba(61,45,28,0.05)] sm:px-10 sm:py-12">
 
                         {/* Icono */}
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center text-[#9a7541]">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#f1e4cf] text-[#9a6c31]">
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -144,15 +144,15 @@ export function CartPage() {
                             </svg>
                         </div>
 
-                        <p className="mt-4 text-[10px] uppercase tracking-[0.24em] text-[#9a7541]">
+                        <p className="mt-4 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#a87636]">
                             Tu selección
                         </p>
 
-                        <h1 className="mt-3 font-serif text-3xl text-neutral-900 sm:text-4xl">
+                        <h1 className="mt-2 font-serif text-[29px] tracking-[-0.03em] text-[#211c19] sm:text-[34px]">
                             Tu carrito está vacío
                         </h1>
 
-                        <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-neutral-600">
+                        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#6d625a]">
                             Explorá el catálogo y
                             agregá las piezas que
                             quieras comprar.
@@ -160,7 +160,7 @@ export function CartPage() {
 
                         <Link
                             href="/catalogo"
-                            className="lezcano-button mt-7 inline-flex min-h-12 items-center justify-center bg-neutral-900 px-7 py-3 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="lezcano-button mt-6 inline-flex min-h-11 items-center justify-center rounded-[12px] bg-[#1d1b19] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_8px_18px_rgba(29,27,25,0.12)] transition hover:bg-[#9a6c31]"
                         >
                             Explorar catálogo
                         </Link>
@@ -172,16 +172,16 @@ export function CartPage() {
 
     return (
         <main className="bg-[#f7f4ef]">
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+            <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
 
                 {/* Encabezado */}
-                <div className="mb-7 flex items-end justify-between gap-5 border-b border-[#ddd5c9] pb-6 sm:mb-10">
+                <div className="mb-5 flex items-end justify-between gap-5 border-b border-[#dfd3c3] pb-4 sm:mb-6">
                     <div>
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-[#9a7541] sm:text-xs">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#a87636] sm:text-[10px]">
                             Tu selección
                         </p>
 
-                        <h1 className="mt-2 font-serif text-3xl text-neutral-900 sm:mt-3 sm:text-4xl">
+                        <h1 className="mt-1.5 font-serif text-[29px] tracking-[-0.035em] text-[#211c19] sm:text-[34px]">
                             Carrito
                         </h1>
                     </div>
@@ -194,11 +194,11 @@ export function CartPage() {
                     </p>
                 </div>
 
-                <div className="grid gap-9 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-14">
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start lg:gap-8">
 
                     {/* Productos */}
                     <div>
-                        <div className="space-y-3 sm:space-y-0 sm:divide-y sm:divide-neutral-200 sm:border-y sm:border-neutral-200">
+                        <div className="space-y-3">
                             {cart.map(
                                 (
                                     item
@@ -220,14 +220,14 @@ export function CartPage() {
                                             key={
                                                 item.id
                                             }
-                                            className="border border-[#ddd5c9] bg-white p-3 sm:grid sm:grid-cols-[130px_1fr] sm:gap-6 sm:border-x-0 sm:border-y-0 sm:bg-transparent sm:px-0 sm:py-6"
+                                            className="rounded-[20px] border border-[#dfd3c3] bg-white/85 p-3.5 shadow-[0_8px_22px_rgba(61,45,28,0.035)] sm:grid sm:grid-cols-[116px_1fr] sm:gap-5 sm:p-4"
                                         >
-                                            <div className="grid grid-cols-[96px_1fr] gap-4 sm:contents">
+                                            <div className="grid grid-cols-[88px_1fr] gap-3.5 sm:contents">
 
                                                 {/* Imagen */}
                                                 <Link
                                                     href={`/catalogo/${item.slug}`}
-                                                    className="group relative block aspect-square overflow-hidden bg-neutral-100"
+                                                    className="group relative block aspect-square overflow-hidden rounded-[14px] bg-neutral-100"
                                                 >
                                                     {item.imageUrl ? (
                                                         <img
@@ -252,7 +252,7 @@ export function CartPage() {
                                                 <div className="min-w-0 sm:hidden">
                                                     <Link
                                                         href={`/catalogo/${item.slug}`}
-                                                        className="font-serif text-lg leading-tight text-neutral-900 transition-colors hover:text-[#8a693c]"
+                                                        className="font-serif text-[17px] leading-tight text-[#241f1c] transition-colors hover:text-[#8a632f]"
                                                     >
                                                         {
                                                             item.name
@@ -283,7 +283,7 @@ export function CartPage() {
                                                         <div>
                                                             <Link
                                                                 href={`/catalogo/${item.slug}`}
-                                                                className="font-serif text-lg text-neutral-900 transition-colors hover:text-[#8a693c]"
+                                                                className="font-serif text-[17px] text-[#241f1c] transition-colors hover:text-[#8a632f]"
                                                             >
                                                                 {
                                                                     item.name
@@ -328,7 +328,7 @@ export function CartPage() {
                                                                 Cantidad
                                                             </p>
 
-                                                            <div className="inline-flex h-10 items-center border border-neutral-300 bg-white">
+                                                            <div className="inline-flex h-9 items-center overflow-hidden rounded-[10px] border border-[#d8cfc1] bg-white">
                                                                 <button
                                                                     type="button"
                                                                     onClick={() =>
@@ -340,12 +340,12 @@ export function CartPage() {
                                                                         !canDecrease
                                                                     }
                                                                     aria-label={`Disminuir cantidad de ${item.name}`}
-                                                                    className="flex h-full w-10 items-center justify-center text-lg text-neutral-700 transition hover:bg-[#f3eee6] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:bg-transparent"
+                                                                    className="flex h-full w-9 items-center justify-center text-base text-neutral-700 transition hover:bg-[#f3eee6] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:bg-transparent"
                                                                 >
                                                                     −
                                                                 </button>
 
-                                                                <span className="flex h-full min-w-9 items-center justify-center border-x border-neutral-200 px-2 text-sm font-medium text-neutral-900">
+                                                                <span className="flex h-full min-w-9 items-center justify-center border-x border-[#e4ddd3] px-2 text-sm font-medium text-neutral-900">
                                                                     {
                                                                         item.quantity
                                                                     }
@@ -362,7 +362,7 @@ export function CartPage() {
                                                                         !canIncrease
                                                                     }
                                                                     aria-label={`Aumentar cantidad de ${item.name}`}
-                                                                    className="flex h-full w-10 items-center justify-center text-lg text-neutral-700 transition hover:bg-[#f3eee6] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:bg-transparent"
+                                                                    className="flex h-full w-9 items-center justify-center text-base text-neutral-700 transition hover:bg-[#f3eee6] disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:bg-transparent"
                                                                 >
                                                                     +
                                                                 </button>
@@ -422,7 +422,7 @@ export function CartPage() {
                         </div>
 
                         {/* Acciones secundarias */}
-                        <div className="mt-5 flex items-center justify-between gap-5">
+                        <div className="mt-4 flex items-center justify-between gap-5">
                             <Link
                                 href="/catalogo"
                                 className="lezcano-arrow text-xs text-neutral-600 transition-colors hover:text-neutral-900 sm:text-sm"
@@ -447,9 +447,9 @@ export function CartPage() {
                     </div>
 
                     {/* Resumen */}
-                    <aside className="border border-[#d8cfc1] bg-white p-5 sm:p-6 lg:sticky lg:top-32">
+                    <aside className="rounded-[22px] border border-[#d8c8b2] bg-[linear-gradient(145deg,#fffdfa_0%,#faf5ec_100%)] p-5 shadow-[0_12px_30px_rgba(61,45,28,0.055)] sm:p-5 lg:sticky lg:top-28">
                         <div className="flex items-center justify-between">
-                            <h2 className="font-serif text-2xl text-neutral-900">
+                            <h2 className="font-serif text-[23px] tracking-[-0.025em] text-[#241f1c]">
                                 Resumen
                             </h2>
 
@@ -462,7 +462,7 @@ export function CartPage() {
                             </span>
                         </div>
 
-                        <div className="mt-6 space-y-4">
+                        <div className="mt-5 space-y-3.5">
                             <div className="flex items-center justify-between text-sm">
                                 <span className="text-neutral-600">
                                     Subtotal
@@ -478,11 +478,11 @@ export function CartPage() {
 
                             <div className="border-t border-neutral-200 pt-4">
                                 <div className="flex items-end justify-between gap-4">
-                                    <span className="font-serif text-lg text-neutral-900">
+                                    <span className="font-serif text-[17px] text-[#241f1c]">
                                         Total parcial
                                     </span>
 
-                                    <span className="font-serif text-2xl text-neutral-900">
+                                    <span className="font-serif text-[23px] tracking-[-0.02em] text-[#241f1c]">
                                         $
                                         {subtotal.toLocaleString(
                                             "es-UY"
@@ -492,7 +492,7 @@ export function CartPage() {
                             </div>
                         </div>
 
-                        <div className="mt-5 border-t border-neutral-200 pt-5">
+                        <div className="mt-4 rounded-[14px] border border-[#e4d5bf] bg-white/70 p-3.5">
                             <div className="flex items-start gap-3">
                                 <svg
                                     viewBox="0 0 24 24"
@@ -531,7 +531,7 @@ export function CartPage() {
 
                         <Link
                             href="/checkout"
-                            className="lezcano-button mt-6 flex min-h-14 w-full items-center justify-center bg-neutral-900 px-6 py-4 text-center text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="lezcano-button mt-5 flex min-h-12 w-full items-center justify-center rounded-[12px] bg-[#1d1b19] px-5 py-3 text-center text-sm font-semibold text-white shadow-[0_8px_18px_rgba(29,27,25,0.12)] transition hover:bg-[#9a6c31]"
                         >
                             Continuar compra
                             <span className="ml-2">
@@ -539,7 +539,7 @@ export function CartPage() {
                             </span>
                         </Link>
 
-                        <div className="mt-4 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.12em] text-neutral-400">
+                        <div className="mt-3 flex items-center justify-center gap-2 text-[9px] uppercase tracking-[0.12em] text-neutral-400">
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"

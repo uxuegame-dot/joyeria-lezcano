@@ -136,7 +136,7 @@ function ContactCard({
     children: ReactNode;
 }) {
     return (
-        <div className="group relative flex h-full min-h-[200px] flex-col overflow-hidden border border-[#d8cfc1] bg-white p-5 transition duration-500 hover:-translate-y-1 hover:border-[#b28a53] hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] sm:p-6">
+        <div className="group relative flex h-full min-h-[190px] flex-col overflow-hidden rounded-[18px] border border-[#d9ccba] bg-[#fffdf9] shadow-[0_10px_30px_rgba(65,48,29,0.035)] p-5 transition duration-500 hover:-translate-y-1 hover:border-[#b78a54] hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] sm:p-6">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-[#b28a53] transition-transform duration-500 group-hover:scale-x-100" />
 
             {children}
@@ -146,12 +146,12 @@ function ContactCard({
 
 export default function ContactoPage() {
     return (
-        <main className="bg-[#f7f4ef]">
+        <main className="bg-[#f6f2eb]">
 
             {/* Encabezado */}
-            <section className="border-b border-[#ddd5c9]">
+            <section className="border-b border-[#ddd1c0]">
                 <Reveal>
-                    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+                    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
                         <p className="text-[10px] uppercase tracking-[0.26em] text-[#9a7541] sm:text-[11px]">
                             Lezcano · Paysandú
                         </p>
@@ -173,7 +173,7 @@ export default function ContactoPage() {
             </section>
 
             {/* Contactos */}
-            <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+            <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
 
                 <div className="grid items-stretch gap-4 md:grid-cols-2">
 
@@ -353,7 +353,7 @@ export default function ContactoPage() {
                     soft
                     delay={150}
                 >
-                    <div className="mt-4 border border-[#d8cfc1] bg-white p-5 sm:p-6">
+                    <div className="mt-4 rounded-[18px] border border-[#d9ccba] bg-[#fffdf9] shadow-[0_10px_30px_rgba(65,48,29,0.035)] p-5 sm:p-6">
                         <div className="flex items-start gap-4">
                             <span className="mt-0.5 inline-flex text-[#9a7541]">
                                 <Icon type="clock" />

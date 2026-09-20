@@ -42,10 +42,10 @@ const WORKS = [
 
 export default function TrabajosPage() {
     return (
-        <main className="bg-[#f7f4ef]">
-            <section className="border-b border-[#ddd5c9]">
+        <main className="bg-[#f6f2eb]">
+            <section className="border-b border-[#ddd1c0]">
                 <Reveal>
-                    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+                    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
                         <p className="text-[10px] uppercase tracking-[0.26em] text-[#9a7541] sm:text-[11px]">
                             Hecho en el taller
                         </p>
@@ -62,7 +62,7 @@ export default function TrabajosPage() {
                 </Reveal>
             </section>
 
-            <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+            <section className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
                 <div className="grid grid-cols-2 gap-x-3.5 gap-y-6 sm:gap-x-5 sm:gap-y-8 lg:grid-cols-3 lg:gap-x-6">
                     {WORKS.map((work, index) => (
                         <Reveal
@@ -71,7 +71,7 @@ export default function TrabajosPage() {
                             delay={(index % 3) * 70}
                         >
                             <article className="group">
-                                <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
+                                <div className="relative aspect-[4/5] overflow-hidden rounded-[16px] border border-[#ded4c7] bg-neutral-100">
                                     <Image
                                         src={work.src}
                                         alt={work.alt}
@@ -100,7 +100,7 @@ export default function TrabajosPage() {
                 </div>
 
                 <Reveal soft>
-                    <div className="mt-10 border-t border-[#ddd5c9] pt-7 text-center sm:mt-12 sm:pt-8">
+                    <div className="mt-10 border-t border-[#ddd1c0] pt-7 text-center sm:mt-12 sm:pt-8">
                         <p className="mx-auto max-w-xl text-sm leading-6 text-neutral-600 sm:leading-7">
                             ¿Tenés una idea o una pieza que quieras trabajar?
                             Escribinos y contanos qué tenés en mente.
@@ -110,7 +110,7 @@ export default function TrabajosPage() {
                             href={WHATSAPP_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="lezcano-button mt-5 inline-flex min-h-11 items-center justify-center bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
+                            className="lezcano-button mt-5 inline-flex min-h-11 items-center justify-center rounded-[12px] bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#9a7541]"
                         >
                             Consultar por WhatsApp
                             <span className="ml-2">→</span>
